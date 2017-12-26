@@ -1,0 +1,30 @@
+<ion-header>
+  
+  <ion-navbar>
+    <ion-title>Coletor de dados</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+  <ion-content padding>
+  <form>
+  <ion-card>
+    <ion-list>
+      <ion-item>
+        <ion-label floating>Insira o RA</ion-label>
+        <ion-input type="text" name="raManual" ngModel></ion-input>
+      </ion-item>
+      <button ion-button full type="submit">
+        <ion-icon name="checkbox-outline"></ion-icon>
+      </button>
+    </ion-list>
+  </ion-card>
+  </form>
+
+  <ion-fab right bottom>
+    <button ion-fab color="danger" (click)="scanBarcode()">
+      <ion-icon name="md-barcode"></ion-icon>
+    </button>
+  </ion-fab>
+
+</ion-content>

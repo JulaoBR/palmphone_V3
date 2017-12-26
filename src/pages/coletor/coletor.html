@@ -1,0 +1,63 @@
+<ion-header>
+  
+  <ion-navbar>
+    <ion-title>Coletor </ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+<ion-card>
+  <ion-list>
+    <ion-item>
+      <ion-label floating>Nome do professor logado</ion-label>
+      <ion-input type="text" name="nomeProfessor" disabled></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-item>
+      <ion-label>Selecione a sala:</ion-label>
+      <ion-select [(ngModel)]="sala">
+        <ion-option value="01">01</ion-option>
+        <ion-option value="02">02</ion-option>
+        <ion-option value="03">03</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-item>
+      <ion-label>Selecione a disciplica:</ion-label>
+      <ion-select [(ngModel)]="disciplina">
+        <ion-option value="BD">BANCO DE DADOS</ion-option>
+        <ion-option value="SO">SISTEMAS OPERACIONAIS</ion-option>
+        <ion-option value="PW3">PROGRAMAÇÃO WEB III</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-item>
+      <ion-label>Numero de aulas:</ion-label>
+      <ion-select [(ngModel)]="num_aulas">
+        <ion-option value="1">1</ion-option>
+        <ion-option value="2">2</ion-option>
+        <ion-option value="3">3</ion-option>
+        <ion-option value="4">4</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+</ion-card>
+
+<ion-card>
+
+  <button ion-button full (click)="abrirLeitor()">
+      Coletar dados
+  </button>
+
+  <button ion-button full type="submit">
+    Finalizar
+  </button>
+</ion-card>
+</ion-content>
