@@ -1,0 +1,12 @@
+https://javebratt.com/angularfire2-authentication-ionic/
+
+https://ionicframework.com/docs/intro/deploying/
+
+http://www.fabricadecodigo.com/crud-firebase-ionic/
+
+cordova telemetry on
+cordova telemetry off
+
+npm uninstall --save firebase
+npm install --save firebase@4.8.0
+npm install --save firebase@4.6.2

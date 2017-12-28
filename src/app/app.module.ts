@@ -20,6 +20,8 @@ import { AuthProvider } from '../providers/auth';
 import { FIREBASE_CONFIG } from './app.firebase.config';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { ProfessorProvider } from '../providers/professor';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AngularFireDatabaseModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -60,6 +63,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
+    ProfessorProvider,
   ]
 })
 export class AppModule {}

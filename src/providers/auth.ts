@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-
 import { AngularFireAuth } from 'angularfire2/auth';
 import firebase from 'firebase/app';
+import { User } from '../model/user';
 
 @Injectable()
 export class AuthProvider {
@@ -13,18 +13,12 @@ export class AuthProvider {
     
   }
 
-  //logar com a senha e email
-  loginUser(newEmail: string, newPassword: string): Promise<any> {
-    return this.afAuth.auth.signInWithEmailAndPassword(newEmail, newPassword);
+  signIn(user: User): Promise<any> {
+    return this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password);
   }
 
-  //envia para o email do usuario caso esqueceu a senha um link para redefinir senha
-  resetPassword(email: string): Promise<void> {
-    return this.afAuth.auth.sendPasswordResetEmail(email);
-  }
-
-  //sair do app
-  logoutUser(): Promise<void> {
+  logoutUser(): Promise<any> {
     return this.afAuth.auth.signOut();
   }
+ 
 }

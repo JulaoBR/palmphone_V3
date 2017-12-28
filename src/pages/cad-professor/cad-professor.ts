@@ -1,12 +1,7 @@
+import { ProfessorProvider } from './../../providers/professor';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the CadProfessorPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @IonicPage()
 @Component({
@@ -15,11 +10,65 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class CadProfessorPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  title: string;
+  form: FormGroup;
+  contact: any;
+ 
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    private formBuilder: FormBuilder, 
+    private provider: ProfessorProvider,
+    private toast: ToastController
+  ) {
+ 
+    // maneira 1
+    this.contact = this.navParams.data.contact || { };
+    this.createForm();
+ 
+    // // maneira 2
+    // this.contact = { };
+    // this.createForm();
+ 
+    // if (this.navParams.data.key) {
+    //   const subscribe = this.provider.get(this.navParams.data.key).subscribe((c: any) => {
+    //     subscribe.unsubscribe();
+ 
+    //     this.contact = c;
+    //     this.createForm();
+    //   })
+    // }
+ 
+    this.setupPageTitle();
   }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad CadProfessorPage');
+ 
+  private setupPageTitle() {
+    this.title = this.navParams.data.contact ? 'Alterando contato' : 'Novo contato';
+  }
+ 
+  createForm() {
+    this.form = this.formBuilder.group({
+      key: [this.contact.key],
+      name: [this.contact.name, Validators.required],
+      cpf: [this.contact.cpf, Validators.required],
+      dtNascimento: [this.contact.dtNascimento, Validators.required],
+      email: [this.contact.email, Validators.required],
+      senha: [this.contact.senha, Validators.required],
+    });
+  }
+ 
+  onSubmit() {
+    if (this.form.valid) {
+      this.provider.save(this.form.value)
+        .then(() => {
+          this.toast.create({ message: 'Contato salvo com sucesso.', duration: 3000 }).present();
+          this.navCtrl.pop();
+        })
+        .catch((e) => {
+          this.toast.create({ message: 'Erro ao salvar o contato.', duration: 3000 }).present();
+          console.error(e);
+        })
+    }
   }
 
 }
