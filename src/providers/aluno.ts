@@ -1,14 +1,14 @@
+import { AngularFireDatabase } from 'angularfire2/database';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database';
 
 @Injectable()
-export class ProfessorProvider {
+export class AlunoProvider {
 
-  private PATH = 'professor/';
+  private PATH = 'aluno/';
 
   constructor(
-    private db: AngularFireDatabase,
+    private db: AngularFireDatabase
   ) 
   {
   }
@@ -30,15 +30,14 @@ export class ProfessorProvider {
  
   save(contact: any) {
     return new Promise((resolve, reject) => {
-
       if (contact.key) {
         this.db.list(this.PATH)
-          .update(contact.key, { name: contact.name, cpf: contact.cpf, dtNascimento: contact.dtNascimento, email: contact.email, senha: contact.senha })
+          .update(contact.key, { name: contact.name, ra: contact.ra, dtNascimento: contact.dtNascimento, email: contact.email })
           .then(() => resolve())
           .catch((e) => reject(e));
       } else {
         this.db.list(this.PATH)
-          .push({ name: contact.name, cpf: contact.cpf, dtNascimento: contact.dtNascimento, email: contact.email, senha: contact.senha})
+          .push({ name: contact.name, ra: contact.ra, dtNascimento: contact.dtNascimento, email: contact.email})
           .then(() => resolve());
       }
     })
@@ -47,4 +46,5 @@ export class ProfessorProvider {
   remove(key: string) {
     return this.db.list(this.PATH).remove(key);
   }
+
 }

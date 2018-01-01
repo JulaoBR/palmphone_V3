@@ -1,3 +1,4 @@
+import { AuthProvider } from './../../providers/auth';
 import { ProfessorProvider } from './../../providers/professor';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
@@ -15,6 +16,7 @@ export class CadProfessorPage {
   contact: any;
  
   constructor(
+    public afAuth: AuthProvider,
     public navCtrl: NavController, 
     public navParams: NavParams,
     private formBuilder: FormBuilder, 
@@ -59,6 +61,7 @@ export class CadProfessorPage {
  
   onSubmit() {
     if (this.form.valid) {
+        
       this.provider.save(this.form.value)
         .then(() => {
           this.toast.create({ message: 'Contato salvo com sucesso.', duration: 3000 }).present();

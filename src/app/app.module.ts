@@ -22,6 +22,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { ProfessorProvider } from '../providers/professor';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AlunoProvider } from '../providers/aluno';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
     ProfessorProvider,
+    AlunoProvider,
   ]
 })
 export class AppModule {}
