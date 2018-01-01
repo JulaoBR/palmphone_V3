@@ -9,30 +9,19 @@
 
 <ion-content padding>
 
-  <ion-card>
-    <img src="assets/images/avatar.jpg"/>
-  </ion-card>
+  
 
-  <form>
-    <ion-card>
-      <ion-list>
+    <ion-list>
+      <ion-item-sliding *ngFor="let dado of dados | async">
         <ion-item>
-          <ion-label floating>JOSIVALDO PEREIRA</ion-label>
-          <ion-input type="text" name="nomeProfesso" disabled></ion-input>
+          <h1>{{ dado.name }}</h1>
+          <p>{{ dado.cpf }}</p>
+          <p>{{ dado.dtNascimento }}</p>
+          <p>{{ dado.email }}</p>
         </ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-item>
-          <ion-label floating>03/09/1980</ion-label>
-          <ion-input type="text" name="dtNascimento" disabled></ion-input>
-        </ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-item>
-          <ion-label floating>400.999.333-60</ion-label>
-          <ion-input type="text" name="cpf" disabled></ion-input>
-        </ion-item>
-      </ion-list>
-    </ion-card>
-    </form>
+      </ion-item-sliding>
+    </ion-list>
+
+
+    
 </ion-content>
