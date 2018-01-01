@@ -9,7 +9,7 @@
 
 <ion-content padding>
 
-  <form [formGroup]="form">
+  <form [formGroup]="form" (ngSubmit)="onSubmit(); $event.preventDefault()">
     <ion-item>
       <ion-label stacked>Nome</ion-label>
       <ion-input type="text" formControlName="name"></ion-input>
@@ -42,7 +42,7 @@
 
     <ion-item>
       <ion-label stacked>E-Mail</ion-label>
-      <ion-input type="text" formControlName="email"></ion-input>
+      <ion-input type="email" formControlName="email"></ion-input>
     </ion-item>
     <ion-item *ngIf="!form.controls.email.valid && (form.controls.email.dirty || form.controls.email.touched)" color="danger">
       <div [hidden]="!form.controls.email.errors.required">

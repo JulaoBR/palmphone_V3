@@ -1,8 +1,11 @@
+import { User } from './../../model/user';
 import { AuthProvider } from './../../providers/auth';
 import { ProfessorProvider } from './../../providers/professor';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+import * as firebase from 'firebase/app';
 
 @IonicPage()
 @Component({
@@ -27,20 +30,6 @@ export class CadProfessorPage {
     // maneira 1
     this.contact = this.navParams.data.contact || { };
     this.createForm();
- 
-    // // maneira 2
-    // this.contact = { };
-    // this.createForm();
- 
-    // if (this.navParams.data.key) {
-    //   const subscribe = this.provider.get(this.navParams.data.key).subscribe((c: any) => {
-    //     subscribe.unsubscribe();
- 
-    //     this.contact = c;
-    //     this.createForm();
-    //   })
-    // }
- 
     this.setupPageTitle();
   }
  
@@ -59,19 +48,34 @@ export class CadProfessorPage {
     });
   }
  
-  onSubmit() {
-    if (this.form.valid) {
-        
-      this.provider.save(this.form.value)
-        .then(() => {
-          this.toast.create({ message: 'Contato salvo com sucesso.', duration: 3000 }).present();
-          this.navCtrl.pop();
-        })
-        .catch((e) => {
-          this.toast.create({ message: 'Erro ao salvar o contato.', duration: 3000 }).present();
-          console.error(e);
-        })
-    }
-  }
+    onSubmit() {
 
+      let formUser = this.form.value;
+
+      if (this.form.valid) {
+        
+        this.afAuth.createUser({
+          email: formUser.email,
+          password: formUser.senha
+        }).then((authUser: firebase.User) => {
+          
+          delete formUser.senha;
+          let uuid: string = authUser.uid;
+                                    
+          this.provider.save(formUser, uuid)
+          .then(() => {
+            this.toast.create({ message: 'Contato salvo com sucesso.', duration: 3000 }).present();
+            this.navCtrl.pop();
+          })
+          .catch((e) => {
+            this.toast.create({ message: 'Erro ao salvar o contato.', duration: 3000 }).present();
+            console.error(e);
+          })
+      }).catch((error: any) => {
+        console.log(error);
+        
+      });
+    }
+
+  }
 }

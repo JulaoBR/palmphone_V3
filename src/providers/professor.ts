@@ -1,3 +1,4 @@
+import { User } from './../model/user';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -28,20 +29,10 @@ export class ProfessorProvider {
       });
   }
  
-  save(contact: any) {
-    return new Promise((resolve, reject) => {
-
-      if (contact.key) {
-        this.db.list(this.PATH)
-          .update(contact.key, { name: contact.name, cpf: contact.cpf, dtNascimento: contact.dtNascimento, email: contact.email, senha: contact.senha })
-          .then(() => resolve())
-          .catch((e) => reject(e));
-      } else {
-        this.db.list(this.PATH)
-          .push({ name: contact.name, cpf: contact.cpf, dtNascimento: contact.dtNascimento, email: contact.email, senha: contact.senha})
-          .then(() => resolve());
-      }
-    })
+  save(user: User, uuid: string): Promise<any> {
+     return this.db.object(`/professor/${uuid}`)
+    .set(user)
+    .catch();
   }
  
   remove(key: string) {

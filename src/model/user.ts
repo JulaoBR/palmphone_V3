@@ -4,6 +4,6 @@ export class User {
     dtNascimento: string;
     cpf: string;
     email: string;
-    passaword: string;
+    password: string;
     
   }

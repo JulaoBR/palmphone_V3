@@ -15,11 +15,11 @@ export class AuthProvider {
   }
 
   signIn(user: User): Promise<any> {
-    return this.afAuth.auth.signInWithEmailAndPassword(user.email, user.passaword);
+    return this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password);
   }
 
-  createUser(user: User): Promise<any> {
-    return this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.passaword);
+  createUser(user: {email: string, password: string}): Promise<firebase.User> {
+    return this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password);
   }
 
   logoutUser(): Promise<any> {
