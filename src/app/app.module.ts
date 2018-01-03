@@ -1,3 +1,5 @@
+import { ListaProfessorPage } from './../pages/lista-professor/lista-professor';
+import { ListaAlunoPage } from './../pages/lista-aluno/lista-aluno';
 import { LeitorPage } from './../pages/leitor/leitor';
 import { ColetorManualPage } from './../pages/coletor-manual/coletor-manual';
 import { CadastrosPage } from './../pages/cadastros/cadastros';
@@ -36,6 +38,8 @@ import { BaseProvider } from '../providers/base';
     MyApp,
     HomePage,
     LeitorPage,
+    ListaAlunoPage,
+    ListaProfessorPage,
     LoginPage,
     PerfilPage
   ],
@@ -57,6 +61,8 @@ import { BaseProvider } from '../providers/base';
     MyApp,
     HomePage,
     LeitorPage,
+    ListaAlunoPage,
+    ListaProfessorPage,
     LoginPage,
     PerfilPage
   ],

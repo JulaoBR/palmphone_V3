@@ -5,6 +5,7 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import * as firebase from 'firebase/app';
+import { ListaProfessorPage } from '../lista-professor/lista-professor';
 
 @IonicPage()
 @Component({
@@ -74,5 +75,9 @@ export class CadProfessorPage {
         console.log(error);
       });
     }
+  }
+
+  abrirListaProfessor(): void{
+    this.navCtrl.push(ListaProfessorPage);
   }
 }

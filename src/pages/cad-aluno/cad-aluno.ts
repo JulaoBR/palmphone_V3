@@ -3,6 +3,7 @@ import { AlunoProvider } from './../../providers/aluno';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { ListaAlunoPage } from '../lista-aluno/lista-aluno';
 
 @IonicPage()
 @Component({
@@ -26,19 +27,6 @@ export class CadAlunoPage {
     // maneira 1
     this.contact = this.navParams.data.contact || { };
     this.createForm();
- 
-    // // maneira 2
-    // this.contact = { };
-    // this.createForm();
- 
-    // if (this.navParams.data.key) {
-    //   const subscribe = this.provider.get(this.navParams.data.key).subscribe((c: any) => {
-    //     subscribe.unsubscribe();
- 
-    //     this.contact = c;
-    //     this.createForm();
-    //   })
-    // }
  
     this.setupPageTitle();
   }
@@ -69,6 +57,10 @@ export class CadAlunoPage {
           console.error(e);
         })
     }
+  }
+
+  abrirListaAlunos(): void{
+    this.navCtrl.push(ListaAlunoPage);
   }
 
 }
