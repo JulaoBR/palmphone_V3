@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { AlunoProvider } from './../../providers/aluno';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
@@ -21,7 +22,7 @@ export class CadAlunoPage {
     private provider: AlunoProvider,
     private toast: ToastController
   ) {
- 
+
     // maneira 1
     this.contact = this.navParams.data.contact || { };
     this.createForm();

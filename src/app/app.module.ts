@@ -23,6 +23,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { ProfessorProvider } from '../providers/professor';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AlunoProvider } from '../providers/aluno';
+import { BaseProvider } from '../providers/base';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { AlunoProvider } from '../providers/aluno';
     AuthProvider,
     ProfessorProvider,
     AlunoProvider,
+    BaseProvider,
   ]
 })
 export class AppModule {}

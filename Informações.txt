@@ -1,8 +1,14 @@
 https://javebratt.com/angularfire2-authentication-ionic/
 
+https://javebratt.com/ionic-firebase-authentication/
+
 https://ionicframework.com/docs/intro/deploying/
 
 http://www.fabricadecodigo.com/crud-firebase-ionic/
+
+https://github.com/plinionaves/ionic2-firebase-chat
+
+https://firebase.google.com/docs/auth/web/manage-users
 
 cordova telemetry on
 cordova telemetry off
@@ -10,3 +16,6 @@ cordova telemetry off
 npm uninstall --save firebase
 npm install --save firebase@4.8.0
 npm install --save firebase@4.6.2
+
+cd platforms/ios/cordova/node_modules/
+npm install ios-sim@latest

@@ -12,7 +12,7 @@ import { NgForm } from '@angular/forms';
 })
 export class LoginPage {
 
-  user: User = new User();
+  user: User;
   @ViewChild('form') form: NgForm;
 
   constructor(

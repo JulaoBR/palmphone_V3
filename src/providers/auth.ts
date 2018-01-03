@@ -26,4 +26,5 @@ export class AuthProvider {
     return this.afAuth.auth.signOut( );
   }
  
+  
 }
