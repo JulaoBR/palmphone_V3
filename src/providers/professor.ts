@@ -43,6 +43,13 @@ export class ProfessorProvider extends BaseProvider {
         if (authUser) {
           console.log('Auth state alterado!');          
           this.currentUser = this.db.object(`/professor/${authUser.uid}`);
+
+          if(this.currentUser == null){
+            console.log('nulo');
+          }else{
+            console.log('nao nulo');
+          }
+          
           this.setUsers(authUser.uid);
         }
       });

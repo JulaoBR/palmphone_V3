@@ -1,3 +1,5 @@
+import { User } from './../model/user';
+import { ProfessorProvider } from './../providers/professor';
 import { LoginPage } from './../pages/login/login';
 import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
@@ -6,30 +8,44 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AuthProvider } from '../providers/auth';
+
+import * as firebase from 'firebase/app';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = HomePage;
+
+  rootPage:any;
+  currentUser: User;
 
   constructor(
     platform: Platform, 
     statusBar: StatusBar, 
     splashScreen: SplashScreen,
-    afAuth: AngularFireAuth
+    afAuth: AngularFireAuth,
+    authService: AuthProvider,
+    userService: ProfessorProvider
   ) 
   {
-    //FUNCAO PARA VERIFICAR SE JA ESTA LOGADO
-    const authObserver = afAuth.authState.subscribe(user => {
-      if(user){
-        this.rootPage = HomePage;
-        authObserver.unsubscribe();
-      }else{
-        this.rootPage = LoginPage;
-        authObserver.unsubscribe();
-      }
-    });
+    authService.afAuth.authState.subscribe((authUser: firebase.User) => {
+
+        if (authUser) {
+
+          this.rootPage = HomePage;
+
+          userService.currentUser.valueChanges().subscribe((user: User) => {
+              this.currentUser = user;
+            });
+
+        } else {
+
+          this.rootPage = LoginPage;
+
+        }
+
+      });
     
     platform.ready().then(() => {
       statusBar.styleDefault();

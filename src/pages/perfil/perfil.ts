@@ -28,13 +28,21 @@ export class PerfilPage {
       .valueChanges()
       .subscribe((user: User) => {
         this.currentUser = user;
+        console.log(this.currentUser.name);
+        console.log(this.currentUser.dtNascimento);
+        console.log(this.currentUser.cpf);
+        console.log(this.currentUser.email);
       });
 
-      this.teste();
   }
 
   teste(){
-    console.log(this.currentUser.name);
+    if(this.currentUser == null){
+      console.log('nulo');
+    }else{
+      console.log('nao nulo');
+    }
+     
   }
  
 }
