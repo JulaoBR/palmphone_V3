@@ -44,6 +44,7 @@ export class ProfessorProvider extends BaseProvider {
           console.log('Auth state alterado!');          
           this.currentUser = this.db.object(`/professor/${authUser.uid}`);
 
+          //APENAS PARA VERIFICAÇÂO
           if(this.currentUser == null){
             console.log('nulo');
           }else{
@@ -61,7 +62,4 @@ export class ProfessorProvider extends BaseProvider {
     .catch();
   }
  
-  remove(key: string) {
-    return this.db.list(this.PATH).remove(key);
-  }
 }
