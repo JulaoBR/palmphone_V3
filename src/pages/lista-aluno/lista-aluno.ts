@@ -1,3 +1,5 @@
+import { AlunoProvider } from './../../providers/aluno';
+import { Observable } from 'rxjs/Observable';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
@@ -8,11 +10,15 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ListaAlunoPage {
 
+  dados: Observable<any>;
+
   constructor(
     public navCtrl: NavController, 
-    public navParams: NavParams
+    public navParams: NavParams,
+    public provider: AlunoProvider
   ) 
   {
+    this.dados = provider.getAll();
   }
 
 }

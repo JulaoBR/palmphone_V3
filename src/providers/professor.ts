@@ -24,6 +24,13 @@ export class ProfessorProvider extends BaseProvider {
     this.listenAuthState();
   }
 
+  getAll() {
+    return this.db.list(this.PATH, ref => ref.orderByChild('name'))
+      .snapshotChanges()
+      .map(changes => {
+        return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+      })
+  }
 
   private setUsers(uidToExclude: string): void {
     this.users = this.mapListKeys<User>(
