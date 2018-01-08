@@ -32,6 +32,13 @@ export class ProfessorProvider extends BaseProvider {
       })
   }
 
+  get() {
+    var key = firebase.auth().currentUser.uid;
+
+    return this.db.object(this.PATH + key).snapshotChanges().map(action => 
+      ({ $key: action.key, ...action.payload.val() }));
+  }
+
   private setUsers(uidToExclude: string): void {
     this.users = this.mapListKeys<User>(
       this.db.list<User>(`/professor`, 

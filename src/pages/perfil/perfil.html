@@ -10,11 +10,18 @@
 <ion-content padding>
 
   <ion-item>
-    <ion-icon name="person" item-start></ion-icon>
-    <ion-input     
-      [(ngModel)]="currentUser">   
-    </ion-input>
+    <ion-label fixed>PROF:</ion-label>
+    <ion-input type="text" [(ngModel)]="currentUser"></ion-input>
   </ion-item>
 
+  <ion-item>
+    <ion-label fixed>CPF:</ion-label>
+    <ion-input type="text" [(ngModel)]="currentUser"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label fixed>DATA NASCIMENTO:</ion-label>
+    <ion-input type="text" [(ngModel)]="currentUser"></ion-input>
+  </ion-item>
 
 </ion-content>

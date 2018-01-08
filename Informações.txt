@@ -19,3 +19,37 @@ npm install --save firebase@4.6.2
 
 cd platforms/ios/cordova/node_modules/
 npm install ios-sim@latest
+
+
+=============================================================
+this.provider.currentUser.valueChanges().subscribe((user: User) => {     
+      this.currentUser.name = user.name;
+      this.currentUser.cpf = user.cpf;
+      this.currentUser.dtNascimento = user.dtNascimento;
+      this.currentUser.email = user.email;
+    });
+
+<ion-list>
+    <ion-item-sliding *ngFor="let dado of currentUser | async">
+      <ion-item>
+        <h1>{{ dado.name }}</h1>
+        <p>{{ dado.cpf }}</p>
+        <p>{{ dado.dtNascimento }}</p>
+        <p>{{ dado.email }}</p>
+      </ion-item>     
+    </ion-item-sliding>
+  </ion-list>
+
+
+ this.provider.currentUser.valueChanges().subscribe((user: User) => {     
+      this.currentUser = {
+        $key: '',
+        name: user.name,
+        cpf: user.cpf,
+        dtNascimento: user.dtNascimento,
+        email: user.email,
+        password: ''   
+      }
+
+      console.log(this.currentUser.name);
+    }); 

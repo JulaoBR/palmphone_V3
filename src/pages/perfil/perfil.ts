@@ -13,7 +13,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 export class PerfilPage {
 
-  currentUser: User;
+  currentUser:  User;
 
   constructor(
     public navCtrl: NavController, 
@@ -21,28 +21,21 @@ export class PerfilPage {
     private provider: ProfessorProvider
   ) 
   {
+ 
   }
 
   ionViewDidLoad() {
-    this.provider.currentUser
-      .valueChanges()
-      .subscribe((user: User) => {
-        this.currentUser = user;
-        console.log(this.currentUser.name);
-        console.log(this.currentUser.dtNascimento);
-        console.log(this.currentUser.cpf);
-        console.log(this.currentUser.email);
-      });
+    this.provider.currentUser.valueChanges().subscribe((user: User) => {    
+      this.currentUser = {
+        $key: '',
+        name: 'dsfsdfsd',
+        cpf: 'sdfsdf',
+        dtNascimento: 'user.dtNascimento',
+        email: 'user.email',
+        password: ''   
+      }
 
+      console.log(this.currentUser.name);
+    }); 
   }
-
-  teste(){
-    if(this.currentUser == null){
-      console.log('nulo');
-    }else{
-      console.log('nao nulo');
-    }
-     
-  }
- 
-}
+ }
