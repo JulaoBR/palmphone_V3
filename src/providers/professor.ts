@@ -32,6 +32,15 @@ export class ProfessorProvider extends BaseProvider {
       })
   }
 
+  get() {
+    var key = firebase.auth().currentUser.uid;
+
+    return this.db.list(this.PATH + key).snapshotChanges()
+    .map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    })
+  }
+
   private setUsers(uidToExclude: string): void {
     this.users = this.mapListKeys<User>(
       this.db.list<User>(`/professor`, 
@@ -50,13 +59,6 @@ export class ProfessorProvider extends BaseProvider {
         if (authUser) {
           console.log('Auth state alterado!');          
           this.currentUser = this.db.object(`/professor/${authUser.uid}`);
-
-          //APENAS PARA VERIFICAÇÂO
-          if(this.currentUser == null){
-            console.log('nulo');
-          }else{
-            console.log('nao nulo');
-          }
           
           this.setUsers(authUser.uid);
         }
