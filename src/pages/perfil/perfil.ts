@@ -1,10 +1,6 @@
-import { User } from './../../model/user';
-import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
 import { ProfessorProvider } from './../../providers/professor';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Observable } from "rxjs/Observable";
-import { AngularFireAuth } from 'angularfire2/auth';
 
 @IonicPage()
 @Component({
@@ -13,29 +9,22 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 export class PerfilPage {
 
-  currentUser:  User;
-
+  currentUser:  any;
+  
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     private provider: ProfessorProvider
   ) 
   {
- 
+    this.currentUser = { };
+
+    const subscribe = this.provider.get().subscribe((c: any) => {
+      subscribe.unsubscribe();
+   
+      this.currentUser = c
+
+    })
   }
 
-  ionViewDidLoad() {
-    this.provider.currentUser.valueChanges().subscribe((user: User) => {    
-      this.currentUser = {
-        $key: '',
-        name: 'dsfsdfsd',
-        cpf: 'sdfsdf',
-        dtNascimento: 'user.dtNascimento',
-        email: 'user.email',
-        password: ''   
-      }
-
-      console.log(this.currentUser.name);
-    }); 
-  }
  }

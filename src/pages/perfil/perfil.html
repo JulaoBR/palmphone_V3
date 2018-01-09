@@ -10,18 +10,19 @@
 <ion-content padding>
 
   <ion-item>
-    <ion-label fixed>PROF:</ion-label>
-    <ion-input type="text" [(ngModel)]="currentUser"></ion-input>
+    <ion-input type="text" [(ngModel)]="currentUser.name" disabled></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label fixed>CPF:</ion-label>
-    <ion-input type="text" [(ngModel)]="currentUser"></ion-input>
+    <ion-input type="text" [(ngModel)]="currentUser.cpf" disabled></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label fixed>DATA NASCIMENTO:</ion-label>
-    <ion-input type="text" [(ngModel)]="currentUser"></ion-input>
+    <ion-input type="text" [(ngModel)]="currentUser.dtNascimento" disabled></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input type="text" [(ngModel)]="currentUser.email" disabled></ion-input>
   </ion-item>
 
 </ion-content>

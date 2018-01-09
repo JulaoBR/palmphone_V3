@@ -1,7 +1,7 @@
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { ListaProfessorPage } from './../pages/lista-professor/lista-professor';
 import { ListaAlunoPage } from './../pages/lista-aluno/lista-aluno';
 import { LeitorPage } from './../pages/leitor/leitor';
-import { ColetorManualPage } from './../pages/coletor-manual/coletor-manual';
 import { CadastrosPage } from './../pages/cadastros/cadastros';
 import { CadProfessorPage } from './../pages/cad-professor/cad-professor';
 import { CadAlunoPage } from './../pages/cad-aluno/cad-aluno';
@@ -33,7 +33,6 @@ import { BaseProvider } from '../providers/base';
     CadDisciplinaPage,
     CadProfessorPage,
     CadastrosPage,
-    ColetorManualPage,
     ColetorPage,
     MyApp,
     HomePage,
@@ -56,7 +55,6 @@ import { BaseProvider } from '../providers/base';
     CadDisciplinaPage,
     CadProfessorPage,
     CadastrosPage,
-    ColetorManualPage,
     ColetorPage,
     MyApp,
     HomePage,
@@ -72,6 +70,7 @@ import { BaseProvider } from '../providers/base';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
     ProfessorProvider,
+    BarcodeScanner,
     AlunoProvider,
     BaseProvider,
   ]
