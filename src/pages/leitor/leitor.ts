@@ -20,7 +20,6 @@ export class LeitorPage {
 
   async scanBarcode(){
     this.results = await this.barcode.scan();
-    console.log(this.results);
   }
 
 }

@@ -1,10 +1,10 @@
+import { User } from './../model/user';
 import { BaseProvider } from './base';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { User } from './../model/user';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 import * as firebase from 'firebase/app';
 
@@ -12,8 +12,6 @@ import * as firebase from 'firebase/app';
 export class ProfessorProvider extends BaseProvider {
 
   private PATH = 'professor/';
-  users: Observable<User[]>;
-  currentUser: AngularFireObject<User>;
   
   constructor(
     private db: AngularFireDatabase,
@@ -21,7 +19,6 @@ export class ProfessorProvider extends BaseProvider {
   ) 
   {
     super();
-    this.listenAuthState();
   }
 
   getAll() {
@@ -37,30 +34,6 @@ export class ProfessorProvider extends BaseProvider {
     return this.db.object(this.PATH + key).snapshotChanges()
       .map(c => {
         return { key: c.key, ...c.payload.val() };
-      });
-  }
-
-  private setUsers(uidToExclude: string): void {
-    this.users = this.mapListKeys<User>(
-      this.db.list<User>(`/professor`, 
-        (ref: firebase.database.Reference) => ref.orderByChild('name')
-      )
-    )
-    .map((users: User[]) => {      
-      return users.filter((user: User) => user.$key !== uidToExclude);
-    });
-  }
-
-  private listenAuthState(): void {
-    this.afAuth
-      .authState
-      .subscribe((authUser: firebase.User) => {
-        if (authUser) {
-          console.log('Auth state alterado!');          
-          this.currentUser = this.db.object(`/professor/${authUser.uid}`);
-          
-          this.setUsers(authUser.uid);
-        }
       });
   }
  

@@ -25,27 +25,18 @@ export class MyApp {
     statusBar: StatusBar, 
     splashScreen: SplashScreen,
     afAuth: AngularFireAuth,
-    authService: AuthProvider,
-    userService: ProfessorProvider
   ) 
   {
-    authService.afAuth.authState.subscribe((authUser: firebase.User) => {
-
-        if (authUser) {
-
-          this.rootPage = HomePage;
-
-          userService.currentUser.valueChanges().subscribe((user: User) => {
-              this.currentUser = user;
-            });
-
-        } else {
-
-          this.rootPage = LoginPage;
-
-        }
-
-      });
+    //FUNCAO PARA VERIFICAR SE JA ESTA LOGADO
+    const authObserver = afAuth.authState.subscribe(user => {
+      if(user){
+        this.rootPage = HomePage;
+        authObserver.unsubscribe();
+      }else{
+        this.rootPage = LoginPage;
+        authObserver.unsubscribe();
+      }
+    });
     
     platform.ready().then(() => {
       statusBar.styleDefault();
