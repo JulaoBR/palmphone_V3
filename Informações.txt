@@ -6,6 +6,9 @@ https://ionicframework.com/docs/intro/deploying/
 
 http://www.fabricadecodigo.com/crud-firebase-ionic/
 
+
+https://www.techiediaries.com/barcode-qr-code-scanner-encoder-ionic-3/
+
 https://github.com/plinionaves/ionic2-firebase-chat
 
 https://firebase.google.com/docs/auth/web/manage-users
