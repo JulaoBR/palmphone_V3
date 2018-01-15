@@ -26,6 +26,7 @@ import { ProfessorProvider } from '../providers/professor';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AlunoProvider } from '../providers/aluno';
 import { BaseProvider } from '../providers/base';
+import { DisciplinaProvider } from '../providers/disciplina';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { BaseProvider } from '../providers/base';
     BarcodeScanner,
     AlunoProvider,
     BaseProvider,
+    DisciplinaProvider,
   ]
 })
 export class AppModule {}

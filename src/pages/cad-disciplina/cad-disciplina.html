@@ -8,5 +8,12 @@
 
 
 <ion-content padding>
-
+  <ion-list>
+    <ion-item-sliding *ngFor="let dado of dados | async">
+      <ion-item>
+        <h1>{{ dado.disciplina }}</h1>
+        <p>{{ dado.professor }}</p>        
+      </ion-item>     
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>

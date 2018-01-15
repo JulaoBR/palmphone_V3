@@ -17,6 +17,8 @@ export class CadProfessorPage {
   title: string;
   form: FormGroup;
   contact: any;
+  uploadProgress: number;
+  private filePhoto: File;
  
   constructor(
     public afAuth: AuthProvider,
@@ -61,16 +63,17 @@ export class CadProfessorPage {
           
         delete formUser.senha;
         let uuid: string = authUser.uid;
-                                    
+
         this.provider.save(formUser, uuid)
-        .then(() => {
+        .then(() => {          
           this.toast.create({ message: 'Contato salvo com sucesso.', duration: 3000 }).present();
-          this.navCtrl.pop();
+          
         })
         .catch((e) => {
           this.toast.create({ message: 'Erro ao salvar o contato.', duration: 3000 }).present();
           console.error(e);
         })
+        
       }).catch((error: any) => {
         console.log(error);
       });
@@ -79,5 +82,9 @@ export class CadProfessorPage {
 
   abrirListaProfessor(): void{
     this.navCtrl.push(ListaProfessorPage);
+  }
+
+  onPhoto(event): void {  
+    this.filePhoto = event.target.files[0];
   }
 }

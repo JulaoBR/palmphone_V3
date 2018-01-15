@@ -12,7 +12,6 @@ import { ListaAlunoPage } from '../lista-aluno/lista-aluno';
 })
 export class CadAlunoPage {
 
-  title: string;
   form: FormGroup;
   contact: any;
 
@@ -27,14 +26,8 @@ export class CadAlunoPage {
     // maneira 1
     this.contact = this.navParams.data.contact || { };
     this.createForm();
- 
-    this.setupPageTitle();
   }
- 
-  private setupPageTitle() {
-    this.title = this.navParams.data.contact ? 'Alterando contato' : 'Novo contato';
-  }
- 
+  
   createForm() {
     this.form = this.formBuilder.group({
       key: [this.contact.key],

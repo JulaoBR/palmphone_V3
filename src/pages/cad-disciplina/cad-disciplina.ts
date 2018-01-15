@@ -1,12 +1,7 @@
+import { DisciplinaProvider } from './../../providers/disciplina';
+import { Observable } from 'rxjs/Observable';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the CadDisciplinaPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -15,11 +10,19 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class CadDisciplinaPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  dados: Observable<any>;
+  
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    private provider: DisciplinaProvider
+
+  ) 
+  {
+    this.dados = provider.getAll();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad CadDisciplinaPage');
-  }
+  
+
 
 }

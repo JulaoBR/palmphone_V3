@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 
 import * as firebase from 'firebase/app';
+import { FirebaseApp } from 'angularfire2';
 
 @Injectable()
 export class ProfessorProvider extends BaseProvider {
@@ -16,6 +17,7 @@ export class ProfessorProvider extends BaseProvider {
   constructor(
     private db: AngularFireDatabase,
     public afAuth: AngularFireAuth,
+    public firebaseApp: FirebaseApp,
   ) 
   {
     super();
@@ -41,6 +43,14 @@ export class ProfessorProvider extends BaseProvider {
      return this.db.object(`/professor/${uuid}`)
     .set(user)
     .catch();
+  }
+
+  uploadPhoto(file: File, userId: string) {
+    return this.firebaseApp
+      .storage()
+      .ref()
+      .child(`/professor/${userId}`)
+      .put(file);
   }
  
 }
