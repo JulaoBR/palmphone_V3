@@ -4,6 +4,8 @@ https://ionicframework.com/docs/intro/deploying/
 
 http://www.fabricadecodigo.com/crud-firebase-ionic/
 
+https://www.techiediaries.com/barcode-qr-code-scanner-encoder-ionic-3/
+
 cordova telemetry on
 cordova telemetry off
 
