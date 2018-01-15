@@ -1,4 +1,3 @@
-import { User } from './../../model/user';
 import { AuthProvider } from './../../providers/auth';
 import { ProfessorProvider } from './../../providers/professor';
 import { Component } from '@angular/core';
@@ -6,6 +5,7 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import * as firebase from 'firebase/app';
+import { ListaProfessorPage } from '../lista-professor/lista-professor';
 
 @IonicPage()
 @Component({
@@ -48,34 +48,36 @@ export class CadProfessorPage {
     });
   }
  
-    onSubmit() {
+  onSubmit() {
 
-      let formUser = this.form.value;
+    let formUser = this.form.value;
 
-      if (this.form.valid) {
+    if (this.form.valid) {
         
-        this.afAuth.createUser({
-          email: formUser.email,
-          password: formUser.senha
-        }).then((authUser: firebase.User) => {
+      this.afAuth.createUser({
+        email: formUser.email,
+        password: formUser.senha
+      }).then((authUser: firebase.User) => {
           
-          delete formUser.senha;
-          let uuid: string = authUser.uid;
+        delete formUser.senha;
+        let uuid: string = authUser.uid;
                                     
-          this.provider.save(formUser, uuid)
-          .then(() => {
-            this.toast.create({ message: 'Contato salvo com sucesso.', duration: 3000 }).present();
-            this.navCtrl.pop();
-          })
-          .catch((e) => {
-            this.toast.create({ message: 'Erro ao salvar o contato.', duration: 3000 }).present();
-            console.error(e);
-          })
+        this.provider.save(formUser, uuid)
+        .then(() => {
+          this.toast.create({ message: 'Contato salvo com sucesso.', duration: 3000 }).present();
+          this.navCtrl.pop();
+        })
+        .catch((e) => {
+          this.toast.create({ message: 'Erro ao salvar o contato.', duration: 3000 }).present();
+          console.error(e);
+        })
       }).catch((error: any) => {
         console.log(error);
-        
       });
     }
+  }
 
+  abrirListaProfessor(): void{
+    this.navCtrl.push(ListaProfessorPage);
   }
 }

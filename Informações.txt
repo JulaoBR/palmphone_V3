@@ -1,10 +1,17 @@
 https://javebratt.com/angularfire2-authentication-ionic/
 
+https://javebratt.com/ionic-firebase-authentication/
+
 https://ionicframework.com/docs/intro/deploying/
 
 http://www.fabricadecodigo.com/crud-firebase-ionic/
 
+
 https://www.techiediaries.com/barcode-qr-code-scanner-encoder-ionic-3/
+
+https://github.com/plinionaves/ionic2-firebase-chat
+
+https://firebase.google.com/docs/auth/web/manage-users
 
 cordova telemetry on
 cordova telemetry off
@@ -12,3 +19,83 @@ cordova telemetry off
 npm uninstall --save firebase
 npm install --save firebase@4.8.0
 npm install --save firebase@4.6.2
+
+cd platforms/ios/cordova/node_modules/
+npm install ios-sim@latest
+
+
+=============================================================
+this.provider.currentUser.valueChanges().subscribe((user: User) => {     
+      this.currentUser.name = user.name;
+      this.currentUser.cpf = user.cpf;
+      this.currentUser.dtNascimento = user.dtNascimento;
+      this.currentUser.email = user.email;
+    });
+
+<ion-list>
+    <ion-item-sliding *ngFor="let dado of currentUser | async">
+      <ion-item>
+        <h1>{{ dado.name }}</h1>
+        <p>{{ dado.cpf }}</p>
+        <p>{{ dado.dtNascimento }}</p>
+        <p>{{ dado.email }}</p>
+      </ion-item>     
+    </ion-item-sliding>
+  </ion-list>
+
+
+ this.provider.currentUser.valueChanges().subscribe((user: User) => {     
+      this.currentUser = {
+        $key: '',
+        name: user.name,
+        cpf: user.cpf,
+        dtNascimento: user.dtNascimento,
+        email: user.email,
+        password: ''   
+      }
+
+      console.log(this.currentUser.name);
+    }); 
+
+
+maneira 2
+this.contact = { };
+this.createForm();
+ 
+if (this.navParams.data.key) {
+    const subscribe = this.provider.get(this.navParams.data.key).subscribe((c: any) => {
+    subscribe.unsubscribe();
+ 
+    this.contact = c;
+    this.createForm();
+  })
+}
+
+
+
+===================================================================
+
+private setUsers(uidToExclude: string): void {
+    this.users = this.mapListKeys<User>(
+      this.db.list<User>(`/professor`, 
+        (ref: firebase.database.Reference) => ref.orderByChild('name')
+      )
+    )
+    .map((users: User[]) => {      
+      return users.filter((user: User) => user.$key !== uidToExclude);
+    });
+  }
+
+  private listenAuthState(): void {
+    this.afAuth
+      .authState
+      .subscribe((authUser: firebase.User) => {
+        if (authUser) {
+          console.log('Auth state alterado!');          
+          this.currentUser = this.db.object(`/professor/${authUser.uid}`);
+          
+          this.setUsers(authUser.uid);
+        }
+      });
+  }
+======================================================================

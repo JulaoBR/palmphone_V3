@@ -1,9 +1,17 @@
 export class User {
 
-    name: string;
-    dtNascimento: string;
-    cpf: string;
-    email: string;
-    password: string;
-    
+  public $key: string;
+
+  constructor(
+    public name: string,
+    public dtNascimento: string,
+    public cpf: string,
+    public email: string,
+    public password: string,
+  ) {}
+
   }
+
+  
+
+  

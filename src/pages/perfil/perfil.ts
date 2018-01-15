@@ -1,7 +1,6 @@
 import { ProfessorProvider } from './../../providers/professor';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Observable } from "rxjs/Observable";
 
 @IonicPage()
 @Component({
@@ -10,7 +9,7 @@ import { Observable } from "rxjs/Observable";
 })
 export class PerfilPage {
 
-  dados: Observable<any>;
+  currentUser:  any;
   
   constructor(
     public navCtrl: NavController, 
@@ -18,13 +17,14 @@ export class PerfilPage {
     private provider: ProfessorProvider
   ) 
   {
+    this.currentUser = { };
 
-    this.dados = this.provider.getAll();
+    const subscribe = this.provider.get().subscribe((c: any) => {
+      subscribe.unsubscribe();
+   
+      this.currentUser = c
 
+    })
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad PerfilPage');
-  }
-
-}
+ }

@@ -1,0 +1,23 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Lista de Professor</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let dado of dados | async">
+      <ion-item>
+        <h1>{{ dado.name }}</h1>
+        <p>{{ dado.cpf }}</p>
+        <p>{{ dado.dtNascimento }}</p>
+        <p>{{ dado.email }}</p>
+      </ion-item>     
+    </ion-item-sliding>
+  </ion-list>
+
+</ion-content>

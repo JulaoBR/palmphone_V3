@@ -1,5 +1,7 @@
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { ListaProfessorPage } from './../pages/lista-professor/lista-professor';
+import { ListaAlunoPage } from './../pages/lista-aluno/lista-aluno';
 import { LeitorPage } from './../pages/leitor/leitor';
-import { ColetorManualPage } from './../pages/coletor-manual/coletor-manual';
 import { CadastrosPage } from './../pages/cadastros/cadastros';
 import { CadProfessorPage } from './../pages/cad-professor/cad-professor';
 import { CadAlunoPage } from './../pages/cad-aluno/cad-aluno';
@@ -23,6 +25,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { ProfessorProvider } from '../providers/professor';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AlunoProvider } from '../providers/aluno';
+import { BaseProvider } from '../providers/base';
 
 @NgModule({
   declarations: [
@@ -30,11 +33,12 @@ import { AlunoProvider } from '../providers/aluno';
     CadDisciplinaPage,
     CadProfessorPage,
     CadastrosPage,
-    ColetorManualPage,
     ColetorPage,
     MyApp,
     HomePage,
     LeitorPage,
+    ListaAlunoPage,
+    ListaProfessorPage,
     LoginPage,
     PerfilPage
   ],
@@ -51,11 +55,12 @@ import { AlunoProvider } from '../providers/aluno';
     CadDisciplinaPage,
     CadProfessorPage,
     CadastrosPage,
-    ColetorManualPage,
     ColetorPage,
     MyApp,
     HomePage,
     LeitorPage,
+    ListaAlunoPage,
+    ListaProfessorPage,
     LoginPage,
     PerfilPage
   ],
@@ -65,7 +70,9 @@ import { AlunoProvider } from '../providers/aluno';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
     ProfessorProvider,
+    BarcodeScanner,
     AlunoProvider,
+    BaseProvider,
   ]
 })
 export class AppModule {}

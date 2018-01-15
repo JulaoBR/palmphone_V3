@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 @IonicPage()
 @Component({
@@ -7,16 +8,18 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'leitor.html',
 })
 export class LeitorPage {
+  results: {};
 
   constructor(
     public navCtrl: NavController, 
-    public navParams: NavParams
+    public navParams: NavParams,
+    private barcode: BarcodeScanner
   ) 
   {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LeitorPage');
+  async scanBarcode(){
+    this.results = await this.barcode.scan();
   }
 
 }

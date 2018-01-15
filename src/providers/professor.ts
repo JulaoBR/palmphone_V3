@@ -1,17 +1,24 @@
 import { User } from './../model/user';
+import { BaseProvider } from './base';
+import { Observable } from 'rxjs/Observable';
+import { AngularFireAuth } from 'angularfire2/auth';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 
+import * as firebase from 'firebase/app';
+
 @Injectable()
-export class ProfessorProvider {
+export class ProfessorProvider extends BaseProvider {
 
   private PATH = 'professor/';
-
+  
   constructor(
     private db: AngularFireDatabase,
+    public afAuth: AngularFireAuth,
   ) 
   {
+    super();
   }
 
   getAll() {
@@ -21,8 +28,9 @@ export class ProfessorProvider {
         return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
       })
   }
- 
-  get(key: string) {
+
+  get() {
+    var key = firebase.auth().currentUser.uid;
     return this.db.object(this.PATH + key).snapshotChanges()
       .map(c => {
         return { key: c.key, ...c.payload.val() };
@@ -35,7 +43,4 @@ export class ProfessorProvider {
     .catch();
   }
  
-  remove(key: string) {
-    return this.db.list(this.PATH).remove(key);
-  }
 }
