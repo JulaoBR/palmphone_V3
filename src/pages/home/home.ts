@@ -17,7 +17,7 @@ export class HomePage {
     private afAuth: AuthProvider
   ) 
   {
-
+  
   }
 
   abrirTelaPerfil(){
