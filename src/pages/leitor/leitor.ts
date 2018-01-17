@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
 
 @IonicPage()
 @Component({
@@ -8,18 +8,40 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
   templateUrl: 'leitor.html',
 })
 export class LeitorPage {
-  results: {};
+  results: any;
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    private barcode: BarcodeScanner
+    private barcode: BarcodeScanner,
+    public alertCtrl: AlertController
   ) 
   {
   }
 
-  async scanBarcode(){
-    this.results = await this.barcode.scan();
-  }
+  scanBarcode(){
+    this.results = {};
+
+    const options = {
+        prompt : "Leia o cracha"
+    }
+    this.barcode.scan(options).then((data) => {
+      this.results = data;
+      const alert = this.alertCtrl.create({
+        title: 'RA:',
+        subTitle: data.text,
+        buttons: ['OK']
+      });
+      alert.present();
+    })
+    .catch((err) => {
+      const alert = this.alertCtrl.create({
+        title: 'Atenção!',
+        subTitle: err,
+        buttons: ['Fechar']
+      });
+      alert.present();
+    });       
+}   
 
 }

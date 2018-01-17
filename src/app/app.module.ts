@@ -1,10 +1,8 @@
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { ListaProfessorPage } from './../pages/lista-professor/lista-professor';
-import { ListaAlunoPage } from './../pages/lista-aluno/lista-aluno';
 import { LeitorPage } from './../pages/leitor/leitor';
 import { CadastrosPage } from './../pages/cadastros/cadastros';
 import { CadProfessorPage } from './../pages/cad-professor/cad-professor';
-import { CadAlunoPage } from './../pages/cad-aluno/cad-aluno';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -24,13 +22,12 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { ProfessorProvider } from '../providers/professor';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { AlunoProvider } from '../providers/aluno';
 import { BaseProvider } from '../providers/base';
 import { DisciplinaProvider } from '../providers/disciplina';
+import { ColetorProvider } from '../providers/coletor';
 
 @NgModule({
   declarations: [
-    CadAlunoPage,
     CadDisciplinaPage,
     CadProfessorPage,
     CadastrosPage,
@@ -38,7 +35,6 @@ import { DisciplinaProvider } from '../providers/disciplina';
     MyApp,
     HomePage,
     LeitorPage,
-    ListaAlunoPage,
     ListaProfessorPage,
     LoginPage,
     PerfilPage
@@ -52,7 +48,6 @@ import { DisciplinaProvider } from '../providers/disciplina';
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    CadAlunoPage,
     CadDisciplinaPage,
     CadProfessorPage,
     CadastrosPage,
@@ -60,7 +55,6 @@ import { DisciplinaProvider } from '../providers/disciplina';
     MyApp,
     HomePage,
     LeitorPage,
-    ListaAlunoPage,
     ListaProfessorPage,
     LoginPage,
     PerfilPage
@@ -72,9 +66,9 @@ import { DisciplinaProvider } from '../providers/disciplina';
     AuthProvider,
     ProfessorProvider,
     BarcodeScanner,
-    AlunoProvider,
     BaseProvider,
     DisciplinaProvider,
+    ColetorProvider,
   ]
 })
 export class AppModule {}

@@ -7,23 +7,6 @@
 </ion-header>
 
   <ion-content padding>
-  <form>
-  <ion-card>
-    <ion-list>
-      <ion-item>
-        <ion-label floating>Insira o RA</ion-label>
-        <ion-input type="text" name="raManual" [(ngModel)]="results"></ion-input>
-      </ion-item>
-      <button ion-button full type="submit">
-        <ion-icon name="checkbox-outline"></ion-icon>
-      </button>
-    </ion-list>
-  </ion-card>
-  </form>
-
-  <div *ngIf="results">
-    <p>{{results.text}}
-  </div>
 
   <ion-fab right bottom>
     <button ion-fab color="danger" (click)="scanBarcode()">

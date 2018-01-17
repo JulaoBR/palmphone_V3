@@ -23,7 +23,8 @@ export class PerfilPage {
       subscribe.unsubscribe();
    
       this.currentUser = c
-
+  
+      
     })
   }
 

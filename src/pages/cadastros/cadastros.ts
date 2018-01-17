@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { CadProfessorPage } from '../cad-professor/cad-professor';
 import { CadDisciplinaPage } from '../cad-disciplina/cad-disciplina';
-import { CadAlunoPage } from '../cad-aluno/cad-aluno';
 
 @IonicPage()
 @Component({
@@ -30,7 +29,4 @@ export class CadastrosPage {
     this.navCtrl.push(CadDisciplinaPage);
   }
 
-  cadAlunos(): void{
-    this.navCtrl.push(CadAlunoPage);
-  }
 }

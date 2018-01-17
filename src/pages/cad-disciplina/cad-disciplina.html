@@ -11,8 +11,7 @@
   <ion-list>
     <ion-item-sliding *ngFor="let dado of dados | async">
       <ion-item>
-        <h1>{{ dado.disciplina_1 }}</h1>
-        <h2>{{ dado.disciplina_2 }}</h2>
+        <h1>{{ dado.nome }}</h1>     
       </ion-item>     
     </ion-item-sliding>
   </ion-list>
