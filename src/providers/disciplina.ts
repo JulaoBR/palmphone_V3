@@ -9,7 +9,7 @@ import { FirebaseApp } from 'angularfire2';
 @Injectable()
 export class DisciplinaProvider {
 
-  private PATH = 'disciplina/';
+  private PATH = 'disciplina/disciplina';
 
   constructor(
     private db: AngularFireDatabase,
