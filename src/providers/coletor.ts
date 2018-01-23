@@ -4,20 +4,20 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ColetorProvider {
-
-  myDate: String = new Date().toISOString();
-
+  private PATH = 'coletor/';
+  
   constructor(
     private db: AngularFireDatabase,
   ) 
   {
-    
+
   }
 
-  save(ra: string): Promise<any> {
-    return this.db.object(`/coletor/${this.myDate}`)
-   .set(ra)
-   .catch();
+  save(ra: string){
+    return  this.db.list(this.PATH)
+    .push({ ra_aluno: ra , data: '23/01/2018'})
+    .then();
  }
+
  
 }

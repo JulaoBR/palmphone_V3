@@ -1,3 +1,4 @@
+import { ColetorProvider } from './../../providers/coletor';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
@@ -10,39 +11,51 @@ import { Coleta } from '../../model/coleta';
 })
 export class LeitorPage {
   
-  coletor: Coleta;
-  
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     private barcode: BarcodeScanner,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    private provider: ColetorProvider
   ) 
   {
+    
+  }
+
+  saveManual(){
+    
   }
 
   scanBarcode(){
-    
-    var i = 0;
+
     const options = {
         prompt : "Leia o cracha"
     }
-    this.barcode.scan(options).then((data) => {      
-      const alert = this.alertCtrl.create({
-        title: 'RA:',
-        subTitle: data.text,
-        buttons: ['OK']
-      });
-      if(data != null){
-        alert.present();
-        this.coletor = {
-          contador: '17/01/18',
-          ra: data.text
-        }
-
-
-      }
+    this.barcode.scan(options).then((data) => {
       
+      if(data.text != ""){
+        let alert = this.alertCtrl.create({
+          title: 'Confirmação da leitura',
+          message: 'Deseja salvar este RA: ' + data.text +' ?' ,
+          buttons: [
+            {
+              text: 'Cancelar',
+              role: 'cancel',
+              handler: () => {
+                console.log('evento cancelado');
+              }
+            },
+            {
+              text: 'Confirmar',
+              handler: () => {
+                this.provider.save(data.text);
+                this.scanBarcode();
+              }
+            }
+          ]
+        });
+        alert.present(); 
+      }      
     })
     .catch((err) => {
       const alert = this.alertCtrl.create({
@@ -53,5 +66,7 @@ export class LeitorPage {
       alert.present();
     });       
 }   
+
+
 
 }

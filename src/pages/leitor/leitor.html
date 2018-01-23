@@ -8,6 +8,13 @@
 
   <ion-content padding>
 
+    <ion-item>
+      <ion-label stacked>DIGITE MANUALMENTE O RA:</ion-label>
+      <ion-input type="text" ></ion-input>
+    </ion-item>          
+    
+    <button ion-button block type="submit" (click)="saveManual()">Salvar</button>
+
   <ion-fab right bottom>
     <button ion-fab color="danger" (click)="scanBarcode()">
       <ion-icon name="md-barcode"></ion-icon>
