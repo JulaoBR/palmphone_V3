@@ -13,10 +13,13 @@ export class ColetorProvider {
 
   }
 
-  save(ra: string){
-    return  this.db.list(this.PATH)
-    .push({ ra_aluno: ra , data: '23/01/2018'})
-    .then();
+  save(dados: any){
+    return new Promise((resolve, reject) => {     
+        console.log(dados.ra);
+        this.db.list(this.PATH)
+          .push({ ra_aluno: dados.ra, data: dados.data })
+          .then(() => resolve());     
+    })
  }
 
  

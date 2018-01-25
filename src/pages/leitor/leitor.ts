@@ -1,6 +1,7 @@
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ColetorProvider } from './../../providers/coletor';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
 import { Coleta } from '../../model/coleta';
 
@@ -11,19 +12,44 @@ import { Coleta } from '../../model/coleta';
 })
 export class LeitorPage {
   
+  form: FormGroup;
+  dados: any;
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     private barcode: BarcodeScanner,
     public alertCtrl: AlertController,
-    private provider: ColetorProvider
+    private provider: ColetorProvider,
+    private formBuilder: FormBuilder,
+    private toast: ToastController
   ) 
   {
-    
+    this.dados = this.navParams.data.dados || { };
+    this.createForm();
+  }
+
+  createForm() {
+    this.form = this.formBuilder.group({    
+      ra: [this.dados.ra],
+      data: [this.dados.data],         
+    });
   }
 
   saveManual(){
-    
+    console.log('entro aqui');
+    if (this.form.valid) {
+      console.log(3);
+      this.provider.save(this.form.value)
+        .then(() => {
+          this.toast.create({ message: 'RA salvo com sucesso.', duration: 3000 }).present();
+          this.navCtrl.pop();
+        })
+        .catch((e) => {
+          this.toast.create({ message: 'Erro ao salvar o RA.', duration: 3000 }).present();
+          console.error(e);
+        })
+    }
   }
 
   scanBarcode(){
