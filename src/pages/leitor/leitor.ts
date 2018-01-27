@@ -14,6 +14,7 @@ export class LeitorPage {
   
   form: FormGroup;
   dados: any;
+  dt_atual: any = new Date();
 
   constructor(
     public navCtrl: NavController, 
@@ -40,7 +41,7 @@ export class LeitorPage {
     console.log('entro aqui');
     if (this.form.valid) {
       console.log(3);
-      this.provider.save(this.form.value)
+      this.provider.saveManual(this.form.value)
         .then(() => {
           this.toast.create({ message: 'RA salvo com sucesso.', duration: 3000 }).present();
           this.navCtrl.pop();
@@ -74,7 +75,7 @@ export class LeitorPage {
             {
               text: 'Confirmar',
               handler: () => {
-                this.provider.save(data.text);
+                this.provider.saveScan(data.text);
                 this.scanBarcode();
               }
             }

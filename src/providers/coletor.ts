@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class ColetorProvider {
   private PATH = 'coletor/';
   
+
   constructor(
     private db: AngularFireDatabase,
   ) 
@@ -13,14 +14,23 @@ export class ColetorProvider {
 
   }
 
-  save(dados: any){
+  saveManual(dados: any){
     return new Promise((resolve, reject) => {     
-        console.log(dados.ra);
+        
         this.db.list(this.PATH)
-          .push({ ra_aluno: dados.ra, data: dados.data })
+          .push({ ra_aluno: dados.ra})
           .then(() => resolve());     
     })
  }
+
+ saveScan(dados: string){
+  return new Promise((resolve, reject) => {     
+      
+      this.db.list(this.PATH)
+        .push({ ra_aluno: dados})
+        .then(() => resolve());     
+  })
+}
 
  
 }
