@@ -23,6 +23,7 @@ export class ProfessorProvider extends BaseProvider {
     super();
   }
 
+  //BUSCA UMA LISTA 
   getAll() {
     return this.db.list(this.PATH, ref => ref.orderByChild('name'))
       .snapshotChanges()
@@ -31,6 +32,7 @@ export class ProfessorProvider extends BaseProvider {
       })
   }
 
+  //BUSCA APENAS UM OBJETO
   get() {
     var key = firebase.auth().currentUser.uid;
     return this.db.object(this.PATH + key).snapshotChanges()
@@ -39,18 +41,11 @@ export class ProfessorProvider extends BaseProvider {
       });
   }
  
+  //SALVA O USUARIO
   save(user: User, uuid: string): Promise<any> {
      return this.db.object(`/professor/${uuid}`)
     .set(user)
     .catch();
-  }
-
-  uploadPhoto(file: File, userId: string) {
-    return this.firebaseApp
-      .storage()
-      .ref()
-      .child(`/professor/${userId}`)
-      .put(file);
   }
  
 }

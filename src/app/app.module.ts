@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { ListaProfessorPage } from './../pages/lista-professor/lista-professor';
 import { LeitorPage } from './../pages/leitor/leitor';
@@ -64,6 +65,7 @@ import { ColetorProvider } from '../providers/coletor';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
+    DatePipe,
     ProfessorProvider,
     BarcodeScanner,
     BaseProvider,

@@ -29,10 +29,12 @@ export class MyApp {
   {
     //FUNCAO PARA VERIFICAR SE JA ESTA LOGADO
     const authObserver = afAuth.authState.subscribe(user => {
+      //SE EXISTIR UM USUARIO LOGADO ENTRA E CHAMA A PAGINA DE HOME
       if(user){
         this.rootPage = HomePage;
         authObserver.unsubscribe();
       }else{
+        //SE NAO CHAMA A PAGINA DE LOGIN
         this.rootPage = LoginPage;
         authObserver.unsubscribe();
       }

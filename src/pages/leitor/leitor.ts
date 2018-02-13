@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
 import { Coleta } from '../../model/coleta';
+import { DatePipe } from '@angular/common';
 
 @IonicPage()
 @Component({
@@ -14,7 +15,6 @@ export class LeitorPage {
   
   form: FormGroup;
   dados: any;
-  dt_atual: any = new Date();
 
   constructor(
     public navCtrl: NavController, 
@@ -23,24 +23,27 @@ export class LeitorPage {
     public alertCtrl: AlertController,
     private provider: ColetorProvider,
     private formBuilder: FormBuilder,
-    private toast: ToastController
+    private toast: ToastController,
+    private datepipe: DatePipe
   ) 
   {
     this.dados = this.navParams.data.dados || { };
     this.createForm();
   }
 
+  //CRIA O FORMULARIO COM OS DADOS VINDO DA TELA 
   createForm() {
     this.form = this.formBuilder.group({    
-      ra: [this.dados.ra],
-      data: [this.dados.data],         
+      ra: [this.dados.ra],       
     });
   }
 
   saveManual(){
-    console.log('entro aqui');
+
+    //FORMATA DATA ATUAL
+    let dataAtual = this.datepipe.transform(new Date(), "ddMMyyyyHHmmss");
+
     if (this.form.valid) {
-      console.log(3);
       this.provider.saveManual(this.form.value)
         .then(() => {
           this.toast.create({ message: 'RA salvo com sucesso.', duration: 3000 }).present();
@@ -58,8 +61,8 @@ export class LeitorPage {
     const options = {
         prompt : "Leia o cracha"
     }
-    this.barcode.scan(options).then((data) => {
-      
+
+    this.barcode.scan(options).then((data) => {      
       if(data.text != ""){
         let alert = this.alertCtrl.create({
           title: 'Confirmação da leitura',

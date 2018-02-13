@@ -16,7 +16,7 @@ export class ColetorProvider {
 
   saveManual(dados: any){
     return new Promise((resolve, reject) => {     
-        
+      
         this.db.list(this.PATH)
           .push({ ra_aluno: dados.ra})
           .then(() => resolve());     

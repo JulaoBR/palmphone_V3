@@ -10,15 +10,21 @@
 <ion-content padding>
 
   <ion-item>
-    <ion-input type="text" [(ngModel)]="currentUser.nome" disabled></ion-input>
+    <ion-card>
+      <img src="{{currentUser.url}}"/>
+    </ion-card>
   </ion-item>
 
   <ion-item>
-    <ion-input type="text" [(ngModel)]="currentUser.email" disabled></ion-input>
+    <h2>{{currentUser.nomeProf}}</h2>
   </ion-item>
 
   <ion-item>
-    <ion-input type="text" [(ngModel)]="currentUser.disciplina" disabled></ion-input>
+    <h2>{{currentUser.emailProf}}</h2>
+  </ion-item>
+
+  <ion-item>
+    <h2>{{currentUser.rgProf}}</h2>
   </ion-item>
 
 </ion-content>

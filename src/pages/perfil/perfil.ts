@@ -1,4 +1,4 @@
-import { ProfessorProvider } from './../../providers/professor';
+import { User } from './../../model/user';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
@@ -9,23 +9,17 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class PerfilPage {
 
-  currentUser:  any;
+  //OBJETO DO USUARIO
+  currentUser: User;
   
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    private provider: ProfessorProvider
+    
   ) 
   {
-    this.currentUser = { };
-
-    const subscribe = this.provider.get().subscribe((c: any) => {
-      subscribe.unsubscribe();
-   
-      this.currentUser = c
-  
-      
-    })
+    //RECEBE COMO PARAMETRO O OBJETO ENVIADO PELA PAGINA DE HOME
+    this.currentUser = navParams.get("dados");
   }
 
  }

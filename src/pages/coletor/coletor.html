@@ -10,17 +10,15 @@
 <ion-card>
   <ion-list>
     <ion-item>
-      <ion-input type="text" [(ngModel)]="currentUser.nome" disabled></ion-input>
+      <ion-input type="text" [(ngModel)]="currentUser.nomeProf" disabled></ion-input>
     </ion-item>
   </ion-list>
 
   <ion-list>
     <ion-item>
       <ion-label>Selecione a disciplica:</ion-label>
-      <ion-select [(ngModel)]="disciplina">
-        <ion-option value="BD">BANCO DE DADOS</ion-option>
-        <ion-option value="SO">SISTEMAS OPERACIONAIS</ion-option>
-        <ion-option value="PW3">PROGRAMAÇÃO WEB III</ion-option>
+      <ion-select [(ngModel)]="currentUser.disciplinas">
+        
       </ion-select>
     </ion-item>
   </ion-list>
