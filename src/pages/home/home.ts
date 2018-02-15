@@ -1,11 +1,13 @@
 import { User } from './../../model/user';
-import { ProfessorProvider } from './../../providers/professor';
 import { LoginPage } from './../login/login';
 import { ColetorPage } from './../coletor/coletor';
 import { PerfilPage } from './../perfil/perfil';
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth';
+import { Storage } from '@ionic/storage';
+
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'page-home',
@@ -19,15 +21,15 @@ export class HomePage {
   constructor(
     public navCtrl: NavController,
     private afAuth: AuthProvider,
-    private provider: ProfessorProvider
+    private storage: Storage
   ) 
   {  
-    //BUSCA O OBJETO DO USUARIO QUE ESTA LOGADO 
-    const subscribe = this.provider.get().subscribe((c: User) => {
-      subscribe.unsubscribe();
-      //CARREGA O CURRENTUSER COM OS DADOS VINDO DO FIREBASE
-      this.currentUser = c  
+    //RESGATA OS DADOS DO STORAGE 
+    this.storage.get(firebase.auth().currentUser.uid).then((val : User) => {
+      //E CARREGA O OBJETO COM OS DADOS
+      this.currentUser = val;
     })
+
   }
 
   abrirTelaPerfil(){
@@ -37,7 +39,7 @@ export class HomePage {
 
   //CHAMA A TELA DE COLETA
   abrirTelaColeta(): void{
-    this.navCtrl.push(ColetorPage);
+    this.navCtrl.push(ColetorPage, {dados : this.currentUser});
   }
 
 

@@ -1,3 +1,4 @@
+import { User } from './../../model/user';
 import { AuthProvider } from './../../providers/auth';
 import { ProfessorProvider } from './../../providers/professor';
 import { Component } from '@angular/core';
@@ -14,11 +15,9 @@ import { ListaProfessorPage } from '../lista-professor/lista-professor';
 })
 export class CadProfessorPage {
 
-  title: string;
   form: FormGroup;
   contact: any;
-  uploadProgress: number;
-  private filePhoto: File;
+  dados: User;
  
   constructor(
     public afAuth: AuthProvider,
@@ -28,7 +27,7 @@ export class CadProfessorPage {
     private provider: ProfessorProvider,
     private toast: ToastController
   ) {
- 
+    this.dados = this.navParams.get("dados");
     this.contact = this.navParams.data.contact || { };
     this.createForm();
   }
@@ -39,7 +38,7 @@ export class CadProfessorPage {
     this.form = this.formBuilder.group({
       key: [this.contact.key],
       name: [this.contact.name, Validators.required],
-      cpf: [this.contact.cpf, Validators.required],
+      rg: [this.contact.rg, Validators.required],
       dtNascimento: [this.contact.dtNascimento, Validators.required],
       email: [this.contact.email, Validators.required],
       senha: [this.contact.senha, Validators.required],

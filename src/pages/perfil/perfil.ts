@@ -1,3 +1,4 @@
+import { CadProfessorPage } from './../cad-professor/cad-professor';
 import { User } from './../../model/user';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
@@ -9,17 +10,19 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class PerfilPage {
 
-  //OBJETO DO USUARIO
+  //OBJETO DO USUARIO LOGADO
   currentUser: User;
   
   constructor(
     public navCtrl: NavController, 
-    public navParams: NavParams,
-    
+    public navParams: NavParams    
   ) 
   {
-    //RECEBE COMO PARAMETRO O OBJETO ENVIADO PELA PAGINA DE HOME
-    this.currentUser = navParams.get("dados");
+    this.currentUser = this.navParams.get("dados");
+  }
+
+  editarProfessor(): void {
+    this.navCtrl.push(CadProfessorPage, {dados: this.currentUser});
   }
 
  }

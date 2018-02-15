@@ -2,7 +2,6 @@ import { DatePipe } from '@angular/common';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { ListaProfessorPage } from './../pages/lista-professor/lista-professor';
 import { LeitorPage } from './../pages/leitor/leitor';
-import { CadastrosPage } from './../pages/cadastros/cadastros';
 import { CadProfessorPage } from './../pages/cad-professor/cad-professor';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
@@ -12,11 +11,11 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { CadDisciplinaPage } from '../pages/cad-disciplina/cad-disciplina';
 import { ColetorPage } from '../pages/coletor/coletor';
 import { LoginPage } from '../pages/login/login';
 import { PerfilPage } from '../pages/perfil/perfil';
 import { AuthProvider } from '../providers/auth';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { FIREBASE_CONFIG } from './app.firebase.config';
 import { AngularFireModule } from 'angularfire2';
@@ -29,9 +28,7 @@ import { ColetorProvider } from '../providers/coletor';
 
 @NgModule({
   declarations: [
-    CadDisciplinaPage,
     CadProfessorPage,
-    CadastrosPage,
     ColetorPage,
     MyApp,
     HomePage,
@@ -43,15 +40,14 @@ import { ColetorProvider } from '../providers/coletor';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
     AngularFireDatabaseModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    CadDisciplinaPage,
     CadProfessorPage,
-    CadastrosPage,
     ColetorPage,
     MyApp,
     HomePage,

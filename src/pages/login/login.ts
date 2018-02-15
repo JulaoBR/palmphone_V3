@@ -1,9 +1,13 @@
+import { ProfessorProvider } from './../../providers/professor';
 import { HomePage } from './../home/home';
 import { User } from './../../model/user';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, LoadingController, AlertController, Loading } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { Storage } from '@ionic/storage';
+
+import * as firebase from 'firebase/app';
 
 @IonicPage()
 @Component({
@@ -25,6 +29,8 @@ export class LoginPage {
     private toastCtrl: ToastController,
     private afAuth: AuthProvider,
     public loadingCtrl: LoadingController,
+    private provider: ProfessorProvider,
+    private storage: Storage
   ) 
   {
     //TRABAMENTO DOS CARACTERES DIGITADOS DURANTE O LOGIN
@@ -44,8 +50,12 @@ export class LoginPage {
     //SE OS DADOS DO FORMULARIO FOREM VALIDOS ELE AUTENTICA 
     this.afAuth.signIn(this.signinForm.value)
       .then(() => {
+        //SALVA OS DADOS NO STORAGE
+        this.carregaStorage();
+
         //CHAMA A TELA DE HOME DO APP
         this.navCtrl.setRoot(HomePage);
+
         //TIRA O SHOWLOADING 
         loading.dismiss();
       })
@@ -66,6 +76,19 @@ export class LoginPage {
         loading.dismiss();
       });
     
+  }
+
+  //FUNÇÃO RESPONSAVEL POR CARREGAR OS DADOS DO USUARIO LOGADO NO STORAGE
+  private carregaStorage(): void{
+    //BUSCA O OBJETO DO USUARIO QUE ESTA LOGADO 
+    const subscribe = this.provider.get().subscribe((c: User) => {
+      subscribe.unsubscribe();
+      //PEGA O UID DO USUARIO QUE ESTA LOGADO
+      var key = firebase.auth().currentUser.uid;
+      //SALVA NO STORAGE O UID DO USUARIO COMO CHAVE E UM OBJETO USER COM OS DADOS VINDO DO FIREBASE
+      this.storage.set(key,c);
+      
+    })
   }
 
   //FUNÇÃO RESPONSAVEL PELA CRIAÇÂO DO SHOWLOADING

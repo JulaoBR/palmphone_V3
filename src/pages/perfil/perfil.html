@@ -20,11 +20,21 @@
   </ion-item>
 
   <ion-item>
-    <h2>{{currentUser.emailProf}}</h2>
+    <p>{{currentUser.emailProf}}</p>
   </ion-item>
 
   <ion-item>
-    <h2>{{currentUser.rgProf}}</h2>
+    <p>{{currentUser.rgProf}}</p>
   </ion-item>
+
+  <ion-item>
+    <p>{{currentUser.dataNascProf  }}</p>
+  </ion-item>
+
+  <ion-fab bottom right>
+    <button ion-fab icon-only color="danger" (click)="editarProfessor()">
+      <ion-icon name="create"></ion-icon>
+    </button>
+  </ion-fab>
 
 </ion-content>

@@ -1,3 +1,4 @@
+import { User } from './../../model/user';
 import { ProfessorProvider } from './../../providers/professor';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
@@ -10,7 +11,7 @@ import { LeitorPage } from '../leitor/leitor';
 })
 export class ColetorPage {
 
-  currentUser: any;
+  currentUser: User;
 
   constructor(
     public navCtrl: NavController, 
@@ -18,13 +19,7 @@ export class ColetorPage {
     private provider: ProfessorProvider
   ) 
   {
-    this.currentUser = { };
-    
-    const subscribe = this.provider.get().subscribe((c: any) => {
-      subscribe.unsubscribe();
-   
-      this.currentUser = c
-    })
+    this.currentUser = this.navParams.get("dados");
   }
 
   abrirLeitor(): void{

@@ -12,7 +12,7 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit(); $event.preventDefault()">
     <ion-item>
       <ion-label stacked>Nome</ion-label>
-      <ion-input type="text" formControlName="name"></ion-input>
+      <ion-input type="text"  [(ngModel)]="dados.nomeProf"  formControlName="name"></ion-input>
     </ion-item>
     <ion-item *ngIf="!form.controls.name.valid && (form.controls.name.dirty || form.controls.name.touched)" color="danger">
       <div [hidden]="!form.controls.name.errors.required">
@@ -21,18 +21,18 @@
     </ion-item>
  
     <ion-item>
-      <ion-label stacked>Cpf</ion-label>
-      <ion-input type="text" formControlName="cpf"></ion-input>
+      <ion-label stacked>Rg</ion-label>
+      <ion-input type="text" [(ngModel)]="dados.rgProf" formControlName="rg"></ion-input>
     </ion-item>
-    <ion-item *ngIf="!form.controls.cpf.valid && (form.controls.cpf.dirty || form.controls.cpf.touched)" color="danger">
-      <div [hidden]="!form.controls.cpf.errors.required">
+    <ion-item *ngIf="!form.controls.rg.valid && (form.controls.rg.dirty || form.controls.rg.touched)" color="danger">
+      <div [hidden]="!form.controls.rg.errors.required">
         O campo é obrigatório
       </div>
     </ion-item>
 
     <ion-item>
       <ion-label stacked>Data Nascimento</ion-label>
-      <ion-input type="date" formControlName="dtNascimento"></ion-input>
+      <ion-input type="text" displayFormat="DD/MM/YYYY" [(ngModel)]="dados.dataNascProf" formControlName="dtNascimento"></ion-input>
     </ion-item>
     <ion-item *ngIf="!form.controls.dtNascimento.valid && (form.controls.dtNascimento.dirty || form.controls.dtNascimento.touched)" color="danger">
       <div [hidden]="!form.controls.dtNascimento.errors.required">
@@ -42,7 +42,7 @@
 
     <ion-item>
       <ion-label stacked>E-Mail</ion-label>
-      <ion-input type="email" formControlName="email"></ion-input>
+      <ion-input type="email" [(ngModel)]="dados.emailProf"  formControlName="email"></ion-input>
     </ion-item>
     <ion-item *ngIf="!form.controls.email.valid && (form.controls.email.dirty || form.controls.email.touched)" color="danger">
       <div [hidden]="!form.controls.email.errors.required">
@@ -52,7 +52,7 @@
 
     <ion-item>
       <ion-label stacked>Senha</ion-label>
-      <ion-input type="password" formControlName="senha"></ion-input>
+      <ion-input type="password" [(ngModel)]="dados.senhaProf"  formControlName="senha"></ion-input>
     </ion-item>
     <ion-item *ngIf="!form.controls.senha.valid && (form.controls.senha.dirty || form.controls.senha.touched)" color="danger">
       <div [hidden]="!form.controls.senha.errors.required">
@@ -71,10 +71,6 @@
     
   </form>
 
-  <ion-card >
-    <button ion-button full button-md color="danger" (click)="abrirListaProfessor()">
-    Lista de Professores
-    </button>
-  </ion-card>
+
 
 </ion-content>
