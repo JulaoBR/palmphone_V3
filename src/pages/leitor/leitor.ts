@@ -1,3 +1,4 @@
+import { Coleta } from './../../model/coleta';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ColetorProvider } from './../../providers/coletor';
 import { Component } from '@angular/core';
@@ -5,6 +6,7 @@ import { IonicPage, NavController, NavParams, AlertController, ToastController }
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
 import { Coleta } from '../../model/coleta';
 import { DatePipe } from '@angular/common';
+import { Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
@@ -15,6 +17,7 @@ export class LeitorPage {
   
   form: FormGroup;
   dados: any;
+  lista: Array<Coleta> = [];
 
   constructor(
     public navCtrl: NavController, 
@@ -24,7 +27,8 @@ export class LeitorPage {
     private provider: ColetorProvider,
     private formBuilder: FormBuilder,
     private toast: ToastController,
-    private datepipe: DatePipe
+    private datepipe: DatePipe,
+    private storage: Storage
   ) 
   {
     this.dados = this.navParams.data.dados || { };
@@ -38,36 +42,41 @@ export class LeitorPage {
     });
   }
 
+
+  saveStorage(dataAtual: string){  
+    
+    //SALVA NO STORAGE O UID DO USUARIO COMO CHAVE E UM OBJETO USER COM OS DADOS VINDO DO FIREBASE
+    this.storage.set(dataAtual,this.lista);   
+  }
+
   saveManual(){
 
     //FORMATA DATA ATUAL
     let dataAtual = this.datepipe.transform(new Date(), "ddMMyyyyHHmmss");
 
+    var chamada: Coleta;
+
     if (this.form.valid) {
-      this.provider.saveManual(this.form.value)
-        .then(() => {
-          this.toast.create({ message: 'RA salvo com sucesso.', duration: 3000 }).present();
-          this.navCtrl.pop();
-        })
-        .catch((e) => {
-          this.toast.create({ message: 'Erro ao salvar o RA.', duration: 3000 }).present();
-          console.error(e);
-        })
+     
+      this.lista.push(chamada);
+
+      this.saveStorage(dataAtual);
     }
   }
 
   scanBarcode(){
-
+    //CONFIGURA AS OPÇõES DO LEITOR
     const options = {
+      //OQUE VAI SER EXIBIDO QUANDO EFETUAR A LEITURA
         prompt : "Leia o cracha"
     }
-
+    //FUNCAO QUE LE OS DADOS
     this.barcode.scan(options).then((data) => {      
-      if(data.text != ""){
-        let alert = this.alertCtrl.create({
+      if(data.text != ""){ //SE DATA FOR DIFERENTE DE NULO ELE ENTRA E FAZ OS PROCEDIMENTOS
+        let alert = this.alertCtrl.create({//ABRE O ALERTA PARA EXIBIR O DADO LIDO
           title: 'Confirmação da leitura',
-          message: 'Deseja salvar este RA: ' + data.text +' ?' ,
-          buttons: [
+          message: 'Deseja salvar este RA: ' + data.text +' ?' ,  //EXIBE PARA O USUARIO O DADO
+          buttons: [                                              //E PERGUNTA SE DESEJA SALVAR
             {
               text: 'Cancelar',
               role: 'cancel',
@@ -78,16 +87,21 @@ export class LeitorPage {
             {
               text: 'Confirmar',
               handler: () => {
+                //SE O USUARIO CLICO NO BOTAO PARA SALVAR ELE CHAMA ESSE METODO QUE SALVARA OS DADOS NO FIREBASE
                 this.provider.saveScan(data.text);
+                //CHAMA O LEITOR DE NOVO
                 this.scanBarcode();
               }
             }
           ]
         });
+        //CHAMA O ALERTA PARA SER EXIBIDO
         alert.present(); 
       }      
     })
+    //TRABAMENTO DE ERRO
     .catch((err) => {
+      //CRIA UM ALERTA E EXIBE A MENSAGEM DE ERRO
       const alert = this.alertCtrl.create({
         title: 'Atenção!',
         subTitle: err,

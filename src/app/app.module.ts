@@ -1,6 +1,5 @@
 import { DatePipe } from '@angular/common';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-import { ListaProfessorPage } from './../pages/lista-professor/lista-professor';
 import { LeitorPage } from './../pages/leitor/leitor';
 import { CadProfessorPage } from './../pages/cad-professor/cad-professor';
 import { BrowserModule } from '@angular/platform-browser';
@@ -33,7 +32,6 @@ import { ColetorProvider } from '../providers/coletor';
     MyApp,
     HomePage,
     LeitorPage,
-    ListaProfessorPage,
     LoginPage,
     PerfilPage
   ],
@@ -52,7 +50,6 @@ import { ColetorProvider } from '../providers/coletor';
     MyApp,
     HomePage,
     LeitorPage,
-    ListaProfessorPage,
     LoginPage,
     PerfilPage
   ],
