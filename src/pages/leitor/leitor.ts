@@ -4,7 +4,6 @@ import { ColetorProvider } from './../../providers/coletor';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
-import { Coleta } from '../../model/coleta';
 import { DatePipe } from '@angular/common';
 import { Storage } from '@ionic/storage';
 
@@ -17,7 +16,7 @@ export class LeitorPage {
   
   form: FormGroup;
   dados: any;
-  lista: Array<Coleta> = [];
+  lista: Array<string> = [];
 
   constructor(
     public navCtrl: NavController, 
@@ -35,40 +34,41 @@ export class LeitorPage {
     this.createForm();
   }
 
-  //CRIA O FORMULARIO COM OS DADOS VINDO DA TELA 
+  //CRIA O FORMULARIO COM OS DADOS VINDO DA TELA QUANDO USAR O MODO MANUAL
   createForm() {
+    //FORMATA DATA ATUAL
+    let dataAtual = this.datepipe.transform(new Date(), "dd/MM/yyyy/-HH-mm-ss");
     this.form = this.formBuilder.group({    
-      ra: [this.dados.ra],       
+      ra: [this.dados.ra],  //RA DIGITADO PELO USUARIO
+      data: dataAtual       //DATA QUE FOI FEITO A DIGITAÇÃO  
     });
   }
 
-
-  saveStorage(dataAtual: string){  
-    
+  //VAI FINALIZAR A CHAMADA SALVANDO OS DADOS DA LISTA NO STORAGE
+  saveStorage(){  
+    //FORMATA DATA ATUAL, QUE SERA A CHAVE PRIMARIA 
+    let dataAtual = this.datepipe.transform(new Date(), "ddMMyyyyHHmmss");
     //SALVA NO STORAGE O UID DO USUARIO COMO CHAVE E UM OBJETO USER COM OS DADOS VINDO DO FIREBASE
     this.storage.set(dataAtual,this.lista);   
   }
 
+  //FUNCAO PARA SALVAR OS DADO DIGITADOS PELO USUARIO NA LISTA
   saveManual(){
-
-    //FORMATA DATA ATUAL
-    let dataAtual = this.datepipe.transform(new Date(), "ddMMyyyyHHmmss");
-
-    var chamada: Coleta;
-
+    //SE O FORMULARIO FOR VALIDO
     if (this.form.valid) {
-     
-      this.lista.push(chamada);
-
-      this.saveStorage(dataAtual);
+      //PREENCHE A LISTA COM OS DADOS
+      this.lista.push(this.form.value);
     }
+    // OBS FAZER UM TRATAMENTO CASO O FORMULARIO ESTIVER VAZIO
   }
 
+  //FUNCAO DO LEITOR DE CODIGO DE BARRA
   scanBarcode(){
     //CONFIGURA AS OPÇõES DO LEITOR
     const options = {
       //OQUE VAI SER EXIBIDO QUANDO EFETUAR A LEITURA
-        prompt : "Leia o cracha"
+        prompt : "Leia o cracha",
+        disableSuccessBeep: false
     }
     //FUNCAO QUE LE OS DADOS
     this.barcode.scan(options).then((data) => {      
@@ -87,8 +87,16 @@ export class LeitorPage {
             {
               text: 'Confirmar',
               handler: () => {
+                //FORMATA DATA ATUAL
+                let dataAtual = this.datepipe.transform(new Date(), "dd/MM/yyyy/-HH-mm-ss");
+
+                const dados = {
+                  ra: data.text,
+                  data: dataAtual
+                }
+
                 //SE O USUARIO CLICO NO BOTAO PARA SALVAR ELE CHAMA ESSE METODO QUE SALVARA OS DADOS NO FIREBASE
-                this.provider.saveScan(data.text);
+                this.lista.push(dados.ra, dados.data);
                 //CHAMA O LEITOR DE NOVO
                 this.scanBarcode();
               }
