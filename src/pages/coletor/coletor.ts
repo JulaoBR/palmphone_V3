@@ -12,6 +12,7 @@ import { LeitorPage } from '../leitor/leitor';
 export class ColetorPage {
 
   currentUser: User;
+  disciplina: string;
 
   constructor(
     public navCtrl: NavController, 
@@ -20,6 +21,9 @@ export class ColetorPage {
   ) 
   {
     this.currentUser = this.navParams.get("dados");
+    this.disciplina = this.currentUser.disciplinas;
+
+    console.log(this.disciplina);
   }
 
   abrirLeitor(): void{
