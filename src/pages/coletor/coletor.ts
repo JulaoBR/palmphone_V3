@@ -1,5 +1,4 @@
 import { User } from './../../model/user';
-import { ProfessorProvider } from './../../providers/professor';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LeitorPage } from '../leitor/leitor';
@@ -17,7 +16,6 @@ export class ColetorPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    private provider: ProfessorProvider
   ) 
   {
     this.currentUser = this.navParams.get("dados");

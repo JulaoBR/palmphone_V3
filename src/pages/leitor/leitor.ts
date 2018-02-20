@@ -1,8 +1,7 @@
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ColetorProvider } from './../../providers/coletor';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
-import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { DatePipe } from '@angular/common';
 import { Storage } from '@ionic/storage';
 
@@ -22,9 +21,7 @@ export class LeitorPage {
     public navParams: NavParams,
     private barcode: BarcodeScanner,
     public alertCtrl: AlertController,
-    private provider: ColetorProvider,
     private formBuilder: FormBuilder,
-    private toast: ToastController,
     private datepipe: DatePipe,
     private storage: Storage
   ) 

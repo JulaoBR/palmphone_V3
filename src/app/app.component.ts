@@ -1,5 +1,4 @@
 import { User } from './../model/user';
-import { ProfessorProvider } from './../providers/professor';
 import { LoginPage } from './../pages/login/login';
 import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
@@ -8,9 +7,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AuthProvider } from '../providers/auth';
-
-import * as firebase from 'firebase/app';
 
 @Component({
   templateUrl: 'app.html'

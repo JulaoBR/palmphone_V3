@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs/Observable';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireList, AngularFireObject } from 'angularfire2/database';
 
