@@ -1,3 +1,4 @@
+import { ColetorProvider } from './../../providers/coletor';
 import { User } from './../../model/user';
 import { LoginPage } from './../login/login';
 import { ColetorPage } from './../coletor/coletor';
@@ -21,7 +22,8 @@ export class HomePage {
   constructor(
     public navCtrl: NavController,
     private afAuth: AuthProvider,
-    private storage: Storage
+    private storage: Storage,
+    private coletor: ColetorProvider 
   ) 
   {  
     //RESGATA OS DADOS DO STORAGE 
@@ -53,5 +55,27 @@ export class HomePage {
       .catch((error) => {
         console.error(error);
       });
+  }
+
+  sincronizar(){
+    //PEGA O UID DO USUARIO QUE ESTA LOGADO
+    var uid = firebase.auth().currentUser.uid;
+
+    this.storage.forEach((value, key) => {
+      if(key != uid){
+        console.log(value);
+        this.coletor.saveChamadas(value, key);
+        this.deletarStorage(uid);
+      }
+    })
+  }
+
+  deletarStorage(uid: string){
+    this.storage.forEach((value, key) => {
+      if(key != uid){
+        this.storage.remove(key);
+        console.log("apagado");
+      }
+    })
   }
 }

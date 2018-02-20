@@ -1,36 +1,19 @@
 import { AngularFireDatabase } from 'angularfire2/database';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ColetorProvider {
-  private PATH = 'coletor/';
-  
 
   constructor(
     private db: AngularFireDatabase,
   ) 
-  {
-
-  }
-
-  saveManual(dados: any){
-    return new Promise((resolve, reject) => {     
-      
-        this.db.list(this.PATH)
-          .push({ ra_aluno: dados.ra})
-          .then(() => resolve());     
-    })
+  {}
+  
+  //FUNCAO RESPONSAVEL POR SALVAR OS DADOS NO FIREBASE, RECEBE UMA LISTA E A CHAVE
+  saveChamadas(dados: any, uuid: string){
+    return this.db.object(`/chamadas/${uuid}`) // CHAMADAS SERA O NOME DA CHAVE ONDE FICARA OS DADOS
+    .set(dados)
+    .catch();
  }
 
- saveScan(dados: string){
-  return new Promise((resolve, reject) => {     
-      
-      this.db.list(this.PATH)
-        .push({ ra_aluno: dados})
-        .then(() => resolve());     
-  })
-}
-
- 
 }

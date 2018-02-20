@@ -1,4 +1,3 @@
-import { Coleta } from './../../model/coleta';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ColetorProvider } from './../../providers/coletor';
 import { Component } from '@angular/core';
@@ -30,7 +29,9 @@ export class LeitorPage {
     private storage: Storage
   ) 
   {
+    //RESPONSAVEL POR TRAZER OS DADOS DO FORMULARIO HTML
     this.dados = this.navParams.data.dados || { };
+    //CRIA UM OBJETO DO TIPO FORM
     this.createForm();
   }
 
@@ -67,9 +68,11 @@ export class LeitorPage {
     //CONFIGURA AS OPÇõES DO LEITOR
     const options = {
       //OQUE VAI SER EXIBIDO QUANDO EFETUAR A LEITURA
-        prompt : "Leia o cracha",
-        disableSuccessBeep: false
+      prompt : "Leia o cracha",
+      //CONFIGURAÇÂO DO BEEP DO LEITOR
+      disableSuccessBeep: false
     }
+    
     //FUNCAO QUE LE OS DADOS
     this.barcode.scan(options).then((data) => {      
       if(data.text != ""){ //SE DATA FOR DIFERENTE DE NULO ELE ENTRA E FAZ OS PROCEDIMENTOS
@@ -90,12 +93,13 @@ export class LeitorPage {
                 //FORMATA DATA ATUAL
                 let dataAtual = this.datepipe.transform(new Date(), "dd/MM/yyyy/-HH-mm-ss");
 
+                //PREENCHE UMA COSTANTE COM OS DADOS 
                 const dados = {
-                  ra: data.text,
-                  data: dataAtual
+                  ra: data.text,  //RA LIDO DO CODIGO DE BARRAS
+                  data: dataAtual //DATA DO SISTEMA DA HORA DA LEITURA
                 }
 
-                //SE O USUARIO CLICO NO BOTAO PARA SALVAR ELE CHAMA ESSE METODO QUE SALVARA OS DADOS NO FIREBASE
+                //SALVA OS DADOS NA LISTA
                 this.lista.push(dados.ra, dados.data);
                 //CHAMA O LEITOR DE NOVO
                 this.scanBarcode();
