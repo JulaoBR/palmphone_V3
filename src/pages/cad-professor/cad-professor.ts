@@ -78,8 +78,4 @@ export class CadProfessorPage {
     }
   }
 
-  abrirListaProfessor(): void{
-    this.navCtrl.push(ListaProfessorPage);
-  }
-
 }
