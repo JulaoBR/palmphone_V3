@@ -1,6 +1,6 @@
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { DatePipe } from '@angular/common';
 import { Storage } from '@ionic/storage';
@@ -21,6 +21,7 @@ export class LeitorPage {
     public navParams: NavParams,
     private barcode: BarcodeScanner,
     public alertCtrl: AlertController,
+    private toastCtrl: ToastController,
     private formBuilder: FormBuilder,
     private datepipe: DatePipe,
     private storage: Storage
@@ -44,11 +45,35 @@ export class LeitorPage {
 
   //VAI FINALIZAR A CHAMADA SALVANDO OS DADOS DA LISTA NO STORAGE
   saveStorage(){  
-    //FORMATA DATA ATUAL, QUE SERA A CHAVE PRIMARIA 
-    let dataAtual = this.datepipe.transform(new Date(), "ddMMyyyyHHmmss");
-    //SALVA NO STORAGE O UID DO USUARIO COMO CHAVE E UM OBJETO USER COM OS DADOS VINDO DO FIREBASE
-    this.storage.set(dataAtual,this.lista);   
-  }
+    let alert = this.alertCtrl.create({//ABRE O ALERTA PARA CONFIRMAR SE DEJESA FINALIZAR A CHAMADA
+      title: 'Confirmação',
+      message: 'Deseja finalizar a chamada?' , 
+      buttons: [                             
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('evento cancelado');
+          }
+        },
+        {
+          text: 'Confirmar',
+          handler: () => {
+            let toast = this.toastCtrl.create({ duration: 3000, position: 'bottom' });
+            toast.setMessage('Chamada finalizada');
+
+            //FORMATA DATA ATUAL, QUE SERA A CHAVE PRIMARIA 
+            let dataAtual = this.datepipe.transform(new Date(), "ddMMyyyyHHmmss");
+            //SALVA NO STORAGE O UID DO USUARIO COMO CHAVE E UM OBJETO USER COM OS DADOS VINDO DO FIREBASE
+            this.storage.set(dataAtual,this.lista); 
+            toast.present();   
+          }
+        }
+      ]
+    });
+    //CHAMA O ALERTA PARA SER EXIBIDO
+    alert.present();          
+}
 
   //FUNCAO PARA SALVAR OS DADO DIGITADOS PELO USUARIO NA LISTA
   saveManual(){
@@ -119,7 +144,6 @@ export class LeitorPage {
       alert.present();
     });       
 }   
-
 
 
 }

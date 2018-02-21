@@ -21,17 +21,9 @@ export class ProfessorProvider extends BaseProvider {
     super();
   }
 
-  //BUSCA UMA LISTA 
-  getAll() {
-    return this.db.list(this.PATH, ref => ref.orderByChild('name'))
-      .snapshotChanges()
-      .map(changes => {
-        return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-      })
-  }
-
   //BUSCA APENAS UM OBJETO
   get() {
+    //PEGA O UID DO USUARIO LOGADO
     var key = firebase.auth().currentUser.uid;
     return this.db.object(this.PATH + key).snapshotChanges()
       .map(c => {

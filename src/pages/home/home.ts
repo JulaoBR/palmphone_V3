@@ -4,7 +4,7 @@ import { LoginPage } from './../login/login';
 import { ColetorPage } from './../coletor/coletor';
 import { PerfilPage } from './../perfil/perfil';
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController, ToastController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth';
 import { Storage } from '@ionic/storage';
 
@@ -23,7 +23,9 @@ export class HomePage {
     public navCtrl: NavController,
     private afAuth: AuthProvider,
     private storage: Storage,
-    private coletor: ColetorProvider 
+    private coletor: ColetorProvider ,
+    public alertCtrl: AlertController,
+    private toastCtrl: ToastController
   ) 
   {  
     //RESGATA OS DADOS DO STORAGE 
@@ -47,6 +49,7 @@ export class HomePage {
 
   //FUNCAO PARA DESLOGAR
   singnOut(){
+    this.deletarDadosUsuarioLogado();
     this.afAuth.logoutUser()
       .then(() => {
         //RETORNA PARA A PAGINA DE LOGIN E APAGA OS DADOS SALVOS
@@ -58,16 +61,40 @@ export class HomePage {
   }
 
   sincronizar(){
-    //PEGA O UID DO USUARIO QUE ESTA LOGADO
-    var uid = firebase.auth().currentUser.uid;
 
-    this.storage.forEach((value, key) => {
-      if(key != uid){
-        console.log(value);
-        this.coletor.saveChamadas(value, key);
-        this.deletarStorage(uid);
-      }
-    })
+    let alert = this.alertCtrl.create({//ABRE O ALERTA PARA CONFIRMAR SE DEJESA FINALIZAR A CHAMADA
+      title: 'Confirmação',
+      message: 'Deseja finalizar a chamada?' , 
+      buttons: [                             
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('evento cancelado');
+          }
+        },
+        {
+          text: 'Confirmar',
+          handler: () => {
+            let toast = this.toastCtrl.create({ duration: 3000, position: 'bottom' });
+            toast.setMessage('Sincronização Realizada com sucesso!');
+            //PEGA O UID DO USUARIO QUE ESTA LOGADO
+            var uid = firebase.auth().currentUser.uid;
+
+            this.storage.forEach((value, key) => {
+              if(key != uid){
+                console.log(value);
+                this.coletor.saveChamadas(value, key);
+                this.deletarStorage(uid);
+              }
+            })
+            toast.present();   
+          }
+        }
+      ]
+    });
+    //CHAMA O ALERTA PARA SER EXIBIDO
+    alert.present(); 
   }
 
   deletarStorage(uid: string){
@@ -77,5 +104,11 @@ export class HomePage {
         console.log("apagado");
       }
     })
+  }
+
+  deletarDadosUsuarioLogado(){
+    //PEGA O UID DO USUARIO QUE ESTA LOGADO
+    var uid = firebase.auth().currentUser.uid;
+    this.storage.remove(uid);
   }
 }

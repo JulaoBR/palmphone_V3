@@ -1,5 +1,11 @@
 https://javebratt.com/angularfire2-authentication-ionic/
 
+=============================================================
+			FIREBASE
+testesfirebase@gmail.com	
+firebase123
+=============================================================
+
 https://javebratt.com/ionic-firebase-authentication/
 
 https://ionicframework.com/docs/intro/deploying/

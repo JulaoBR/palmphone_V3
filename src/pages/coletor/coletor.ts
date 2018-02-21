@@ -10,7 +10,9 @@ import { LeitorPage } from '../leitor/leitor';
 })
 export class ColetorPage {
 
+  //VARIAVEL PARA OS DADOS DO USUARIO
   currentUser: User;
+  //VARIAVEL PARA AS DISCIPLINAS
   disciplina: string;
 
   constructor(
@@ -18,12 +20,13 @@ export class ColetorPage {
     public navParams: NavParams,
   ) 
   {
+    //CARREGA OS DADOS VINDO POR PARAMETRO DO USUARIO LOGADO
     this.currentUser = this.navParams.get("dados");
+    //CARREGA AS DISCIPLINAS DO PROFESSOR
     this.disciplina = this.currentUser.disciplinas;
-
-    console.log(this.disciplina);
   }
 
+  //CHAMA A PAGINA DO LEITOR DO CODIGO DE BARRA
   abrirLeitor(): void{
     this.navCtrl.push(LeitorPage);
   }
