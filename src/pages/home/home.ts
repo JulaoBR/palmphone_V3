@@ -49,7 +49,9 @@ export class HomePage {
 
   //FUNCAO PARA DESLOGAR
   singnOut(){
+    //CHAMA FUNCAO PARA DELETAR DADOS DO USUARIO GRAVADOS NO STORAGE
     this.deletarDadosUsuarioLogado();
+    //CHAMA FUNCAO QUE DESLOGA O USUARIO
     this.afAuth.logoutUser()
       .then(() => {
         //RETORNA PARA A PAGINA DE LOGIN E APAGA OS DADOS SALVOS
@@ -60,6 +62,7 @@ export class HomePage {
       });
   }
 
+  //FUNCAO PARA SINCRONIZAR OS DADOS DAS CHAMADAS SALVOS NO STORAGE COM O FIREBASE
   sincronizar(){
 
     let alert = this.alertCtrl.create({//ABRE O ALERTA PARA CONFIRMAR SE DEJESA FINALIZAR A CHAMADA
@@ -76,18 +79,26 @@ export class HomePage {
         {
           text: 'Confirmar',
           handler: () => {
-            let toast = this.toastCtrl.create({ duration: 3000, position: 'bottom' });
-            toast.setMessage('Sincronização Realizada com sucesso!');
+            //CRIA UM TOAST DE CONFIRMAÇÂO DE SINCRONIZACAO
+            let toast = this.toastCtrl.create({ 
+              duration: 3000, 
+              position: 'bottom',
+              message: 'Sincronização Realizada com sucesso!'  
+            });
+
             //PEGA O UID DO USUARIO QUE ESTA LOGADO
             var uid = firebase.auth().currentUser.uid;
-
+            //FOREACH PARA CORRER O STORAGE
             this.storage.forEach((value, key) => {
+              //VERIFICA OS DADOS DAS CHAMAS QUE FOREM DIFERENTE DO UID DO USUARIO
               if(key != uid){
-                console.log(value);
+                //CHAMA FUNCAO PARA SALVAR NO FIREBASE
                 this.coletor.saveChamadas(value, key);
+                //CHAMA FUNCAO PARA APAGAR DADOS DO STORAGE
                 this.deletarStorage(uid);
               }
             })
+            //CHAMA O TOAST
             toast.present();   
           }
         }
@@ -97,18 +108,22 @@ export class HomePage {
     alert.present(); 
   }
 
+  //FUNCAO PARA DELETAR AS CHAMADAS DO STORAGE
   deletarStorage(uid: string){
     this.storage.forEach((value, key) => {
+      //VERIFICA PARA APAGAR SOMENTE OS DADOS DAS CHAMADAS
       if(key != uid){
+        //REMOVE A CHAMADA
         this.storage.remove(key);
-        console.log("apagado");
       }
     })
   }
 
+  //FUNCAO PARA DELETAR OS DADOS DO USUARIO SALVO NO STORAGE
   deletarDadosUsuarioLogado(){
     //PEGA O UID DO USUARIO QUE ESTA LOGADO
     var uid = firebase.auth().currentUser.uid;
+    //REMOVE O DADOS DO USUARIO 
     this.storage.remove(uid);
   }
 }

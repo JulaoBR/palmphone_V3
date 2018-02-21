@@ -1,3 +1,4 @@
+import { Chamada } from './../../model/chamada';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
@@ -14,7 +15,8 @@ export class LeitorPage {
   
   form: FormGroup;
   dados: any;
-  lista: Array<any> = [];
+  lista: Array<Object> = [];
+  chamada: any;
 
   constructor(
     public navCtrl: NavController, 
@@ -95,7 +97,8 @@ export class LeitorPage {
       //OQUE VAI SER EXIBIDO QUANDO EFETUAR A LEITURA
       prompt : "Leia o cracha",
       //CONFIGURAÇÂO DO BEEP DO LEITOR
-      disableSuccessBeep: false
+      disableSuccessBeep: false,
+      orientation: "portrait",
     }
     
     //FUNCAO QUE LE OS DADOS
@@ -119,7 +122,7 @@ export class LeitorPage {
                 let dataAtual = this.datepipe.transform(new Date(), "dd/MM/yyyy/-HH-mm-ss");
 
                 //SALVA OS DADOS NA LISTA/
-                this.lista.push(data.text, dataAtual);
+                this.lista.push(this.chamada);
                 //CHAMA O LEITOR DE NOVO
                 this.scanBarcode();
               }
@@ -140,7 +143,19 @@ export class LeitorPage {
       });
       alert.present();
     });       
-}   
+  }   
+
+  teste(){
+
+    this.chamada = [
+      {
+        ra: "4444",
+        data: "545"
+      }
+    ]
+    
+    this.lista.push(this.chamada);
+  }
 
 
 }
