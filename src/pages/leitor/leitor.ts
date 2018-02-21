@@ -14,7 +14,7 @@ export class LeitorPage {
   
   form: FormGroup;
   dados: any;
-  lista: Array<string> = [];
+  lista: Array<any> = [];
 
   constructor(
     public navCtrl: NavController, 
@@ -59,8 +59,11 @@ export class LeitorPage {
         {
           text: 'Confirmar',
           handler: () => {
-            let toast = this.toastCtrl.create({ duration: 3000, position: 'bottom' });
-            toast.setMessage('Chamada finalizada');
+            let toast = this.toastCtrl.create({
+               duration: 3000, 
+               position: 'bottom',
+               message: 'Chamada finalizada'
+            });
 
             //FORMATA DATA ATUAL, QUE SERA A CHAVE PRIMARIA 
             let dataAtual = this.datepipe.transform(new Date(), "ddMMyyyyHHmmss");
@@ -70,7 +73,7 @@ export class LeitorPage {
           }
         }
       ]
-    });
+    })
     //CHAMA O ALERTA PARA SER EXIBIDO
     alert.present();          
 }
@@ -115,14 +118,8 @@ export class LeitorPage {
                 //FORMATA DATA ATUAL
                 let dataAtual = this.datepipe.transform(new Date(), "dd/MM/yyyy/-HH-mm-ss");
 
-                //PREENCHE UMA COSTANTE COM OS DADOS 
-                const dados = {
-                  ra: data.text,  //RA LIDO DO CODIGO DE BARRAS
-                  data: dataAtual //DATA DO SISTEMA DA HORA DA LEITURA
-                }
-
-                //SALVA OS DADOS NA LISTA
-                this.lista.push(dados.ra, dados.data);
+                //SALVA OS DADOS NA LISTA/
+                this.lista.push(data.text, dataAtual);
                 //CHAMA O LEITOR DE NOVO
                 this.scanBarcode();
               }
