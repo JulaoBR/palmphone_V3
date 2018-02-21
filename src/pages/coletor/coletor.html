@@ -14,19 +14,20 @@
     </ion-item>
   </ion-list>
 
+
   <ion-list>
     <ion-item>
-      <ion-label>Selecione a disciplica:</ion-label>
-      <ion-select [(ngModel)]="currentUser.disciplinas">
-        
+      <ion-label>Disciplina:</ion-label>
+      <ion-select>
+        <ion-option *ngFor="let disc of disciplina" [value]="disc">{{disc}}</ion-option>
       </ion-select>
     </ion-item>
   </ion-list>
 
   <ion-list>
     <ion-item>
-      <ion-label>Numero de aulas:</ion-label>
-      <ion-select [(ngModel)]="num_aulas">
+      <ion-label>Nº de aulas:</ion-label>
+      <ion-select>
         <ion-option value="1">1</ion-option>
         <ion-option value="2">2</ion-option>
         <ion-option value="3">3</ion-option>

@@ -1,9 +1,7 @@
-import { Coleta } from './../../model/coleta';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ColetorProvider } from './../../providers/coletor';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
-import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { DatePipe } from '@angular/common';
 import { Storage } from '@ionic/storage';
 
@@ -23,14 +21,14 @@ export class LeitorPage {
     public navParams: NavParams,
     private barcode: BarcodeScanner,
     public alertCtrl: AlertController,
-    private provider: ColetorProvider,
     private formBuilder: FormBuilder,
-    private toast: ToastController,
     private datepipe: DatePipe,
     private storage: Storage
   ) 
   {
+    //RESPONSAVEL POR TRAZER OS DADOS DO FORMULARIO HTML
     this.dados = this.navParams.data.dados || { };
+    //CRIA UM OBJETO DO TIPO FORM
     this.createForm();
   }
 
@@ -67,9 +65,11 @@ export class LeitorPage {
     //CONFIGURA AS OPÇõES DO LEITOR
     const options = {
       //OQUE VAI SER EXIBIDO QUANDO EFETUAR A LEITURA
-        prompt : "Leia o cracha",
-        disableSuccessBeep: false
+      prompt : "Leia o cracha",
+      //CONFIGURAÇÂO DO BEEP DO LEITOR
+      disableSuccessBeep: false
     }
+    
     //FUNCAO QUE LE OS DADOS
     this.barcode.scan(options).then((data) => {      
       if(data.text != ""){ //SE DATA FOR DIFERENTE DE NULO ELE ENTRA E FAZ OS PROCEDIMENTOS
@@ -90,12 +90,13 @@ export class LeitorPage {
                 //FORMATA DATA ATUAL
                 let dataAtual = this.datepipe.transform(new Date(), "dd/MM/yyyy/-HH-mm-ss");
 
+                //PREENCHE UMA COSTANTE COM OS DADOS 
                 const dados = {
-                  ra: data.text,
-                  data: dataAtual
+                  ra: data.text,  //RA LIDO DO CODIGO DE BARRAS
+                  data: dataAtual //DATA DO SISTEMA DA HORA DA LEITURA
                 }
 
-                //SE O USUARIO CLICO NO BOTAO PARA SALVAR ELE CHAMA ESSE METODO QUE SALVARA OS DADOS NO FIREBASE
+                //SALVA OS DADOS NA LISTA
                 this.lista.push(dados.ra, dados.data);
                 //CHAMA O LEITOR DE NOVO
                 this.scanBarcode();
