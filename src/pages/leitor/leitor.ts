@@ -1,6 +1,5 @@
 import { ColetorPage } from './../coletor/coletor';
-import { Chamada } from './../../model/chamada';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
@@ -18,7 +17,6 @@ export class LeitorPage {
   form: FormGroup;
   dados: any;
   lista: Array<Object> = [];
-  chamada: any;
 
   constructor(
     public navCtrl: NavController, 
@@ -42,7 +40,7 @@ export class LeitorPage {
     //FORMATA DATA ATUAL
     let dataAtual = this.datepipe.transform(new Date(), "dd/MM/yyyy/-HH-mm-ss");
     this.form = this.formBuilder.group({    
-      ra: [this.dados.ra],  //RA DIGITADO PELO USUARIO
+      ra: ['', [Validators.required]],  //RA DIGITADO PELO USUARIO
       data: dataAtual       //DATA QUE FOI FEITO A DIGITAÇÃO  
     });
   }
@@ -63,6 +61,7 @@ export class LeitorPage {
         {
           text: 'Confirmar',
           handler: () => {
+            //CRIA UM TOAST DE CONFIRMAÇÂO
             let toast = this.toastCtrl.create({
                duration: 3000, 
                position: 'bottom',
@@ -73,7 +72,9 @@ export class LeitorPage {
             let dataAtual = this.datepipe.transform(new Date(), "ddMMyyyyHHmmss");
             //SALVA NO STORAGE O UID DO USUARIO COMO CHAVE E UM OBJETO USER COM OS DADOS VINDO DO FIREBASE
             this.storage.set(dataAtual,this.lista); 
+            //CAHAMA O TOAST DE CONFIRMACAO 
             toast.present();
+            //VOLTA PARA A TELA ANTERIOR
             this.navCtrl.pop();   
           }
         }
@@ -101,7 +102,6 @@ export class LeitorPage {
       prompt : "Leia o cracha",
       //CONFIGURAÇÂO DO BEEP DO LEITOR
       disableSuccessBeep: false,
-      orientation: "portrait",
     }
     
     //FUNCAO QUE LE OS DADOS
@@ -123,6 +123,7 @@ export class LeitorPage {
               handler: () => {
                 //FORMATA DATA ATUAL
                 let data = this.datepipe.transform(new Date(), "dd/MM/yyyy/-HH-mm-ss");
+                //ADICIONA O TEXTO PEGO DO SCAN E JOGA NA VARIAVEL RA
                 var ra = valor.text
                 //SALVA OS DADOS NA LISTA/
                 this.lista.push({ra,data});
