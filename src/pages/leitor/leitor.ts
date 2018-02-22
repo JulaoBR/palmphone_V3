@@ -1,3 +1,4 @@
+import { ColetorPage } from './../coletor/coletor';
 import { Chamada } from './../../model/chamada';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component } from '@angular/core';
@@ -72,7 +73,8 @@ export class LeitorPage {
             let dataAtual = this.datepipe.transform(new Date(), "ddMMyyyyHHmmss");
             //SALVA NO STORAGE O UID DO USUARIO COMO CHAVE E UM OBJETO USER COM OS DADOS VINDO DO FIREBASE
             this.storage.set(dataAtual,this.lista); 
-            toast.present();   
+            toast.present();
+            this.navCtrl.pop();   
           }
         }
       ]
@@ -103,11 +105,11 @@ export class LeitorPage {
     }
     
     //FUNCAO QUE LE OS DADOS
-    this.barcode.scan(options).then((ra) => {      
-      if(ra.text != ""){ //SE DATA FOR DIFERENTE DE NULO ELE ENTRA E FAZ OS PROCEDIMENTOS
+    this.barcode.scan(options).then((valor) => {      
+      if(valor.text != ""){ //SE DATA FOR DIFERENTE DE NULO ELE ENTRA E FAZ OS PROCEDIMENTOS
         let alert = this.alertCtrl.create({//ABRE O ALERTA PARA EXIBIR O DADO LIDO
           title: 'Confirmação da leitura',
-          message: 'Deseja salvar este RA: ' + ra.text +' ?' ,  //EXIBE PARA O USUARIO O DADO
+          message: 'Deseja salvar este RA: ' + valor.text +' ?' ,  //EXIBE PARA O USUARIO O DADO
           buttons: [                                              //E PERGUNTA SE DESEJA SALVAR
             {
               text: 'Cancelar',
@@ -121,7 +123,7 @@ export class LeitorPage {
               handler: () => {
                 //FORMATA DATA ATUAL
                 let data = this.datepipe.transform(new Date(), "dd/MM/yyyy/-HH-mm-ss");
-
+                var ra = valor.text
                 //SALVA OS DADOS NA LISTA/
                 this.lista.push({ra,data});
                 //CHAMA O LEITOR DE NOVO
@@ -145,16 +147,4 @@ export class LeitorPage {
       alert.present();
     });       
   }   
-
-  teste(){
-    var ra :string;
-    
-    //FORMATA DATA ATUAL
-    let dataAtual = this.datepipe.transform(new Date(), "dd/MM/yyyy/-HH-mm-ss");
-    ra = "545";
-      
-    this.lista.push({ra,dataAtual});
-  }
-
-
 }

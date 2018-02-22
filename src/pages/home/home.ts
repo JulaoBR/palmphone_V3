@@ -67,7 +67,7 @@ export class HomePage {
 
     let alert = this.alertCtrl.create({//ABRE O ALERTA PARA CONFIRMAR SE DEJESA FINALIZAR A CHAMADA
       title: 'Confirmação',
-      message: 'Deseja finalizar a chamada?' , 
+      message: 'Deseja sincronizar os dados com o servidor?' , 
       buttons: [                             
         {
           text: 'Cancelar',
