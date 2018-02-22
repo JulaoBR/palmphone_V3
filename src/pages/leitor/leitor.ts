@@ -5,6 +5,7 @@ import { IonicPage, NavController, NavParams, AlertController, ToastController }
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { DatePipe } from '@angular/common';
 import { Storage } from '@ionic/storage';
+import { FormArray } from '@angular/forms/src/model';
 
 @IonicPage()
 @Component({
@@ -102,11 +103,11 @@ export class LeitorPage {
     }
     
     //FUNCAO QUE LE OS DADOS
-    this.barcode.scan(options).then((data) => {      
-      if(data.text != ""){ //SE DATA FOR DIFERENTE DE NULO ELE ENTRA E FAZ OS PROCEDIMENTOS
+    this.barcode.scan(options).then((ra) => {      
+      if(ra.text != ""){ //SE DATA FOR DIFERENTE DE NULO ELE ENTRA E FAZ OS PROCEDIMENTOS
         let alert = this.alertCtrl.create({//ABRE O ALERTA PARA EXIBIR O DADO LIDO
           title: 'Confirmação da leitura',
-          message: 'Deseja salvar este RA: ' + data.text +' ?' ,  //EXIBE PARA O USUARIO O DADO
+          message: 'Deseja salvar este RA: ' + ra.text +' ?' ,  //EXIBE PARA O USUARIO O DADO
           buttons: [                                              //E PERGUNTA SE DESEJA SALVAR
             {
               text: 'Cancelar',
@@ -119,10 +120,10 @@ export class LeitorPage {
               text: 'Confirmar',
               handler: () => {
                 //FORMATA DATA ATUAL
-                let dataAtual = this.datepipe.transform(new Date(), "dd/MM/yyyy/-HH-mm-ss");
+                let data = this.datepipe.transform(new Date(), "dd/MM/yyyy/-HH-mm-ss");
 
                 //SALVA OS DADOS NA LISTA/
-                this.lista.push(this.chamada);
+                this.lista.push({ra,data});
                 //CHAMA O LEITOR DE NOVO
                 this.scanBarcode();
               }
@@ -146,15 +147,13 @@ export class LeitorPage {
   }   
 
   teste(){
-
-    this.chamada = [
-      {
-        ra: "4444",
-        data: "545"
-      }
-    ]
+    var ra :string;
     
-    this.lista.push(this.chamada);
+    //FORMATA DATA ATUAL
+    let dataAtual = this.datepipe.transform(new Date(), "dd/MM/yyyy/-HH-mm-ss");
+    ra = "545";
+      
+    this.lista.push({ra,dataAtual});
   }
 
 
