@@ -7,13 +7,13 @@
 </ion-header>
 
   <ion-content padding>
-    <form [formGroup]="form">
+    <form [formGroup]="form" (ngSubmit)="saveManual(); $event.preventDefault()">
       <ion-item>
-        <ion-label stacked>DIGITE MANUALMENTE O RA:</ion-label>
-        <ion-input type="text" formControlName="ra"></ion-input>
+        <ion-label stacked>DIGITE MANUALMENTE O RA</ion-label>
+        <ion-input type="number" placeholder="Digite o RA" formControlName="ra"></ion-input>
       </ion-item> 
         
-      <button ion-button full type="submit" (click)="saveManual()">Salvar</button>
+      <button ion-button full type="submit" [disabled]="form.invalid">Salvar</button>
     </form>
 
     <button ion-button full type="submit" color="danger" (click)="saveStorage()">Finalizar Chamada</button>
