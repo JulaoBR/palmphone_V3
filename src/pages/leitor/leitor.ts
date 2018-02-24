@@ -1,12 +1,9 @@
-import { ColetorPage } from './../coletor/coletor';
-import { Chamada } from './../../model/chamada';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { DatePipe } from '@angular/common';
 import { Storage } from '@ionic/storage';
-import { FormArray } from '@angular/forms/src/model';
 
 @IonicPage()
 @Component({
