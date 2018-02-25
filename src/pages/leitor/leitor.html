@@ -1,22 +1,28 @@
 <ion-header>
   
-  <ion-navbar>
+  <ion-navbar hideBackButton>
     <ion-title>Coleta de dados</ion-title>
   </ion-navbar>
 
 </ion-header>
 
   <ion-content padding>
-    <form [formGroup]="form" (ngSubmit)="saveManual(); $event.preventDefault()">
-      <ion-item>
-        <ion-label stacked>DIGITE MANUALMENTE O RA</ion-label>
-        <ion-input type="number" placeholder="Digite o RA" formControlName="ra"></ion-input>
-      </ion-item> 
-        
-      <button ion-button full type="submit" [disabled]="form.invalid">Salvar</button>
-    </form>
+    <ion-card>
+      <form [formGroup]="form" (ngSubmit)="saveManual(); $event.preventDefault()">
+        <ion-item>
+          <ion-label stacked>DIGITE MANUALMENTE O RA</ion-label>
+          <ion-input type="number" placeholder="Digite o RA" formControlName="ra"></ion-input>
+        </ion-item> 
+          
+        <button ion-button full type="submit" [disabled]="form.invalid">Salvar</button>
+      </form>
 
-    <button ion-button full type="submit" color="danger" (click)="saveStorage()">Finalizar Chamada</button>
+      <button ion-button full type="submit" color="secondary" (click)="saveStorage()">Finalizar Chamada</button>
+    </ion-card>
+    
+    <ion-card>
+      <button ion-button full type="submit" color="danger" (click)="cancelar()">Cancelar chamada</button>
+    </ion-card>
 
   <ion-fab right bottom>
     <button ion-fab color="danger" (click)="scanBarcode()">

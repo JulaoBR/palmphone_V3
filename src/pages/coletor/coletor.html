@@ -19,6 +19,7 @@
     <ion-item>
       <ion-label>Disciplina:</ion-label>
       <ion-select [(ngModel)]="disci" (ionChange)="verificaDisci(disci)">
+        
         <ion-option *ngFor="let disc of disciplina" [value]="disc">{{disc.dscDisc}}</ion-option>
       </ion-select>
     </ion-item>

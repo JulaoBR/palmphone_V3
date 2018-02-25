@@ -1,6 +1,7 @@
+import { ColetorPage } from './../coletor/coletor';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController,Platform } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { DatePipe } from '@angular/common';
 import { Storage } from '@ionic/storage';
@@ -24,9 +25,16 @@ export class LeitorPage {
     private toastCtrl: ToastController,
     private formBuilder: FormBuilder,
     private datepipe: DatePipe,
-    private storage: Storage
+    private storage: Storage,
+    private platform: Platform
   ) 
   {
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.navCtrl.setRoot(LeitorPage); 
+      });
+    });
+
     //RESPONSAVEL POR TRAZER OS DADOS DO FORMULARIO HTML
     this.dados = this.navParams.data.dados || { };
     //CRIA UM OBJETO DO TIPO FORM
@@ -188,26 +196,27 @@ export class LeitorPage {
     }
   } 
 
-  private verificaRa(valor: any) : boolean{
-    this.lista.forEach((value) => {
-      if(value == null){
-        console.log("nulo");
-        return true;
-      }else if(value != valor){
-        console.log("calor difeente");
-        return true;
-      }else{
-        let alert = this.alertCtrl.create({
-          title: 'Atenção',
-          subTitle: 'Este RA ja foi coletado!!',
-          buttons: ['Ok']
-        });
-        alert.present();
-        console.log("dentro do laco");
-        return false;
-      }
-    })  
-    console.log("fora do laco");
-    return false;    
+  private cancelar(){
+    let alert = this.alertCtrl.create({//ABRE O ALERTA PARA EXIBIR O DADO LIDO
+      title: 'Cancelamento',
+      message: 'Deseja cancelar a chamada e voltar a pagina anterior?' ,  //EXIBE PARA O USUARIO O DADO
+      buttons: [                                              //E PERGUNTA SE DESEJA SALVAR
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('evento cancelado');
+          }
+        },
+        {
+          text: 'Confirmar',
+          handler: () => {
+            this.navCtrl.popToRoot();
+          }
+        }
+      ]
+    });
+    //CHAMA O ALERTA PARA SER EXIBIDO
+    alert.present();
   }
 }
