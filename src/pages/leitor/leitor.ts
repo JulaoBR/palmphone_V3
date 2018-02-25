@@ -1,4 +1,4 @@
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
@@ -15,7 +15,6 @@ export class LeitorPage {
   form: FormGroup;
   dados: any;
   lista: Array<Object> = [];
-  chamada: any;
 
   constructor(
     public navCtrl: NavController, 
@@ -35,70 +34,75 @@ export class LeitorPage {
   }
 
   //CRIA O FORMULARIO COM OS DADOS VINDO DA TELA QUANDO USAR O MODO MANUAL
-  createForm() {
+  private createForm() {
     //FORMATA DATA ATUAL
     let dataAtual = this.datepipe.transform(new Date(), "dd/MM/yyyy/-HH-mm-ss");
     this.form = this.formBuilder.group({    
-      ra: [this.dados.ra],  //RA DIGITADO PELO USUARIO
+      ra: ['', [Validators.required]],  //RA DIGITADO PELO USUARIO
       data: dataAtual       //DATA QUE FOI FEITO A DIGITAÇÃO  
     });
   }
 
   //VAI FINALIZAR A CHAMADA SALVANDO OS DADOS DA LISTA NO STORAGE
-  saveStorage(){  
-    let alert = this.alertCtrl.create({//ABRE O ALERTA PARA CONFIRMAR SE DEJESA FINALIZAR A CHAMADA
-      title: 'Confirmação',
-      message: 'Deseja finalizar a chamada?' , 
-      buttons: [                             
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: () => {
-            console.log('evento cancelado');
-          }
-        },
-        {
-          text: 'Confirmar',
-          handler: () => {
-            let toast = this.toastCtrl.create({
-               duration: 3000, 
-               position: 'bottom',
-               message: 'Chamada finalizada'
-            });
+  private saveStorage(){ 
+    if(this.verificaListaEstaVazia()){
+      let alert = this.alertCtrl.create({//ABRE O ALERTA PARA CONFIRMAR SE DEJESA FINALIZAR A CHAMADA
+        title: 'Confirmação',
+        message: 'Deseja finalizar a chamada?' , 
+        buttons: [                             
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+            handler: () => {
+              console.log('evento cancelado');
+            }
+          },
+          {
+            text: 'Confirmar',
+            handler: () => {
+              //CRIA UM TOAST DE CONFIRMAÇÂO
+              let toast = this.toastCtrl.create({
+                duration: 3000, 
+                position: 'bottom',
+                message: 'Chamada finalizada'
+              });
 
-            //FORMATA DATA ATUAL, QUE SERA A CHAVE PRIMARIA 
-            let dataAtual = this.datepipe.transform(new Date(), "ddMMyyyyHHmmss");
-            //SALVA NO STORAGE O UID DO USUARIO COMO CHAVE E UM OBJETO USER COM OS DADOS VINDO DO FIREBASE
-            this.storage.set(dataAtual,this.lista); 
-            toast.present();
-            this.navCtrl.pop();   
+              //FORMATA DATA ATUAL, QUE SERA A CHAVE PRIMARIA 
+              let dataAtual = this.datepipe.transform(new Date(), "ddMMyyyyHHmmss");
+              //SALVA NO STORAGE O UID DO USUARIO COMO CHAVE E UM OBJETO USER COM OS DADOS VINDO DO FIREBASE
+              this.storage.set(dataAtual,this.lista); 
+              //CAHAMA O TOAST DE CONFIRMACAO 
+              toast.present();
+              //VOLTA PARA A TELA ANTERIOR
+              this.navCtrl.pop();   
+            }
           }
-        }
-      ]
-    })
-    //CHAMA O ALERTA PARA SER EXIBIDO
-    alert.present();          
-}
+        ]
+      })
+      //CHAMA O ALERTA PARA SER EXIBIDO
+      alert.present();  
+    }              
+  }
 
   //FUNCAO PARA SALVAR OS DADO DIGITADOS PELO USUARIO NA LISTA
-  saveManual(){
-    //SE O FORMULARIO FOR VALIDO
-    if (this.form.valid) {
-      //PREENCHE A LISTA COM OS DADOS
-      this.lista.push(this.form.value);
-    }
-    // OBS FAZER UM TRATAMENTO CASO O FORMULARIO ESTIVER VAZIO
+  private saveManual(){
+    //if(this.verificaRa(this.form.value)){
+      //SE O FORMULARIO FOR VALIDO
+      if (this.form.valid) {
+        //PREENCHE A LISTA COM OS DADOS
+        this.lista.push(this.form.value);
+      }
+    //}
   }
 
   //FUNCAO DO LEITOR DE CODIGO DE BARRA
-  scanBarcode(){
+  private scanBarcode(){
     //CONFIGURA AS OPÇõES DO LEITOR
     const options = {
       //OQUE VAI SER EXIBIDO QUANDO EFETUAR A LEITURA
       prompt : "Leia o cracha",
       //CONFIGURAÇÂO DO BEEP DO LEITOR
       disableSuccessBeep: false,
-      orientation: "portrait",
     }
     
     //FUNCAO QUE LE OS DADOS
@@ -120,6 +124,7 @@ export class LeitorPage {
               handler: () => {
                 //FORMATA DATA ATUAL
                 let data = this.datepipe.transform(new Date(), "dd/MM/yyyy/-HH-mm-ss");
+                //ADICIONA O TEXTO PEGO DO SCAN E JOGA NA VARIAVEL RA
                 var ra = valor.text
                 //SALVA OS DADOS NA LISTA/
                 this.lista.push({ra,data});
@@ -143,5 +148,44 @@ export class LeitorPage {
       });
       alert.present();
     });       
-  }   
+  }  
+
+  //FUNCAO PARA VERIFICAR SE A LISTA ESTA VAZIA 
+  private verificaListaEstaVazia() : boolean{
+    //CASO A LISTA SEJA MENOR OU IGUALA 0 CRIA UM ALERTA
+    if(this.lista.length <= 0){
+      let alert = this.alertCtrl.create({
+        title: 'Atenção',
+        subTitle: 'Sem dados para finalizar a chamada!!',
+        buttons: ['Ok']
+      });
+      alert.present();
+      return false;
+    }else{
+      return true;
+    }
+  } 
+
+  private verificaRa(valor: any) : boolean{
+    this.lista.forEach((value) => {
+      if(value == null){
+        console.log("nulo");
+        return true;
+      }else if(value != valor){
+        console.log("calor difeente");
+        return true;
+      }else{
+        let alert = this.alertCtrl.create({
+          title: 'Atenção',
+          subTitle: 'Este RA ja foi coletado!!',
+          buttons: ['Ok']
+        });
+        alert.present();
+        console.log("dentro do laco");
+        return false;
+      }
+    })  
+    console.log("fora do laco");
+    return false;    
+  }
 }

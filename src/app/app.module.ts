@@ -22,7 +22,6 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { ProfessorProvider } from '../providers/professor';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { BaseProvider } from '../providers/base';
-import { DisciplinaProvider } from '../providers/disciplina';
 import { ColetorProvider } from '../providers/coletor';
 
 @NgModule({
@@ -62,7 +61,6 @@ import { ColetorProvider } from '../providers/coletor';
     ProfessorProvider,
     BarcodeScanner,
     BaseProvider,
-    DisciplinaProvider,
     ColetorProvider,
   ]
 })

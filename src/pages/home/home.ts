@@ -126,4 +126,5 @@ export class HomePage {
     //REMOVE O DADOS DO USUARIO 
     this.storage.remove(uid);
   }
+
 }
