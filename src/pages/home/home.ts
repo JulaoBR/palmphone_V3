@@ -37,6 +37,7 @@ export class HomePage {
        this.currentUser = val;
       })
     }
+    this.verificarStorage();
   }
 
   private abrirTelaPerfil(){
@@ -150,5 +151,17 @@ export class HomePage {
     //REMOVE O DADOS DO USUARIO 
     this.storage.remove(uid);
   }
+
+  //FUNCAO PARA DELETAR AS CHAMADAS DO STORAGE
+  private verificarStorage(){
+    this.storage.length().then((val) => {
+      if(val > 1 ){
+        console.log('maior q 1' + val);
+      }else{
+        console.log('menos q 1' + val);
+      }
+    });     
+  }
+
 
 }
