@@ -18,7 +18,8 @@
   <ion-list>
     <ion-item>
       <ion-label>Disciplina:</ion-label>
-      <ion-select>
+      <ion-select [(ngModel)]="disci" (ionChange)="verificaDisci(disci)">
+        
         <ion-option *ngFor="let disc of disciplina" [value]="disc">{{disc.dscDisc}}</ion-option>
       </ion-select>
     </ion-item>
@@ -27,7 +28,7 @@
   <ion-list>
     <ion-item>
       <ion-label>Nº de aulas:</ion-label>
-      <ion-select>
+      <ion-select [(ngModel)]="numAula" (ionChange)="verificaNumAula(numAula)">
         <ion-option value="1">1</ion-option>
         <ion-option value="2">2</ion-option>
         <ion-option value="3">3</ion-option>

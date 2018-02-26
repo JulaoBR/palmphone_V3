@@ -36,34 +36,55 @@ export class HomePage {
 
   }
 
-  abrirTelaPerfil(){
+  private abrirTelaPerfil(){
     //CHAMA A TELA DE PERFIL DO USUARIO E PASSA COMO PARAMETRO O OBJETO 
     this.navCtrl.push(PerfilPage, {dados : this.currentUser});
   }
 
   //CHAMA A TELA DE COLETA
-  abrirTelaColeta(): void{
+  private abrirTelaColeta(): void{
     this.navCtrl.push(ColetorPage, {dados : this.currentUser});
   }
 
 
   //FUNCAO PARA DESLOGAR
-  singnOut(){
-    //CHAMA FUNCAO PARA DELETAR DADOS DO USUARIO GRAVADOS NO STORAGE
-    this.deletarDadosUsuarioLogado();
-    //CHAMA FUNCAO QUE DESLOGA O USUARIO
-    this.afAuth.logoutUser()
-      .then(() => {
-        //RETORNA PARA A PAGINA DE LOGIN E APAGA OS DADOS SALVOS
-        this.navCtrl.setRoot(LoginPage);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  private singnOut(){
+
+    let alert = this.alertCtrl.create({//ABRE O ALERTA PARA EXIBIR O DADO LIDO
+      title: 'Sair',
+      message: 'Deseja sair do aplicativo?' ,  //EXIBE PARA O USUARIO O DADO
+      buttons: [                                              //E PERGUNTA SE DESEJA SALVAR
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('evento cancelado');
+          }
+        },
+        {
+          text: 'Confirmar',
+          handler: () => {
+            //CHAMA FUNCAO PARA DELETAR DADOS DO USUARIO GRAVADOS NO STORAGE
+            this.deletarDadosUsuarioLogado();
+            //CHAMA FUNCAO QUE DESLOGA O USUARIO
+            this.afAuth.logoutUser()
+              .then(() => {
+                //RETORNA PARA A PAGINA DE LOGIN E APAGA OS DADOS SALVOS
+                this.navCtrl.setRoot(LoginPage);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          }
+        }
+      ]
+    });
+    //CHAMA O ALERTA PARA SER EXIBIDO
+    alert.present();
   }
 
   //FUNCAO PARA SINCRONIZAR OS DADOS DAS CHAMADAS SALVOS NO STORAGE COM O FIREBASE
-  sincronizar(){
+  private sincronizar(){
 
     let alert = this.alertCtrl.create({//ABRE O ALERTA PARA CONFIRMAR SE DEJESA FINALIZAR A CHAMADA
       title: 'Confirmação',
@@ -109,7 +130,7 @@ export class HomePage {
   }
 
   //FUNCAO PARA DELETAR AS CHAMADAS DO STORAGE
-  deletarStorage(uid: string){
+  private deletarStorage(uid: string){
     this.storage.forEach((value, key) => {
       //VERIFICA PARA APAGAR SOMENTE OS DADOS DAS CHAMADAS
       if(key != uid){
@@ -120,7 +141,7 @@ export class HomePage {
   }
 
   //FUNCAO PARA DELETAR OS DADOS DO USUARIO SALVO NO STORAGE
-  deletarDadosUsuarioLogado(){
+  private deletarDadosUsuarioLogado(){
     //PEGA O UID DO USUARIO QUE ESTA LOGADO
     var uid = firebase.auth().currentUser.uid;
     //REMOVE O DADOS DO USUARIO 
