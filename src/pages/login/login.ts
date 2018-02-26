@@ -50,14 +50,22 @@ export class LoginPage {
     //SE OS DADOS DO FORMULARIO FOREM VALIDOS ELE AUTENTICA 
     this.afAuth.signIn(this.signinForm.value)
       .then(() => {
-        //SALVA OS DADOS NO STORAGE
-        this.carregaStorage();
+        //BUSCA O OBJETO DO USUARIO QUE ESTA LOGADO 
+        const subscribe = this.provider.get().subscribe((c: User) => {
+          subscribe.unsubscribe();
 
-        //CHAMA A TELA DE HOME DO APP
-        this.navCtrl.setRoot(HomePage);
+          //PEGA O UID DO USUARIO QUE ESTA LOGADO
+          var key = firebase.auth().currentUser.uid;
 
-        //TIRA O SHOWLOADING 
-        loading.dismiss();
+          //SALVA NO STORAGE O UID DO USUARIO COMO CHAVE E UM OBJETO USER COM OS DADOS VINDO DO FIREBASE
+          this.storage.set(key,c);
+
+          //CHAMA A TELA DE HOME DO APP
+           this.navCtrl.setRoot(HomePage, {dados: c});
+
+          //TIRA O SHOWLOADING 
+          loading.dismiss();
+        })
       })
         //MOSTRA OS ERROS QUE PODEM DAR E A MENSAGEM QUE IRA APARECER PARA O USUARIO
       .catch((error: any) => {
@@ -76,19 +84,6 @@ export class LoginPage {
         loading.dismiss();
       });
     
-  }
-
-  //FUNÇÃO RESPONSAVEL POR CARREGAR OS DADOS DO USUARIO LOGADO NO STORAGE
-  private carregaStorage(): void{
-    //BUSCA O OBJETO DO USUARIO QUE ESTA LOGADO 
-    const subscribe = this.provider.get().subscribe((c: User) => {
-      subscribe.unsubscribe();
-      //PEGA O UID DO USUARIO QUE ESTA LOGADO
-      var key = firebase.auth().currentUser.uid;
-      //SALVA NO STORAGE O UID DO USUARIO COMO CHAVE E UM OBJETO USER COM OS DADOS VINDO DO FIREBASE
-      this.storage.set(key,c);
-      
-    })
   }
 
   //FUNÇÃO RESPONSAVEL PELA CRIAÇÂO DO SHOWLOADING

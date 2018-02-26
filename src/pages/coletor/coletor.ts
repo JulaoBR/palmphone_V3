@@ -1,6 +1,6 @@
 import { User } from './../../model/user';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,  ToastController } from 'ionic-angular';
 import { LeitorPage } from '../leitor/leitor';
 
 @IonicPage()
@@ -23,7 +23,7 @@ export class ColetorPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    public alertCtrl: AlertController
+    private toastCtrl: ToastController
   ) 
   {
     //CARREGA OS DADOS VINDO POR PARAMETRO DO USUARIO LOGADO
@@ -33,28 +33,36 @@ export class ColetorPage {
   }
 
   //CHAMA A PAGINA DO LEITOR DO CODIGO DE BARRA
-  abrirLeitor(): void{
+  private abrirLeitor(): void{
     //FAZ UMA VERIFICAÇÂO PARA ATIVAR O BOTAO, SE NAO FOR SELECIONADO NEM UMA DAS OPÇOES ELE NAO DEIXA ABRIR A PAGINA SOLICITADA
     if(this.disc != null && this.numAula != null){
       this.navCtrl.push(LeitorPage);
-    }else{
-      //CRIA O ALERTA
-      let alert = this.alertCtrl.create({
-        title: 'Atenção',
-        subTitle: 'Selecione as opções para continuar a operação!',
-        buttons: ['Ok']
+    }else if(this.disc == null){
+      //CRIA UM TOAST PARA ALERTAR SOBRE A SELECAO DA DISCIPLINA
+      let toast = this.toastCtrl.create({ 
+        duration: 3000, 
+        position: 'middle',
+        message: 'Selecione a disciplina'  
       });
-      alert.present();
+      toast.present();
+    }else if(this.numAula == null){
+      //CRIA UM TOAST PARA ALERTAR SOBRE A SELECAO DO NUMERO DE AULAS
+      let toast = this.toastCtrl.create({ 
+        duration: 3000, 
+        position: 'middle',
+        message: 'Selecione o numero de aulas'  
+      });
+      toast.present();
     }
   }
   
   //CARREGA OS DADOS DO CAMPO SELECIONADO
-  verificaNumAula(numAula){
+  private verificaNumAula(numAula){
     this.numAula = numAula;
   }
 
   //CARREGA OS DADOS DO CAMPO SELECIONADO
-  verificaDisci(disc){
+  private verificaDisci(disc){
     this.disc = disc;
   }
 

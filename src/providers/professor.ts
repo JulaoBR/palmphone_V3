@@ -22,7 +22,7 @@ export class ProfessorProvider extends BaseProvider {
   }
 
   //BUSCA APENAS UM OBJETO
-  get() {
+  public get() {
     //PEGA O UID DO USUARIO LOGADO
     var key = firebase.auth().currentUser.uid;
     return this.db.object(this.PATH + key).snapshotChanges()
@@ -31,10 +31,10 @@ export class ProfessorProvider extends BaseProvider {
       });
   }
  
-  //SALVA O USUARIO
-  save(user: User, uuid: string): Promise<any> {
-     return this.db.object(`/professor/${uuid}`)
-    .set(user)
+  //UPDATE DO USUARIO
+  public update(uuid: string, user: User): Promise<any> {
+     return this.db.list(`/professor/`)
+    .update(uuid, {nomeProf: user.nomeProf, rgProf: user.rgProf, dataNascProf: user.dataNascProf, emailProd: user.emailProf, senhaProf: user.senhaProf})
     .catch();
   }
  

@@ -10,7 +10,7 @@
 <ion-card>
   <ion-list>
     <ion-item>
-      <ion-input type="text" [(ngModel)]="currentUser.nomeProf" disabled></ion-input>
+      <h2>{{currentUser.nomeProf}}</h2>
     </ion-item>
   </ion-list>
 
@@ -18,8 +18,7 @@
   <ion-list>
     <ion-item>
       <ion-label>Disciplina:</ion-label>
-      <ion-select [(ngModel)]="disci" (ionChange)="verificaDisci(disci)">
-        
+      <ion-select [(ngModel)]="disci" (ionChange)="verificaDisci(disci)" interface="popover">       
         <ion-option *ngFor="let disc of disciplina" [value]="disc">{{disc.dscDisc}}</ion-option>
       </ion-select>
     </ion-item>
@@ -28,7 +27,7 @@
   <ion-list>
     <ion-item>
       <ion-label>Nº de aulas:</ion-label>
-      <ion-select [(ngModel)]="numAula" (ionChange)="verificaNumAula(numAula)">
+      <ion-select [(ngModel)]="numAula" (ionChange)="verificaNumAula(numAula)" interface="popover">
         <ion-option value="1">1</ion-option>
         <ion-option value="2">2</ion-option>
         <ion-option value="3">3</ion-option>

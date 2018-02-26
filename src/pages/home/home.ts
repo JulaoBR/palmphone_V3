@@ -4,7 +4,7 @@ import { LoginPage } from './../login/login';
 import { ColetorPage } from './../coletor/coletor';
 import { PerfilPage } from './../perfil/perfil';
 import { Component } from '@angular/core';
-import { NavController, AlertController, ToastController } from 'ionic-angular';
+import { NavController, AlertController, ToastController, NavParams } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth';
 import { Storage } from '@ionic/storage';
 
@@ -25,15 +25,18 @@ export class HomePage {
     private storage: Storage,
     private coletor: ColetorProvider ,
     public alertCtrl: AlertController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    public navParams: NavParams   
   ) 
   {  
-    //RESGATA OS DADOS DO STORAGE 
-    this.storage.get(firebase.auth().currentUser.uid).then((val : User) => {
+    this.currentUser = this.navParams.get("dados"); 
+    if(this.currentUser == null){
+      //RESGATA OS DADOS DO STORAGE 
+      this.storage.get(firebase.auth().currentUser.uid).then((val : User) => {
       //E CARREGA O OBJETO COM OS DADOS
-      this.currentUser = val;
-    })
-
+       this.currentUser = val;
+      })
+    }
   }
 
   private abrirTelaPerfil(){

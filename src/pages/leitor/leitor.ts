@@ -26,12 +26,13 @@ export class LeitorPage {
     private formBuilder: FormBuilder,
     private datepipe: DatePipe,
     private storage: Storage,
-    private platform: Platform
+    private platform: Platform,
   ) 
   {
+    //TRATAMENTO DO BOTAO BACK NO DISPOSITIVO
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
-        this.navCtrl.setRoot(LeitorPage); 
+        
       });
     });
 
@@ -196,6 +197,7 @@ export class LeitorPage {
     }
   } 
 
+  //FUNCAO PARA CANCELAR A CHAMDA
   private cancelar(){
     let alert = this.alertCtrl.create({//ABRE O ALERTA PARA EXIBIR O DADO LIDO
       title: 'Cancelamento',
@@ -211,7 +213,7 @@ export class LeitorPage {
         {
           text: 'Confirmar',
           handler: () => {
-            this.navCtrl.popToRoot();
+            this.navCtrl.pop();
           }
         }
       ]
