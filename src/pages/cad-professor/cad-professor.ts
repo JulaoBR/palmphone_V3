@@ -18,10 +18,16 @@ export class CadProfessorPage {
 
   private form: FormGroup;
   private contact: any;
-  private nomeDisciplinas: Array<Object> = [
-    "SIO - SISTEMAS DE INFORMAÇÂO", 
-    "SIRD - REDES DE COMPUTADORES"
-  ];
+  private nomeDisciplinas=[
+    {
+      "dscDisc": "SIF038 - Redes de Computadores I"
+    },
+    {
+      "dscDisc": "SIF043 - Gerência de Projetos"
+    }        
+  ]
+     
+
  
   constructor(
     public afAuth: AuthProvider,
@@ -36,6 +42,8 @@ export class CadProfessorPage {
     this.contact = this.navParams.data.contact || { };
     //CRIA O FORMULARIO
     this.createForm();
+    console.log(this.nomeDisciplinas);
+
   }
 
  

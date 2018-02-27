@@ -43,7 +43,7 @@
     <ion-item>
       <ion-label>Disciplinas</ion-label>
       <ion-select [(ngModel)]="disciplinas" multiple="true" cancelText="Cancelar" okText="Confirmar" formControlName="disciplinas">
-        <ion-option *ngFor="let dscDisc of nomeDisciplinas" [value]="dscDisc.value">{{dscDisc}}</ion-option>
+        <ion-option *ngFor="let dsc of nomeDisciplinas" [value]="dscDisc">{{dsc.dscDisc}}</ion-option>
       </ion-select>
     </ion-item>
     <ion-item *ngIf="!form.controls.disciplinas.valid && (form.controls.disciplinas.dirty || form.controls.disciplinas.touched)" color="danger">
