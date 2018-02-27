@@ -1,7 +1,7 @@
-import { CadProfessorPage } from './../cad-professor/cad-professor';
 import { User } from './../../model/user';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { EdiProfessorPage } from '../edi-professor/edi-professor';
 
 @IonicPage()
 @Component({
@@ -25,7 +25,7 @@ export class PerfilPage {
   
   //MANDA OS DADOS PARA A PAGINA DE EDIÇÂO
   editarProfessor(): void {
-    this.navCtrl.push(CadProfessorPage, {dados: this.currentUser});
+    this.navCtrl.push(EdiProfessorPage, {dados: this.currentUser});
   }
 
  }

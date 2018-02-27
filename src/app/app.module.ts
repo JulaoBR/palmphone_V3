@@ -1,3 +1,4 @@
+import { EdiProfessorPage } from './../pages/edi-professor/edi-professor';
 import { DatePipe } from '@angular/common';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { LeitorPage } from './../pages/leitor/leitor';
@@ -32,6 +33,7 @@ import { ColetorProvider } from '../providers/coletor';
     MyApp,
     HomePage,
     LeitorPage,
+    EdiProfessorPage,
     LoginPage,
     PerfilPage
   ],
@@ -50,6 +52,7 @@ import { ColetorProvider } from '../providers/coletor';
     MyApp,
     HomePage,
     LeitorPage,
+    EdiProfessorPage,
     LoginPage,
     PerfilPage
   ],

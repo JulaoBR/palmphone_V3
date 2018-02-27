@@ -7,6 +7,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import * as firebase from 'firebase/app';
 import { Toast } from 'ionic-angular/components/toast/toast';
+import { HomePage } from '../home/home';
 
 @IonicPage()
 @Component({
@@ -17,7 +18,10 @@ export class CadProfessorPage {
 
   private form: FormGroup;
   private contact: any;
-  private dados: User;
+  private nomeDisciplinas: Array<Object> = [
+    "SIO - SISTEMAS DE INFORMAÇÂO", 
+    "SIRD - REDES DE COMPUTADORES"
+  ];
  
   constructor(
     public afAuth: AuthProvider,
@@ -28,8 +32,6 @@ export class CadProfessorPage {
     private toastCtrl: ToastController
   ) 
   {
-    //CARREGA OS DADOS VINDO POR PARAMETRO DA TELA DE PERFIL
-    this.dados = this.navParams.get("dados");
     //RECEBE OS DADOS DO FORMULARIO PARA EDIÇÂO
     this.contact = this.navParams.data.contact || { };
     //CRIA O FORMULARIO
@@ -43,6 +45,7 @@ export class CadProfessorPage {
       key: [this.contact.key],
       nomeProf: [this.contact.name, Validators.required],
       rgProf: [this.contact.rg, Validators.required],
+      disciplinas: [this.contact.disciplinas, Validators.required],
       dataNascProf: [this.contact.dtNascimento, Validators.required],
       emailProf: [this.contact.email, Validators.required],
       senhaProf: [this.contact.senha, Validators.required],
@@ -52,33 +55,53 @@ export class CadProfessorPage {
   //FUNCAO PARA SALVAR OS DADOS
   private onSubmit() {
 
+    //VARIAVEL QUE RECEBE O VALOR DO FORM
+    let formUser = this.form.value;
 
     //VERIFICA SE O FORM TEM DADOS VALIDOS
-    if (this.form.valid) {   
-      //PEGA O UID DO USUARIO LOGADO
-      var key = firebase.auth().currentUser.uid;
+    if (this.form.valid) {
+      
+      //CHAMA A FUNÇÃO DE ATUALIZAR O USUARIO
+      this.afAuth.createUser({
+        email: formUser.emailProf,
+        password: formUser.senhaProf
+        //SE A ATUALIZAÇÂO DO USUARIO DEU CERTO ELE ATUALIZA OS OUTROS DADOS
+      }).then((authUser: firebase.User) => {
+       
+        //delete formUser.password;
+        //PEGA O UID GERADO QUANDO FOI CRIADO O USUARIO
+        let uuid: string = authUser.uid;
 
-      //CHAMA A FUNÇÃO DE SALVAR OS DADOS DO PROFESSOR COM O UID CRIADO
-      this.provider.update(key, this.form.value)
-      .then(() => {          
-        //CRIA UM TOAST PARA ALERTAR SOBRE O SUCESSO DO SALVAMENTO DOS DADOS
-        let toast = this.toastCtrl.create({ 
-          duration: 3000, 
-          position: 'middle',
-          message: 'Dados salvos com sucesso!'  
-        });
-        toast.present();    
-      })
-      .catch((e) => {
-        //CRIA UM TOAST PARA ALERTAR SOBRE O ERRO AO SALVAR OS DADOS
-        let toast = this.toastCtrl.create({ 
-          duration: 3000, 
-          position: 'middle',
-          message: 'Erro ao salvar os dados:' + e  
-        });
-        toast.present(); 
-      })
+        //CHAMA A FUNÇÃO DE SALVAR OS DADOS DO PROFESSOR COM O UID CRIADO
+        this.provider.create(uuid, formUser)
+        .then(() => {        
+          this.navCtrl.setRoot(HomePage);
+          //CRIA UM TOAST DE CONFIRMAÇÂO DE SINCRONIZACAO
+          let toast = this.toastCtrl.create({ 
+            duration: 3000, 
+            position: 'bottom',
+            message: 'Usuario salvo com sucesso!'  
+          });
+          toast.present();         
+        })
+        .catch((e) => {
+          //CRIA UM TOAST DE CONFIRMAÇÂO DE SINCRONIZACAO
+          let toast = this.toastCtrl.create({ 
+            duration: 3000, 
+            position: 'bottom',
+            message: 'Erro ao salvar o usuario!'  
+          });
+          toast.present();
+          console.error(e);
+        })
+        
+      }).catch((error: any) => {
+        //MOSTRA ERRO 
+        console.log(error);
+      });
     }
   }
+
+
 
 }
