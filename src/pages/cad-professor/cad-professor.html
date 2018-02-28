@@ -9,7 +9,15 @@
 
 <ion-content padding>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit(); $event.preventDefault()">
+  <form [formGroup]="form" (ngSubmit)="save(); $event.preventDefault()">
+
+    <ion-item>
+      <ion-card>
+          <img src={{imgPath}} alt="" />
+      </ion-card>
+      <button ion-button block color="dark" (click)="escolherFoto()">Escolher foto</button>
+    </ion-item>
+
     <ion-item>
       <ion-label stacked>Nome</ion-label>
       <ion-input type="text"  [(ngModel)]="nomeProf" formControlName="nomeProf"></ion-input>
@@ -71,18 +79,12 @@
         O campo é obrigatório
       </div>
     </ion-item>
- 
-    <ion-item>
-      <ion-icon name="image" item-start></ion-icon>
-      <input type="file" accept="image/*" (change)="onPhoto($event)">
-    </ion-item>
 
     <div padding>
       <button ion-button block type="submit" [disabled]="!form.valid" (click)="onSubmit()">Salvar</button>
     </div>
     
   </form>
-
 
 
 </ion-content>
