@@ -1,5 +1,7 @@
 https://javebratt.com/angularfire2-authentication-ionic/
 
+ICONES
+http://www.andrefelizardo.com.br/blog/splash-screen-ionic-e-icone/
 =============================================================
 			FIREBASE
 testesfirebase@gmail.com	
@@ -105,3 +107,38 @@ private setUsers(uidToExclude: string): void {
       });
   }
 ======================================================================
+
+//FUNCAO PARA SALVAR OS DADOS
+  private onSubmit() {
+    //VARIAVEL QUE RECEBE O VALOR DO FORM
+    let formUser = this.form.value;
+
+    //VERIFICA SE O FORM TEM DADOS VALIDOS
+    if (this.form.valid) {
+      
+      //CHAMA A FUNÇÃO DE ATUALIZAR O USUARIO
+      this.afAuth.updadeUser({
+        email: formUser.email,
+        password: formUser.senha
+        //SE A ATUALIZAÇÂO DO USUARIO DEU CERTO ELE ATUALIZA OS OUTROS DADOS
+      }).then(() => {
+        //PEGA O UID DO USUARIO LOGADO
+        var key = firebase.auth().currentUser.uid;
+
+        //CHAMA A FUNÇÃO DE SALVAR OS DADOS DO PROFESSOR COM O UID CRIADO
+        this.provider.update(key, formUser)
+        .then(() => {          
+          this.toast.create({ message: 'Contato salvo com sucesso.', duration: 3000 }).present();         
+        })
+        .catch((e) => {
+          this.toast.create({ message: 'Erro ao salvar o contato.', duration: 3000 }).present();
+          console.error(e);
+        })
+        
+      }).catch((error: any) => {
+        //MOSTRA ERRO 
+        console.log(error);
+      });
+    }
+  }
+=================================================================================

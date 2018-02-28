@@ -5,6 +5,7 @@ import { IonicPage, NavController, NavParams, AlertController, ToastController,P
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { DatePipe } from '@angular/common';
 import { Storage } from '@ionic/storage';
+import { Dialogs } from '@ionic-native/dialogs';
 
 @IonicPage()
 @Component({
@@ -26,13 +27,15 @@ export class LeitorPage {
     private formBuilder: FormBuilder,
     private datepipe: DatePipe,
     private storage: Storage,
-    private platform: Platform
+    private platform: Platform,
+    private dialogs: Dialogs
   ) 
   {
     /*
+    //TRATAMENTO DO BOTAO BACK NO DISPOSITIVO
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
-        this.navCtrl.setRoot(LeitorPage); 
+        
       });
     });
     */
@@ -113,6 +116,10 @@ export class LeitorPage {
             handler: () => {
               //PREENCHE A LISTA COM OS DADOS
               this.lista.push(this.form.value);
+
+              //CHAMA UM ALERTA SONORO QUANDO SALVA MANUAL
+              this.dialogs.beep(2);
+              
               //LIMPA O FORMULARIO DA TELA 
               this.form = this.formBuilder.group({    
                 ra: {}   
@@ -197,6 +204,7 @@ export class LeitorPage {
     }
   } 
 
+  //FUNCAO PARA CANCELAR A CHAMDA
   private cancelar(){
     let alert = this.alertCtrl.create({//ABRE O ALERTA PARA EXIBIR O DADO LIDO
       title: 'Cancelamento',
@@ -212,7 +220,7 @@ export class LeitorPage {
         {
           text: 'Confirmar',
           handler: () => {
-            this.navCtrl.popToRoot();
+            this.navCtrl.pop();
           }
         }
       ]

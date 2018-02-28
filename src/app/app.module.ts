@@ -15,6 +15,7 @@ import { LoginPage } from '../pages/login/login';
 import { PerfilPage } from '../pages/perfil/perfil';
 import { AuthProvider } from '../providers/auth';
 import { IonicStorageModule } from '@ionic/storage';
+import { Dialogs } from '@ionic-native/dialogs';
 
 import { FIREBASE_CONFIG } from './app.firebase.config';
 import { AngularFireModule } from 'angularfire2';
@@ -62,6 +63,7 @@ import { ColetorProvider } from '../providers/coletor';
     BarcodeScanner,
     BaseProvider,
     ColetorProvider,
+    Dialogs,
   ]
 })
 export class AppModule {}
