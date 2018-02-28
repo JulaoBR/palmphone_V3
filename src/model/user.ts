@@ -10,7 +10,8 @@ export class User {
     public senhaProf: string,
     public disciplinas: string,
     public dscDisc: string,
-    public url: string
+    public url: string,
+    public fullPath: string
   ) {}
 
   }

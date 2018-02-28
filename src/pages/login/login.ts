@@ -1,3 +1,4 @@
+import { CadProfessorPage } from '../cad-professor/cad-professor';
 import { ProfessorProvider } from './../../providers/professor';
 import { HomePage } from './../home/home';
 import { User } from './../../model/user';
@@ -8,6 +9,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 
 import * as firebase from 'firebase/app';
+
 
 @IonicPage()
 @Component({
@@ -95,5 +97,9 @@ export class LoginPage {
     loading.present();
 
     return loading;
+  }
+
+  private cadastrar(){
+    this.navCtrl.push(CadProfessorPage);
   }
 }

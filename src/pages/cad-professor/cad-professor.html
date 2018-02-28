@@ -9,10 +9,18 @@
 
 <ion-content padding>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit(); $event.preventDefault()">
+  <form [formGroup]="form" (ngSubmit)="save(); $event.preventDefault()">
+
+    <ion-item>
+      <ion-card>
+          <img src={{imgPath}} alt="" />
+      </ion-card>
+      <button ion-button block color="dark" (click)="escolherFoto()">Escolher foto</button>
+    </ion-item>
+
     <ion-item>
       <ion-label stacked>Nome</ion-label>
-      <ion-input type="text"  [(ngModel)]="dados.nomeProf"  formControlName="nomeProf"></ion-input>
+      <ion-input type="text"  [(ngModel)]="nomeProf" formControlName="nomeProf"></ion-input>
     </ion-item>
     <ion-item *ngIf="!form.controls.nomeProf.valid && (form.controls.nomeProf.dirty || form.controls.nomeProf.touched)" color="danger">
       <div [hidden]="!form.controls.nomeProf.errors.required">
@@ -22,7 +30,7 @@
  
     <ion-item>
       <ion-label stacked>Rg</ion-label>
-      <ion-input type="text" [(ngModel)]="dados.rgProf" formControlName="rgProf"></ion-input>
+      <ion-input type="text" [(ngModel)]="rgProf" formControlName="rgProf"></ion-input>
     </ion-item>
     <ion-item *ngIf="!form.controls.rgProf.valid && (form.controls.rgProf.dirty || form.controls.rgProf.touched)" color="danger">
       <div [hidden]="!form.controls.rgProf.errors.required">
@@ -32,7 +40,7 @@
 
     <ion-item>
       <ion-label stacked>Data Nascimento</ion-label>
-      <ion-input type="text" displayFormat="DD/MM/YYYY" [(ngModel)]="dados.dataNascProf" formControlName="dataNascProf"></ion-input>
+      <ion-input type="date" displayFormat="DD/MM/YYYY" [(ngModel)]="dataNascProf" formControlName="dataNascProf"></ion-input>
     </ion-item>
     <ion-item *ngIf="!form.controls.dataNascProf.valid && (form.controls.dataNascProf.dirty || form.controls.dataNascProf.touched)" color="danger">
       <div [hidden]="!form.controls.dataNascProf.errors.required">
@@ -41,8 +49,20 @@
     </ion-item>
 
     <ion-item>
+      <ion-label>Disciplinas</ion-label>
+      <ion-select [(ngModel)]="disciplinas" multiple="true" cancelText="Cancelar" okText="Confirmar" formControlName="disciplinas">
+        <ion-option *ngFor="let dsc of nomeDisciplinas" [value]="dscDisc">{{dsc.dscDisc}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngIf="!form.controls.disciplinas.valid && (form.controls.disciplinas.dirty || form.controls.disciplinas.touched)" color="danger">
+      <div [hidden]="!form.controls.disciplinas.errors.required">
+        O campo é obrigatório
+      </div>
+    </ion-item>
+
+    <ion-item>
       <ion-label stacked>E-Mail</ion-label>
-      <ion-input type="email" [(ngModel)]="dados.emailProf"  formControlName="emailProf"></ion-input>
+      <ion-input type="email" [(ngModel)]="emailProf"  formControlName="emailProf"></ion-input>
     </ion-item>
     <ion-item *ngIf="!form.controls.emailProf.valid && (form.controls.emailProf.dirty || form.controls.emailProf.touched)" color="danger">
       <div [hidden]="!form.controls.emailProf.errors.required">
@@ -52,17 +72,12 @@
 
     <ion-item>
       <ion-label stacked>Senha</ion-label>
-      <ion-input type="password" [(ngModel)]="dados.senhaProf"  formControlName="senhaProf"></ion-input>
+      <ion-input type="password" [(ngModel)]="senhaProf"  formControlName="senhaProf"></ion-input>
     </ion-item>
     <ion-item *ngIf="!form.controls.senhaProf.valid && (form.controls.senhaProf.dirty || form.controls.senhaProf.touched)" color="danger">
       <div [hidden]="!form.controls.senhaProf.errors.required">
         O campo é obrigatório
       </div>
-    </ion-item>
- 
-    <ion-item>
-      <ion-icon name="image" item-start></ion-icon>
-      <input type="file" accept="image/*" (change)="onPhoto($event)">
     </ion-item>
 
     <div padding>
@@ -70,7 +85,6 @@
     </div>
     
   </form>
-
 
 
 </ion-content>
