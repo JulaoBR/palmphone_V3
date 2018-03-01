@@ -45,6 +45,7 @@ export class CadProfessorPage {
     //CRIA O FORMULARIO
     this.createForm();
     this.imgPath = "/assets/imgs/imgPerfil.jpg";
+    this.fileToUpload = "/assets/imgs/imgPerfil.jpg";
 
   }
 
@@ -77,8 +78,6 @@ export class CadProfessorPage {
         password: formUser.senhaProf
         //SE A ATUALIZAÇÂO DO USUARIO DEU CERTO ELE ATUALIZA OS OUTROS DADOS
       }).then((authUser: firebase.User) => {
-       
-        //delete formUser.password;
         //PEGA O UID GERADO QUANDO FOI CRIADO O USUARIO
         let uuid: string = authUser.uid;
 
