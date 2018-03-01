@@ -45,7 +45,6 @@ export class CadProfessorPage {
     //CRIA O FORMULARIO
     this.createForm();
     this.imgPath = "/assets/imgs/imgPerfil.jpg";
-    this.fileToUpload = "/assets/imgs/imgPerfil.jpg";
 
   }
 
@@ -124,7 +123,7 @@ export class CadProfessorPage {
     })
       .then(results => {
         if (results.length > 0) {
-          this.imgPath = 'data:image/png;base64,' + results[0];
+          this.imgPath = 'data:image/jpg;base64,' + results[0];
           this.fileToUpload = results[0];
         } else {
           this.imgPath = '';

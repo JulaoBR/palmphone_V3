@@ -4,7 +4,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 import { FirebaseApp } from 'angularfire2';
 
 @Injectable()
@@ -16,7 +16,6 @@ export class ProfessorProvider extends BaseProvider {
     private db: AngularFireDatabase,
     private fb: FirebaseApp,
     public afAuth: AngularFireAuth,
-    public firebaseApp: FirebaseApp,
   ) 
   {
     super();
@@ -48,19 +47,16 @@ export class ProfessorProvider extends BaseProvider {
 
  public uploadAndSave(item: User, fileToUpload: string, uuid: string ) {
   let usuario = item;
-
-    console.log(usuario.$key);
     if (usuario.$key) {
       //SE FOR ATUALIZAÇÂO
-      console.log("atualiza");
       this.update(item);
     } else {
       //NOVO USUARIO
       usuario.$key = uuid;
-      let storageRef = firebase.storage().ref();
-      let basePath = '/fotoPerfilProfessor/' + firebase.auth().currentUser.uid;
-      usuario.fullPath = basePath + '/' + usuario.nomeProf + '.jpg';
-      let uploadTask = storageRef.child(usuario.fullPath).put(fileToUpload);
+      let storageRef = this.fb.storage().ref();
+      let basePath = '/fotoPerfilProfessor/'+ uuid;
+      usuario.fullPath = basePath  + usuario.$key + '.jpg';
+      let uploadTask = storageRef.child(usuario.fullPath).putString(fileToUpload, 'base64');
 
       usuario.url = uploadTask.snapshot.downloadURL;
       //CHAMA FUNCAO PARA NOVO USUARIO
