@@ -127,7 +127,7 @@ export class CadProfessorPage {
           this.fileToUpload = results[0];
         } else {
           this.imgPath = '';
-          this.fileToUpload = null;
+          this.fileToUpload = "/assets/imgs/imgPerfil.jpg";
         }
       })
       .catch(error => {

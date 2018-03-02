@@ -6,6 +6,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 
 import * as firebase from 'firebase/app';
 import { FirebaseApp } from 'angularfire2';
+import fb from 'firebase'
 
 @Injectable()
 export class ProfessorProvider extends BaseProvider {
@@ -14,7 +15,7 @@ export class ProfessorProvider extends BaseProvider {
   
   constructor(
     private db: AngularFireDatabase,
-    private fb: FirebaseApp,
+    //private fb: FirebaseApp,
     public afAuth: AngularFireAuth,
   ) 
   {
@@ -51,18 +52,17 @@ export class ProfessorProvider extends BaseProvider {
       //SE FOR ATUALIZAÇÂO
       this.update(item);
     } else {
-      //NOVO USUARIO
-      usuario.$key = uuid;
-      let storageRef = this.fb.storage().ref();
-      let basePath = '/fotoPerfilProfessor/'+ uuid;
-      usuario.fullPath = basePath  + usuario.$key + '.jpg';
-      let uploadTask = storageRef.child(usuario.fullPath).putString(fileToUpload, 'base64');
-
-      usuario.url = uploadTask.snapshot.downloadURL;
-      //CHAMA FUNCAO PARA NOVO USUARIO
-      this.create(usuario);
-
+      
+      this.uploadImage(fileToUpload, uuid);
+      
     }
   }
  
-}
+
+  uploadImage(fileToUpload: string, uuid: string): any {
+    let storageRef = fb.storage().ref();
+    let imageRef = storageRef.child(`${uuid}/${uuid}.jpg`);
+    return imageRef.putString(fileToUpload);
+  }
+
+ }
