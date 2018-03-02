@@ -6,6 +6,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 
 import * as firebase from 'firebase/app';
 import { FirebaseApp } from 'angularfire2';
+import fb from 'firebase'
 
 @Injectable()
 export class ProfessorProvider extends BaseProvider {
@@ -14,9 +15,8 @@ export class ProfessorProvider extends BaseProvider {
   
   constructor(
     private db: AngularFireDatabase,
-    private fb: FirebaseApp,
+    //private fb: FirebaseApp,
     public afAuth: AngularFireAuth,
-    public firebaseApp: FirebaseApp,
   ) 
   {
     super();
@@ -48,30 +48,21 @@ export class ProfessorProvider extends BaseProvider {
 
  public uploadAndSave(item: User, fileToUpload: string, uuid: string ) {
   let usuario = item;
-  usuario.$key = uuid;
-  if (usuario.$key) {
-    //SE FOR ATUALIZAÇÂO
-    this.update(item);
-  } else {
-    //NOVO USUARIO
-    let storageRef = this.fb.storage().ref();
-    let basePath = '/fotoPerfilProfessor/' + firebase.auth().currentUser.uid;
-    usuario.fullPath = basePath + '/' + usuario.nomeProf + '.jpg';
-    let uploadTask = storageRef.child(usuario.fullPath).putString(fileToUpload, 'base64');
-
-    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,(snapshot) => {
-      //var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      //console.log(progress + "% done");
-    },
-    (error) => {
-      console.error(error);
-    },
-    () => {
-      usuario.url = uploadTask.snapshot.downloadURL;
-      //CHAMA FUNCAO PARA NOVO USUARIO
-      this.create(usuario);
-    });
+    if (usuario.$key) {
+      //SE FOR ATUALIZAÇÂO
+      this.update(item);
+    } else {
+      
+      this.uploadImage(fileToUpload, uuid);
+      
+    }
   }
-}
  
-}
+
+  uploadImage(fileToUpload: string, uuid: string): any {
+    let storageRef = fb.storage().ref();
+    let imageRef = storageRef.child(`${uuid}/${uuid}.jpg`);
+    return imageRef.putString(fileToUpload);
+  }
+
+ }

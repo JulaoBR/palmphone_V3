@@ -77,8 +77,6 @@ export class CadProfessorPage {
         password: formUser.senhaProf
         //SE A ATUALIZAÇÂO DO USUARIO DEU CERTO ELE ATUALIZA OS OUTROS DADOS
       }).then((authUser: firebase.User) => {
-       
-        //delete formUser.password;
         //PEGA O UID GERADO QUANDO FOI CRIADO O USUARIO
         let uuid: string = authUser.uid;
 
@@ -125,11 +123,11 @@ export class CadProfessorPage {
     })
       .then(results => {
         if (results.length > 0) {
-          this.imgPath = 'data:image/png;base64,' + results[0];
+          this.imgPath = 'data:image/jpg;base64,' + results[0];
           this.fileToUpload = results[0];
         } else {
           this.imgPath = '';
-          this.fileToUpload = null;
+          this.fileToUpload = "/assets/imgs/imgPerfil.jpg";
         }
       })
       .catch(error => {

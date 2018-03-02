@@ -34,9 +34,10 @@ export class HomePage {
       //RESGATA OS DADOS DO STORAGE 
       this.storage.get(firebase.auth().currentUser.uid).then((val : User) => {
       //E CARREGA O OBJETO COM OS DADOS
-       this.currentUser = val;
+       this.currentUser = val;     
       })
     }
+
     this.verificarStorage();
   }
 
