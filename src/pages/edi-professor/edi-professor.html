@@ -9,7 +9,7 @@
 
 <ion-content padding>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit(); $event.preventDefault()">
+  <form [formGroup]="form" (ngSubmit)="save(); $event.preventDefault()">
     <ion-item>
       <ion-label stacked>Nome</ion-label>
       <ion-input type="text"  [(ngModel)]="dados.nomeProf"  formControlName="nomeProf"></ion-input>
@@ -32,7 +32,7 @@
 
     <ion-item>
       <ion-label stacked>Data Nascimento</ion-label>
-      <ion-input type="text" displayFormat="DD/MM/YYYY" [(ngModel)]="dados.dataNascProf" formControlName="dataNascProf"></ion-input>
+      <ion-input type="date" displayFormat="DD/MM/YYYY" [(ngModel)]="dados.dataNascProf" formControlName="dataNascProf"></ion-input>
     </ion-item>
     <ion-item *ngIf="!form.controls.dataNascProf.valid && (form.controls.dataNascProf.dirty || form.controls.dataNascProf.touched)" color="danger">
       <div [hidden]="!form.controls.dataNascProf.errors.required">
@@ -46,7 +46,7 @@
     </ion-item>
 
     <div padding>
-      <button ion-button block type="submit" [disabled]="!form.valid" (click)="onSubmit()">Salvar</button>
+      <button ion-button block type="submit" [disabled]="!form.valid" (click)="save()">Salvar</button>
     </div>
     
   </form>

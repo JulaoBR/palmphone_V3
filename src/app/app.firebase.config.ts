@@ -5,7 +5,6 @@ export const FIREBASE_CONFIG = {
     databaseURL: "https://palmphone-ad0fb.firebaseio.com",
     projectId: "palmphone-ad0fb",
     storageBucket: "palmphone-ad0fb.appspot.com",
-    messagingSenderId: "585043096980"
-    
+    messagingSenderId: "585043096980"    
 };
   

@@ -4,10 +4,9 @@ import { ProfessorProvider } from './../../providers/professor';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ImagePicker } from '@ionic-native/image-picker';
+import { Storage } from '@ionic/storage';
 
 import * as firebase from 'firebase/app';
-import { Toast } from 'ionic-angular/components/toast/toast';
 
 @IonicPage()
 @Component({
@@ -16,11 +15,10 @@ import { Toast } from 'ionic-angular/components/toast/toast';
 })
 export class EdiProfessorPage {
 
+  private filePhoto: File;
   private form: FormGroup;
   private contact: any;
   private dados: User;
-  private imgPath: string;
-  private fileToUpload: any;
  
   constructor(
     public afAuth: AuthProvider,
@@ -29,7 +27,7 @@ export class EdiProfessorPage {
     private formBuilder: FormBuilder, 
     private provider: ProfessorProvider,
     private toastCtrl: ToastController,
-    private imagePicker: ImagePicker
+    private storage: Storage,
   ) 
   {
     //CARREGA OS DADOS VINDO POR PARAMETRO DA TELA DE PERFIL
@@ -55,75 +53,53 @@ export class EdiProfessorPage {
   private save() {
 
     //VARIAVEL QUE RECEBE O VALOR DO FORM
-    let formUser = this.form.value;
+    let formUser = this.form.value
 
     //VERIFICA SE O FORM TEM DADOS VALIDOS
-    if (this.form.valid) {
-      
-      //CHAMA A FUNÇÃO DE ATUALIZAR O USUARIO
-      this.afAuth.createUser({
-        email: formUser.emailProf,
-        password: formUser.senhaProf
-        //SE A ATUALIZAÇÂO DO USUARIO DEU CERTO ELE ATUALIZA OS OUTROS DADOS
-      }).then((authUser: firebase.User) => {
-       
-        //delete formUser.password;
-        //PEGA O UID GERADO QUANDO FOI CRIADO O USUARIO
-        let uuid: string = authUser.uid;
-
-        //CHAMA A FUNÇÃO DE SALVAR OS DADOS DO PROFESSOR COM O UID CRIADO
-        this.provider.uploadAndSave(formUser, this.fileToUpload, uuid)
-             
-      }).catch((error: any) => {
-        //MOSTRA ERRO 
-        console.log(error);
-      });
+    if (this.filePhoto) { 
+  
+      //PEGA O UID GERADO QUANDO FOI CRIADO O USUARIO
+      var uuid = firebase.auth().currentUser.uid; 
+      this.uploadPhoto(formUser, uuid);               
+                              
+    }else{
+      this.toastMenssager('Selecione uma foto!'); 
     }
   }
 
-  escolherFoto() {
-    this.imagePicker.hasReadPermission()
-      .then(hasPermission => {
-        if (hasPermission) {
-          this.pegarImagem();
-        } else {
-          this.solicitarPermissao();
-        }
-      }).catch(error => {
-        console.error('Erro ao verificar permissão', error);
-      });
+  //FUNCAO QUE CHAMA O UPLOAD DA FOTO
+  private uploadPhoto(item: User, uuid: string, ){
+    //CRIA UM OBJETO USUARIO E CARRREGA COM OS DADOS DO FORMULARIO
+    let usuario = {
+      key: '',
+      nomeProf: item.nomeProf,
+      dataNascProf: item.dataNascProf,
+      rgProf: item.rgProf,
+      emailProf: this.dados.emailProf,
+      senhaProf: this.dados.senhaProf,
+      disciplinas:[
+        {dscDisc: this.dados.disciplinas}
+      ],
+      url: '',
+    }
+    //CHAMA A FUNCAO DE UPLOAD DO PROVIDER PROFESSOR
+    let uploadTask = this.provider.uploadPhoto(this.filePhoto, uuid);
+    
+    uploadTask.then((UploadTaskSnapshot: firebase.storage.UploadTaskSnapshot) => {
+      //RECEBE A URL DA IMAGEM QUE FOI SALVA NO FIREBASE
+      usuario.url = uploadTask.snapshot.downloadURL;
+      usuario.key = uuid;
+      //CHAMA A FUNCAO QUE CRIA O USUARIO
+      this.provider.update(usuario);
+      //SALVA NO STORAGE O UID DO USUARIO COMO CHAVE E UM OBJETO USER COM OS DADOS VINDO DO FIREBASE
+      this.storage.set(uuid,usuario);
+      //CHAMA A TELA DE HOME DO APP
+    });
   }
 
-  solicitarPermissao() {
-    this.imagePicker.requestReadPermission()
-      .then(hasPermission => {
-        if (hasPermission) {
-          this.pegarImagem();
-        } else {
-          console.error('Permissão negada');
-        }
-      }).catch(error => {
-        console.error('Erro ao solicitar permissão', error);
-      });
-  }
-
-  pegarImagem() {
-    this.imagePicker.getPictures({
-      maximumImagesCount: 1, //Apenas uma imagem
-      outputType: 1 //BASE 64
-    })
-      .then(results => {
-        if (results.length > 0) {
-          this.imgPath = 'data:image/png;base64,' + results[0];
-          this.fileToUpload = results[0];
-        } else {
-          this.imgPath = '';
-          this.fileToUpload = null;
-        }
-      })
-      .catch(error => {
-        console.error('Erro ao recuperar a imagem', error);
-      });
+  //PEGA A FOTO
+  private onPhoto(event): void {  
+    this.filePhoto = event.target.files[0];
   }
 
   //PARA CRIAR UM TOAST

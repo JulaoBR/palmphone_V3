@@ -17,7 +17,6 @@ import { PerfilPage } from '../pages/perfil/perfil';
 import { AuthProvider } from '../providers/auth';
 import { IonicStorageModule } from '@ionic/storage';
 import { Dialogs } from '@ionic-native/dialogs';
-import { ImagePicker } from '@ionic-native/image-picker';
 
 import { FIREBASE_CONFIG } from './app.firebase.config';
 import { AngularFireModule } from 'angularfire2';
@@ -68,7 +67,6 @@ import { ColetorProvider } from '../providers/coletor';
     BaseProvider,
     ColetorProvider,
     Dialogs,
-    ImagePicker,
   ]
 })
 export class AppModule {}

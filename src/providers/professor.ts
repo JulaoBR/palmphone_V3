@@ -3,10 +3,10 @@ import { BaseProvider } from './base';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { FirebaseApp } from "angularfire2";
 
 import * as firebase from 'firebase/app';
-import { FirebaseApp } from 'angularfire2';
-import fb from 'firebase'
+import 'firebase/storage';
 
 @Injectable()
 export class ProfessorProvider extends BaseProvider {
@@ -15,8 +15,8 @@ export class ProfessorProvider extends BaseProvider {
   
   constructor(
     private db: AngularFireDatabase,
-    //private fb: FirebaseApp,
     public afAuth: AngularFireAuth,
+    public firebaseApp: FirebaseApp,
   ) 
   {
     super();
@@ -33,36 +33,22 @@ export class ProfessorProvider extends BaseProvider {
   }
  
   //UPDATE DO USUARIO
-  public update(user: User): Promise<any> {
+  public update(user: any): Promise<any> {
      return this.db.list(`/professor/`)
-    .update(user.$key, {nomeProf: user.nomeProf, rgProf: user.rgProf, dataNascProf: user.dataNascProf})
+    .update(user.key, {nomeProf: user.nomeProf, rgProf: user.rgProf, dataNascProf: user.dataNascProf, url: user.url})
     .catch();
   }
 
   //CRIA O USUARIO
-  public create(user: User): Promise<any> {
-    return this.db.object(`/professor/${user.$key}`)
+  public create(user: any): Promise<any> {
+    return this.db.object(`/professor/${user.key}`)
    .set(user)
    .catch();
  }
 
- public uploadAndSave(item: User, fileToUpload: string, uuid: string ) {
-  let usuario = item;
-    if (usuario.$key) {
-      //SE FOR ATUALIZAÇÂO
-      this.update(item);
-    } else {
-      
-      this.uploadImage(fileToUpload, uuid);
-      
-    }
-  }
- 
+ //FAZ O UPLOAD DA FOTO
+ public uploadPhoto(file: File, userId: string): firebase.storage.UploadTask {
+  return firebase.storage().ref().child(`/fotoPerfilProfessor/${userId + '.jpg'}`).put(file);
+}
 
-  uploadImage(fileToUpload: string, uuid: string): any {
-    let storageRef = fb.storage().ref();
-    let imageRef = storageRef.child(`${uuid}/${uuid}.jpg`);
-    return imageRef.putString(fileToUpload);
-  }
-
- }
+}

@@ -30,15 +30,7 @@ export class LeitorPage {
     private platform: Platform,
     private dialogs: Dialogs
   ) 
-  {
-    /*
-    //TRATAMENTO DO BOTAO BACK NO DISPOSITIVO
-    this.platform.ready().then(() => {
-      this.platform.registerBackButtonAction(() => {
-        
-      });
-    });
-    */
+  { 
     //RESPONSAVEL POR TRAZER OS DADOS DO FORMULARIO HTML
     this.dados = this.navParams.data.dados || { };
     //CRIA UM OBJETO DO TIPO FORM
@@ -72,19 +64,12 @@ export class LeitorPage {
           {
             text: 'Confirmar',
             handler: () => {
-              //CRIA UM TOAST DE CONFIRMAÇÂO
-              let toast = this.toastCtrl.create({
-                duration: 3000, 
-                position: 'bottom',
-                message: 'Chamada finalizada'
-              });
-
               //FORMATA DATA ATUAL, QUE SERA A CHAVE PRIMARIA 
               let dataAtual = this.datepipe.transform(new Date(), "ddMMyyyyHHmmss");
               //SALVA NO STORAGE O UID DO USUARIO COMO CHAVE E UM OBJETO USER COM OS DADOS VINDO DO FIREBASE
               this.storage.set(dataAtual,this.lista); 
               //CAHAMA O TOAST DE CONFIRMACAO 
-              toast.present();
+              this.toastMenssager('Chamada finalizada');
               //VOLTA PARA A TELA ANTERIOR
               this.navCtrl.pop();   
             }
@@ -116,14 +101,12 @@ export class LeitorPage {
             handler: () => {
               //PREENCHE A LISTA COM OS DADOS
               this.lista.push(this.form.value);
-
               //CHAMA UM ALERTA SONORO QUANDO SALVA MANUAL
-              this.dialogs.beep(2);
-              
-              //LIMPA O FORMULARIO DA TELA 
-              this.form = this.formBuilder.group({    
-                ra: {}   
-              });
+              this.dialogs.beep(1);
+              //LIMPA FORMULARIO
+              this.createForm();
+              //CAHAMA O TOAST DE CONFIRMACAO 
+              this.toastMenssager('RA Salvo');
             }
           }
         ]
@@ -145,7 +128,7 @@ export class LeitorPage {
     
     //FUNCAO QUE LE OS DADOS
     this.barcode.scan(options).then((valor) => {      
-      if(valor.text != ""){ //SE DATA FOR DIFERENTE DE NULO ELE ENTRA E FAZ OS PROCEDIMENTOS
+      //if(valor.text != ""){ //SE DATA FOR DIFERENTE DE NULO ELE ENTRA E FAZ OS PROCEDIMENTOS
         let alert = this.alertCtrl.create({//ABRE O ALERTA PARA EXIBIR O DADO LIDO
           title: 'Confirmação da leitura',
           message: 'Deseja salvar este RA: ' + valor.text +' ?' ,  //EXIBE PARA O USUARIO O DADO
@@ -166,7 +149,8 @@ export class LeitorPage {
                 var ra = valor.text
                 //SALVA OS DADOS NA LISTA/
                 this.lista.push({ra,data});
-                //CHAMA O LEITOR DE NOVO
+                //CAHAMA O TOAST DE CONFIRMACAO 
+                this.toastMenssager('RA Salvo');
                 this.scanBarcode();
               }
             }
@@ -174,7 +158,7 @@ export class LeitorPage {
         });
         //CHAMA O ALERTA PARA SER EXIBIDO
         alert.present(); 
-      }      
+          
     })
     //TRABAMENTO DE ERRO
     .catch((err) => {
@@ -228,4 +212,15 @@ export class LeitorPage {
     //CHAMA O ALERTA PARA SER EXIBIDO
     alert.present();
   }
+
+     //PARA CRIAR UM TOAST
+     private toastMenssager(mensagen: string){
+      //CRIA UM TOAST DE CONFIRMAÇÂO DE SINCRONIZACAO
+      let toast = this.toastCtrl.create({ 
+        duration: 3000, 
+        position: 'bottom',
+        message: mensagen  
+      });
+      toast.present();
+    }
 }

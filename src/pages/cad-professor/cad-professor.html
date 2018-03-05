@@ -9,13 +9,11 @@
 
 <ion-content padding>
 
-  <form [formGroup]="form" (ngSubmit)="save(); $event.preventDefault()">
+  <form [formGroup]="form" (ngSubmit)="save(); $event.preventDefault()"> 
 
     <ion-item>
-      <ion-card>
-          <img src={{imgPath}} alt="" />
-      </ion-card>
-      <button ion-button block color="dark" (click)="escolherFoto()">Escolher foto</button>
+      <ion-icon name="image" item-start></ion-icon>
+      <input type="file" accept="image/*" (change)="onPhoto($event)" required>
     </ion-item>
 
     <ion-item>

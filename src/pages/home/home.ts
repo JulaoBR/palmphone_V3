@@ -37,8 +37,6 @@ export class HomePage {
        this.currentUser = val;     
       })
     }
-
-    this.verificarStorage();
   }
 
   private abrirTelaPerfil(){
@@ -105,13 +103,6 @@ export class HomePage {
         {
           text: 'Confirmar',
           handler: () => {
-            //CRIA UM TOAST DE CONFIRMAÇÂO DE SINCRONIZACAO
-            let toast = this.toastCtrl.create({ 
-              duration: 3000, 
-              position: 'bottom',
-              message: 'Sincronização Realizada com sucesso!'  
-            });
-
             //PEGA O UID DO USUARIO QUE ESTA LOGADO
             var uid = firebase.auth().currentUser.uid;
             //FOREACH PARA CORRER O STORAGE
@@ -125,7 +116,7 @@ export class HomePage {
               }
             })
             //CHAMA O TOAST
-            toast.present();   
+            this.toastMenssager('Sincronização Realizada com sucesso!');  
           }
         }
       ]
@@ -156,13 +147,22 @@ export class HomePage {
   //FUNCAO PARA DELETAR AS CHAMADAS DO STORAGE
   private verificarStorage(){
     this.storage.length().then((val) => {
-      if(val > 1 ){
-        console.log('maior q 1' + val);
+      if(val == 1 ){
+        this.toastMenssager('Sem dados para sincronizar');
       }else{
-        console.log('menos q 1' + val);
+        this.sincronizar()
       }
     });     
   }
 
-
+   //PARA CRIAR UM TOAST
+   private toastMenssager(mensagen: string){
+    //CRIA UM TOAST DE CONFIRMAÇÂO DE SINCRONIZACAO
+    let toast = this.toastCtrl.create({ 
+      duration: 3000, 
+      position: 'bottom',
+      message: mensagen  
+    });
+    toast.present();
+  }
 }

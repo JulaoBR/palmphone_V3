@@ -30,6 +30,7 @@ export class ColetorPage {
     this.currentUser = this.navParams.get("dados");
     //CARREGA AS DISCIPLINAS DO PROFESSOR
     this.disciplina = this.currentUser.disciplinas;
+    console.log(this.disciplina);
   }
 
   //CHAMA A PAGINA DO LEITOR DO CODIGO DE BARRA

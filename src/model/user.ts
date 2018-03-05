@@ -9,9 +9,7 @@ export class User {
     public emailProf: string,
     public senhaProf: string,
     public disciplinas: string,
-    public dscDisc: string,
     public url: string,
-    public fullPath: string
   ) {}
 
   }
