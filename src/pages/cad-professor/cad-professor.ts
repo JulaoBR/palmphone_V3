@@ -114,7 +114,6 @@ export class CadProfessorPage {
    
     //CRIA UM OBJETO USUARIO E CARRREGA COM OS DADOS DO FORMULARIO
     let usuario = {
-      key: '',
       nomeProf: item.nomeProf,
       dataNascProf: item.dataNascProf,
       rgProf: item.rgProf,
@@ -129,9 +128,8 @@ export class CadProfessorPage {
     uploadTask.then((UploadTaskSnapshot: firebase.storage.UploadTaskSnapshot) => {
       //RECEBE A URL DA IMAGEM QUE FOI SALVA NO FIREBASE
       usuario.url = uploadTask.snapshot.downloadURL;
-      usuario.key = uuid;
       //CHAMA A FUNCAO QUE CRIA O USUARIO
-      this.provider.create(usuario);
+      this.provider.create(usuario, uuid);
       //SALVA NO STORAGE O UID DO USUARIO COMO CHAVE E UM OBJETO USER COM OS DADOS VINDO DO FIREBASE
       this.storage.set(uuid,usuario);
       //CHAMA A TELA DE HOME DO APP

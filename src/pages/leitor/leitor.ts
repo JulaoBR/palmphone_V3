@@ -158,18 +158,18 @@ export class LeitorPage {
         });
         //CHAMA O ALERTA PARA SER EXIBIDO
         alert.present(); 
-          
+      //}   
     })
     //TRABAMENTO DE ERRO
-    .catch((err) => {
+    //.catch((err) => {
       //CRIA UM ALERTA E EXIBE A MENSAGEM DE ERRO
-      const alert = this.alertCtrl.create({
-        title: 'Atenção!',
-        subTitle: err,
-        buttons: ['Fechar']
-      });
-      alert.present();
-    });       
+      //const alert = this.alertCtrl.create({
+       // title: 'Atenção!',
+        //subTitle: err,
+        //buttons: ['Fechar']
+      //});
+      //alert.present();
+    //});       
   }  
 
   //FUNCAO PARA VERIFICAR SE A LISTA ESTA VAZIA 
@@ -213,14 +213,14 @@ export class LeitorPage {
     alert.present();
   }
 
-     //PARA CRIAR UM TOAST
-     private toastMenssager(mensagen: string){
-      //CRIA UM TOAST DE CONFIRMAÇÂO DE SINCRONIZACAO
-      let toast = this.toastCtrl.create({ 
-        duration: 3000, 
-        position: 'bottom',
-        message: mensagen  
-      });
-      toast.present();
-    }
+  //PARA CRIAR UM TOAST
+  private toastMenssager(mensagen: string){
+  //CRIA UM TOAST DE CONFIRMAÇÂO DE SINCRONIZACAO
+    let toast = this.toastCtrl.create({ 
+      duration: 3000, 
+      position: 'bottom',
+      message: mensagen  
+    });
+    toast.present();
+  }
 }

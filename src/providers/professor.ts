@@ -33,15 +33,15 @@ export class ProfessorProvider extends BaseProvider {
   }
  
   //UPDATE DO USUARIO
-  public update(user: any): Promise<any> {
+  public update(user: any, uuid: string): Promise<any> {
      return this.db.list(`/professor/`)
-    .update(user.key, {nomeProf: user.nomeProf, rgProf: user.rgProf, dataNascProf: user.dataNascProf, url: user.url})
+    .update(uuid, {nomeProf: user.nomeProf, rgProf: user.rgProf, dataNascProf: user.dataNascProf, url: user.url})
     .catch();
   }
 
   //CRIA O USUARIO
-  public create(user: any): Promise<any> {
-    return this.db.object(`/professor/${user.key}`)
+  public create(user: any, uuid: string): Promise<any> {
+    return this.db.object(`/professor/${uuid}`)
    .set(user)
    .catch();
  }
