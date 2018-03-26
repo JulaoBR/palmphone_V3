@@ -35,7 +35,7 @@ export class ProfessorProvider extends BaseProvider {
   //UPDATE DO USUARIO
   public update(user: any, uuid: string): Promise<any> {
      return this.db.list(`/professor/`)
-    .update(uuid, {nomeProf: user.nomeProf, rgProf: user.rgProf, dataNascProf: user.dataNascProf, url: user.url})
+    .update(uuid, {nomeProf: user.nomeProf, rgProf: user.rgProf, dataNascProf: user.dataNascProf})
     .catch();
   }
 

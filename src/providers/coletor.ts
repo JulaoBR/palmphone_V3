@@ -11,7 +11,7 @@ export class ColetorProvider {
   
   //FUNCAO RESPONSAVEL POR SALVAR OS DADOS NO FIREBASE, RECEBE UMA LISTA E A CHAVE
   saveChamadas(dados: any, uuid: string){
-    return this.db.object(`/chamadas/${uuid}`) // CHAMADAS SERA O NOME DA CHAVE ONDE FICARA OS DADOS
+    return this.db.object(`/chamada/${uuid}`) // CHAMADAS SERA O NOME DA CHAVE ONDE FICARA OS DADOS
     .set(dados)
     .catch();
  }

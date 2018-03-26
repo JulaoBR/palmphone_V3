@@ -56,16 +56,38 @@ export class EdiProfessorPage {
     let formUser = this.form.value
 
     //VERIFICA SE O FORM TEM DADOS VALIDOS
-    if (this.filePhoto) { 
-  
+    if (this.filePhoto) { //SE O USUARIO SELECIONAR ALGUMA FOTO ENTRA AQUI
       //PEGA O UID GERADO QUANDO FOI CRIADO O USUARIO
       var uuid = firebase.auth().currentUser.uid; 
       this.uploadPhoto(formUser, uuid);               
                               
-    }else{
-      this.toastMenssager('Selecione uma foto!'); 
+    }else{ //SE O USUARIO NAO SELECIONAR ALGUMA FOTO ENTRA AQUI
+      //PEGA O UID GERADO QUANDO FOI CRIADO O USUARIO
+      var uuid = firebase.auth().currentUser.uid; 
+      this.uploadSemPhoto(formUser, uuid); 
     }
   }
+
+
+  private uploadSemPhoto(item: User, uuid: string, ){
+    //CRIA UM OBJETO USUARIO E CARRREGA COM OS DADOS DO FORMULARIO
+    let usuario = {
+      nomeProf: item.nomeProf,
+      dataNascProf: item.dataNascProf,
+      rgProf: item.rgProf,
+      emailProf: this.dados.emailProf,
+      senhaProf: this.dados.senhaProf,
+      disciplinas:[
+        {dscDisc: this.dados.disciplinas}
+      ],
+      url: this.dados.url,
+    }
+    //CHAMA A FUNCAO QUE CRIA O USUARIO
+    this.provider.update(usuario, uuid);
+    //SALVA NO STORAGE O UID DO USUARIO COMO CHAVE E UM OBJETO USER COM OS DADOS VINDO DO FIREBASE
+    this.storage.set(uuid, usuario);
+  }
+
 
   //FUNCAO QUE CHAMA O UPLOAD DA FOTO
   private uploadPhoto(item: User, uuid: string, ){
@@ -84,14 +106,13 @@ export class EdiProfessorPage {
     //CHAMA A FUNCAO DE UPLOAD DO PROVIDER PROFESSOR
     let uploadTask = this.provider.uploadPhoto(this.filePhoto, uuid);
     
-    uploadTask.then((UploadTaskSnapshot: firebase.storage.UploadTaskSnapshot) => {
+      uploadTask.then((UploadTaskSnapshot: firebase.storage.UploadTaskSnapshot) => {
       //RECEBE A URL DA IMAGEM QUE FOI SALVA NO FIREBASE
       usuario.url = uploadTask.snapshot.downloadURL;
       //CHAMA A FUNCAO QUE CRIA O USUARIO
       this.provider.update(usuario, uuid);
       //SALVA NO STORAGE O UID DO USUARIO COMO CHAVE E UM OBJETO USER COM OS DADOS VINDO DO FIREBASE
       this.storage.set(uuid,usuario);
-      //CHAMA A TELA DE HOME DO APP
     });
   }
 
