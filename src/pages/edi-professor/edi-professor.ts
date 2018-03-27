@@ -1,8 +1,9 @@
+import { HomePage } from './../home/home';
 import { User } from './../../model/user';
 import { AuthProvider } from './../../providers/auth';
 import { ProfessorProvider } from './../../providers/professor';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Loading, LoadingController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 
@@ -28,6 +29,7 @@ export class EdiProfessorPage {
     private provider: ProfessorProvider,
     private toastCtrl: ToastController,
     private storage: Storage,
+    public loadingCtrl: LoadingController,
   ) 
   {
     //CARREGA OS DADOS VINDO POR PARAMETRO DA TELA DE PERFIL
@@ -51,6 +53,8 @@ export class EdiProfessorPage {
  
   //FUNCAO PARA SALVAR OS DADOS
   private save() {
+    //CHAMA UM SHOEDIALOG PARA MOSTRAR O CARREGAMENTO DO APP
+    let loading: Loading = this.showLoading();
 
     //VARIAVEL QUE RECEBE O VALOR DO FORM
     let formUser = this.form.value
@@ -59,12 +63,30 @@ export class EdiProfessorPage {
     if (this.filePhoto) { //SE O USUARIO SELECIONAR ALGUMA FOTO ENTRA AQUI
       //PEGA O UID GERADO QUANDO FOI CRIADO O USUARIO
       var uuid = firebase.auth().currentUser.uid; 
-      this.uploadPhoto(formUser, uuid);               
+      this.uploadPhoto(formUser, uuid); 
+
+      //SALVA NO STORAGE O UID DO USUARIO COMO CHAVE E UM OBJETO USER COM OS DADOS VINDO DO FIREBASE
+      this.storage.set(uuid, formUser);
+      
+      //CHAMA A TELA DE HOME DO APP
+      this.navCtrl.setRoot(HomePage); 
+
+      //FECHA O LOADING
+      loading.dismiss();           
                               
     }else{ //SE O USUARIO NAO SELECIONAR ALGUMA FOTO ENTRA AQUI
       //PEGA O UID GERADO QUANDO FOI CRIADO O USUARIO
       var uuid = firebase.auth().currentUser.uid; 
-      this.uploadSemPhoto(formUser, uuid); 
+      this.uploadSemPhoto(formUser, uuid);
+      
+      //SALVA NO STORAGE O UID DO USUARIO COMO CHAVE E UM OBJETO USER COM OS DADOS VINDO DO FIREBASE
+      this.storage.set(uuid, formUser);
+      
+      //CHAMA A TELA DE HOME DO APP
+      this.navCtrl.setRoot(HomePage); 
+
+      //FECHA O LOADING
+      loading.dismiss();
     }
   }
 
@@ -130,6 +152,17 @@ export class EdiProfessorPage {
       message: mensagen  
     });
     toast.present();
+  }
+
+  //FUNÇÃO RESPONSAVEL PELA CRIAÇÂO DO SHOWLOADING
+  private showLoading(): Loading {
+    let loading: Loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+
+    loading.present();
+
+    return loading;
   }
 
 }

@@ -1,10 +1,11 @@
+import { ProfessorProvider } from './../../providers/professor';
 import { ColetorProvider } from './../../providers/coletor';
 import { User } from './../../model/user';
 import { LoginPage } from './../login/login';
 import { ColetorPage } from './../coletor/coletor';
 import { PerfilPage } from './../perfil/perfil';
 import { Component } from '@angular/core';
-import { NavController, AlertController, ToastController, NavParams } from 'ionic-angular';
+import { NavController, AlertController, ToastController, NavParams, Loading, LoadingController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth';
 import { Storage } from '@ionic/storage';
 
@@ -26,17 +27,28 @@ export class HomePage {
     private coletor: ColetorProvider ,
     public alertCtrl: AlertController,
     private toastCtrl: ToastController,
-    public navParams: NavParams   
+    public navParams: NavParams,
+    private provider: ProfessorProvider,
+    public loadingCtrl: LoadingController,
   ) 
   {  
-    this.currentUser = this.navParams.get("dados"); 
-    if(this.currentUser == null){
-      //RESGATA OS DADOS DO STORAGE 
-      this.storage.get(firebase.auth().currentUser.uid).then((val : User) => {
+    this.currentUser = null;
+  }
+
+  ionViewCanEnter(){
+    //BUSCA O OBJETO DO USUARIO QUE ESTA LOGADO 
+    const subscribe = this.provider.get().subscribe((c: User) => {
+      subscribe.unsubscribe();
+
+      //PEGA O UID DO USUARIO QUE ESTA LOGADO
+      var key = firebase.auth().currentUser.uid;
+
+      //SALVA NO STORAGE O UID DO USUARIO COMO CHAVE E UM OBJETO USER COM OS DADOS VINDO DO FIREBASE
+      this.storage.set(key,c);
+
       //E CARREGA O OBJETO COM OS DADOS
-       this.currentUser = val;     
-      })
-    }
+      this.currentUser = c;   
+    })
   }
 
   private abrirTelaPerfil(){
@@ -164,5 +176,16 @@ export class HomePage {
       message: mensagen  
     });
     toast.present();
+  }
+
+  //FUNÇÃO RESPONSAVEL PELA CRIAÇÂO DO SHOWLOADING
+  private showLoading(): Loading {
+    let loading: Loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+
+    loading.present();
+
+    return loading;
   }
 }
