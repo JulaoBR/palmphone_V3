@@ -3,7 +3,7 @@ import { User } from './../../model/user';
 import { AuthProvider } from './../../providers/auth';
 import { ProfessorProvider } from './../../providers/professor';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, Loading, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Loading, LoadingController, AlertController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Toast } from 'ionic-angular/components/toast/toast';
 import { Storage } from '@ionic/storage';
@@ -55,6 +55,7 @@ export class CadProfessorPage {
     private toastCtrl: ToastController,
     private storage: Storage,
     public loadingCtrl: LoadingController,
+    public alertCtrl: AlertController,
   ) 
   {
     //RECEBE OS DADOS DO FORMULARIO PARA EDIÇÂO
@@ -81,32 +82,34 @@ export class CadProfessorPage {
  
   //FUNCAO PARA SALVAR OS DADOS
   private save() {
-
+    //CHAMA UM SHOEDIALOG PARA MOSTRAR O CARREGAMENTO DO APP
+    let loading: Loading = this.showLoading();
     //VARIAVEL QUE RECEBE O VALOR DO FORM
     let formUser = this.form.value
 
-    //VERIFICA SE O FORM TEM DADOS VALIDOS
-    if (this.filePhoto) { 
-      //CHAMA A FUNÇÃO DE ATUALIZAR O USUARIO
-      this.afAuth.createUser({
-        email: formUser.emailProf,
-        password: formUser.senhaProf
+    //CHAMA A FUNÇÃO DE ATUALIZAR O USUARIO
+    this.afAuth.createUser({
+      email: formUser.emailProf,
+      password: formUser.senhaProf
+      //SE A ATUALIZAÇÂO DO USUARIO DEU CERTO ELE ATUALIZA OS OUTROS DADOS
+    }).then((authUser: firebase.User) => {
 
-        //SE A ATUALIZAÇÂO DO USUARIO DEU CERTO ELE ATUALIZA OS OUTROS DADOS
-      }).then((authUser: firebase.User) => {
+      //PEGA O UID GERADO QUANDO FOI CRIADO O USUARIO
+      let uuid: string = authUser.uid;
+      //FAZ O UPLOAD DA FOTO    
+      this.uploadPhoto(formUser, uuid); 
+      //MENSAGEM DE CADASTRO COM SUCESSO 
+      this.toastMenssager("Cadastro efetuado com sucesso"); 
+      //TIRA O SHOWLOADING 
+      loading.dismiss();    
 
-        //PEGA O UID GERADO QUANDO FOI CRIADO O USUARIO
-        let uuid: string = authUser.uid;
-      
-        this.uploadPhoto(formUser, uuid);               
-                         
-      }).catch((error: any) => {
-        //MOSTRA ERRO 
-        console.log(error);
-      });     
-    }else{
-      this.toastMenssager('Selecione uma foto!'); 
-    }
+    }).catch((error: any) => {
+      //MOSTRA ERRO 
+      this.cancelar(error);
+      //TIRA O SHOWLOADING 
+      loading.dismiss();
+    });     
+    
   }
 
   //FUNCAO QUE CHAMA O UPLOAD DA FOTO
@@ -146,11 +149,40 @@ export class CadProfessorPage {
   private toastMenssager(mensagen: string){
     //CRIA UM TOAST DE CONFIRMAÇÂO DE SINCRONIZACAO
     let toast = this.toastCtrl.create({ 
-      duration: 3000, 
+      duration: 5000, 
       position: 'bottom',
       message: mensagen  
     });
     toast.present();
+  }
+
+  //FUNCAO PARA CANCELAR A CHAMDA
+  private cancelar(erro: string){
+    let alert = this.alertCtrl.create({//ABRE O ALERTA PARA EXIBIR O DADO LIDO
+      title: 'Alerta',
+      message: erro ,  //EXIBE PARA O USUARIO O DADO
+      buttons: [                                                   
+        {
+          text: 'OK',
+          handler: () => {
+           
+          }
+        }
+      ]
+    });
+    //CHAMA O ALERTA PARA SER EXIBIDO
+    alert.present();
+  }
+
+  //FUNÇÃO RESPONSAVEL PELA CRIAÇÂO DO SHOWLOADING
+  private showLoading(): Loading {
+    let loading: Loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+  
+    loading.present();
+  
+    return loading;
   }
 
 }
