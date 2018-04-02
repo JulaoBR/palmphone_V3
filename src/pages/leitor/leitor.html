@@ -1,7 +1,7 @@
 <ion-header>
   
   <ion-navbar hideBackButton>
-    <ion-title>Coleta de dados</ion-title>
+    <ion-title>Coleta de Dados</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -10,8 +10,8 @@
     <ion-card>
       <form [formGroup]="form" (ngSubmit)="saveManual(); $event.preventDefault()">
         <ion-item>
-          <ion-label stacked>DIGITE MANUALMENTE O RA</ion-label>
-          <ion-input type="number" placeholder="Digite o RA" formControlName="ra"></ion-input>
+          
+          <ion-input type="number" placeholder="Insira o RA:" formControlName="ra"></ion-input>
         </ion-item> 
           
         <button ion-button full type="submit" [disabled]="form.invalid">Salvar</button>
@@ -21,7 +21,7 @@
     </ion-card>
     
     <ion-card>
-      <button ion-button full type="submit" color="danger" (click)="cancelar()">Cancelar chamada</button>
+      <button ion-button full type="submit" color="danger" (click)="cancelar()">Cancelar</button>
     </ion-card>
 
   <ion-fab right bottom>

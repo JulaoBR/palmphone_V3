@@ -1,3 +1,4 @@
+<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
 <ion-header>
   <ion-toolbar>
     <ion-title>Login</ion-title>
@@ -14,14 +15,14 @@
 
     <ion-item>
       <ion-icon name="lock" item-start color="primary"></ion-icon>
-      <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
+      <ion-input type="password" placeholder="Senha" formControlName="password"></ion-input>
     </ion-item>
 
     <br>
-    <button ion-button full type="submit" [disabled]="signinForm.invalid">Enter</button>
+    <button ion-button full type="submit" [disabled]="signinForm.invalid">ENTRAR</button>
 
   </form>
 
-  <button ion-button full button-md (click)="cadastrar()">Cadastro</button>
+  <button ion-button full button-md (click)="cadastrar()">CADASTRAR NOVO USUÁRIO</button>
 
 </ion-content>

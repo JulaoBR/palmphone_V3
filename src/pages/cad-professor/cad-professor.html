@@ -38,7 +38,7 @@
 
     <ion-item>
       <ion-label stacked>Data Nascimento</ion-label>
-      <ion-input type="date" displayFormat="DD/MM/YYYY" [(ngModel)]="dataNascProf" formControlName="dataNascProf"></ion-input>
+      <ion-input type="text" displayFormat="DD/MM/YYYY" [(ngModel)]="dataNascProf" formControlName="dataNascProf"></ion-input>
     </ion-item>
     <ion-item *ngIf="!form.controls.dataNascProf.valid && (form.controls.dataNascProf.dirty || form.controls.dataNascProf.touched)" color="danger">
       <div [hidden]="!form.controls.dataNascProf.errors.required">
@@ -47,19 +47,7 @@
     </ion-item>
 
     <ion-item>
-      <ion-label>Disciplinas</ion-label>
-      <ion-select [(ngModel)]="disciplinas" multiple="true" cancelText="Cancelar" okText="Confirmar" formControlName="disciplinas">
-        <ion-option *ngFor="let dsc of nomeDisciplinas" [value]="dscDisc">{{dsc.dscDisc}}</ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item *ngIf="!form.controls.disciplinas.valid && (form.controls.disciplinas.dirty || form.controls.disciplinas.touched)" color="danger">
-      <div [hidden]="!form.controls.disciplinas.errors.required">
-        O campo é obrigatório
-      </div>
-    </ion-item>
-
-    <ion-item>
-      <ion-label stacked>E-Mail</ion-label>
+      <ion-label stacked>Email</ion-label>
       <ion-input type="email" [(ngModel)]="emailProf"  formControlName="emailProf"></ion-input>
     </ion-item>
     <ion-item *ngIf="!form.controls.emailProf.valid && (form.controls.emailProf.dirty || form.controls.emailProf.touched)" color="danger">
@@ -74,6 +62,18 @@
     </ion-item>
     <ion-item *ngIf="!form.controls.senhaProf.valid && (form.controls.senhaProf.dirty || form.controls.senhaProf.touched)" color="danger">
       <div [hidden]="!form.controls.senhaProf.errors.required">
+        O campo é obrigatório
+      </div>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Disciplinas</ion-label>
+      <ion-select [(ngModel)]="disciplinas" multiple="true" cancelText="Cancelar" okText="Confirmar" formControlName="disciplinas">
+        <ion-option *ngFor="let dsc of nomeDisciplinas" [value]="dscDisc">{{dsc.dscDisc}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngIf="!form.controls.disciplinas.valid && (form.controls.disciplinas.dirty || form.controls.disciplinas.touched)" color="danger">
+      <div [hidden]="!form.controls.disciplinas.errors.required">
         O campo é obrigatório
       </div>
     </ion-item>
