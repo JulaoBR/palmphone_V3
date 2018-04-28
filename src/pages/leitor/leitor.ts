@@ -121,14 +121,14 @@ export class LeitorPage {
     //CONFIGURA AS OPÇõES DO LEITOR
     const options = {
       //OQUE VAI SER EXIBIDO QUANDO EFETUAR A LEITURA
-      prompt : "Leia o cracha",
+      prompt : "Posicione o código de barras sobre a linha vermelha",
       //CONFIGURAÇÂO DO BEEP DO LEITOR
       disableSuccessBeep: false,
     }
     
     //FUNCAO QUE LE OS DADOS
     this.barcode.scan(options).then((valor) => {      
-      //if(valor.text != ""){ //SE DATA FOR DIFERENTE DE NULO ELE ENTRA E FAZ OS PROCEDIMENTOS
+      if(valor.text != ""){ //SE DATA FOR DIFERENTE DE NULO ELE ENTRA E FAZ OS PROCEDIMENTOS
         let alert = this.alertCtrl.create({//ABRE O ALERTA PARA EXIBIR O DADO LIDO
           title: 'Confirmação da leitura',
           message: 'Deseja salvar este RA: ' + valor.text +' ?' ,  //EXIBE PARA O USUARIO O DADO
@@ -158,18 +158,25 @@ export class LeitorPage {
         });
         //CHAMA O ALERTA PARA SER EXIBIDO
         alert.present(); 
-      //}   
+      }else{
+        //CRIA UM ALERTA E EXIBE A MENSAGEM DE ERRO
+        const alert = this.alertCtrl.create({
+          title: 'Captura nao realizada!',
+          buttons: ['Fechar']
+        });
+        alert.present();
+      }  
     })
     //TRABAMENTO DE ERRO
-    //.catch((err) => {
+    .catch((err) => {
       //CRIA UM ALERTA E EXIBE A MENSAGEM DE ERRO
-      //const alert = this.alertCtrl.create({
-       // title: 'Atenção!',
-        //subTitle: err,
-        //buttons: ['Fechar']
-      //});
-      //alert.present();
-    //});       
+      const alert = this.alertCtrl.create({
+        title: 'Atenção!',
+        subTitle: err,
+        buttons: ['Fechar']
+      });
+      alert.present();
+    });       
   }  
 
   //FUNCAO PARA VERIFICAR SE A LISTA ESTA VAZIA 

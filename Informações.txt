@@ -28,6 +28,17 @@ npm uninstall --save firebase
 npm install --save firebase@4.8.0
 npm install --save firebase@4.6.2
 
+
+
+============================================================
+npm install
+npm install cordova
+npm install ionic
+npm install --save @ionic-native/barcode-scanner
+npm install --save @ionic-native/splash-screen
+npm uninstall image-picker
+ionic cordova plugin add cordova-android-support-gradle-release --save
+
 cd platforms/ios/cordova/node_modules/
 npm install ios-sim@latest
 
