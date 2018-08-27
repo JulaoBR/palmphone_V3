@@ -115,6 +115,7 @@ export class CadProfessorPage {
   //FUNCAO QUE CHAMA O UPLOAD DA FOTO
   private uploadPhoto(item: User, uuid: string, ){
    
+    let uploadTask;
     //CRIA UM OBJETO USUARIO E CARRREGA COM OS DADOS DO FORMULARIO
     let usuario = {
       nomeProf: item.nomeProf,
@@ -125,19 +126,30 @@ export class CadProfessorPage {
       disciplinas:item.disciplinas,
       url: '',
     }
-    //CHAMA A FUNCAO DE UPLOAD DO PROVIDER PROFESSOR
-    let uploadTask = this.provider.uploadPhoto(this.filePhoto, uuid);
-    
-    uploadTask.then((UploadTaskSnapshot: firebase.storage.UploadTaskSnapshot) => {
+
+    if(this.filePhoto != null){
+      //CHAMA A FUNCAO DE UPLOAD DO PROVIDER PROFESSOR
+       uploadTask = this.provider.uploadPhoto(this.filePhoto, uuid);
+       uploadTask.then((UploadTaskSnapshot: firebase.storage.UploadTaskSnapshot) => {
+        //RECEBE A URL DA IMAGEM QUE FOI SALVA NO FIREBASE
+        usuario.url = uploadTask.snapshot.downloadURL;
+        //CHAMA A FUNCAO QUE CRIA O USUARIO
+        this.provider.create(usuario, uuid);
+        //SALVA NO STORAGE O UID DO USUARIO COMO CHAVE E UM OBJETO USER COM OS DADOS VINDO DO FIREBASE
+        this.storage.set(uuid,usuario);
+        //CHAMA A TELA DE HOME DO APP
+        this.navCtrl.setRoot(HomePage, {dados: usuario});
+      });
+    }else{
       //RECEBE A URL DA IMAGEM QUE FOI SALVA NO FIREBASE
-      usuario.url = uploadTask.snapshot.downloadURL;
+      usuario.url = "https://firebasestorage.googleapis.com/v0/b/palmphone-ad0fb.appspot.com/o/fotoPerfilProfessor%2FvjJZVZPMYKhNDRQPuYI4RVsM6rv1.jpg?alt=media&token=a63c362b-a458-41b6-8d98-02a9a3deb093";
       //CHAMA A FUNCAO QUE CRIA O USUARIO
       this.provider.create(usuario, uuid);
       //SALVA NO STORAGE O UID DO USUARIO COMO CHAVE E UM OBJETO USER COM OS DADOS VINDO DO FIREBASE
       this.storage.set(uuid,usuario);
       //CHAMA A TELA DE HOME DO APP
       this.navCtrl.setRoot(HomePage, {dados: usuario});
-    });
+    }
   }
 
   //PEGA A FOTO

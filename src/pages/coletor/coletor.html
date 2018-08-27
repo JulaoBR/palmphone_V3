@@ -17,29 +17,29 @@
 
   <ion-list>
     <ion-item>
-      <ion-label>Disciplina:</ion-label>
-      <ion-select [(ngModel)]="disci" (ionChange)="verificaDisci(disci)" interface="popover">       
-        <ion-option *ngFor="let disc of disciplina" [value]="disc">{{disc}}</ion-option>
-      </ion-select>
+      <label>Disciplina:</label>
+      <select id="disciplina" [(ngModel)]="disc" (ionChange)="verificaDisci(disc)" interface="popover">       
+        <option *ngFor="let disc of disciplina" value="disc">{{disc}}</option>
+      </select>
     </ion-item>
   </ion-list>
 
   <ion-list>
     <ion-item>
-      <ion-label>Nº de aulas:</ion-label>
-      <ion-select [(ngModel)]="numAula" (ionChange)="verificaNumAula(numAula)" interface="popover">
-        <ion-option value="1">1</ion-option>
-        <ion-option value="2">2</ion-option>
-        <ion-option value="3">3</ion-option>
-        <ion-option value="4">4</ion-option>
-      </ion-select>
+      <label>Nº de aulas:</label>
+      <select id="numero_aulas" [(ngModel)]="numAula" (ionChange)="verificaNumAula(numAula)" interface="popover">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
     </ion-item>
   </ion-list>
 </ion-card>
 
 <ion-card>
 
-  <button ion-button full (click)="abrirLeitor()">
+  <button id="abrir_leitor" ion-button full (click)="abrirLeitor()">
       Coletar dados
   </button>
 </ion-card>

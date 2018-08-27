@@ -47,7 +47,7 @@ export class ProfessorProvider extends BaseProvider {
  }
 
  //FAZ O UPLOAD DA FOTO
- public uploadPhoto(file: File, userId: string): firebase.storage.UploadTask {
+ public uploadPhoto(file: File, userId: string): firebase.storage.UploadTask {  
   return firebase.storage().ref().child(`/fotoPerfilProfessor/${userId + '.jpg'}`).put(file);
 }
 

@@ -16,70 +16,53 @@
       <input type="file" accept="image/*" (change)="onPhoto($event)" required>
     </ion-item>
 
-    <ion-item>
-      <ion-label stacked>Nome</ion-label>
-      <ion-input type="text"  [(ngModel)]="nomeProf" formControlName="nomeProf"></ion-input>
+    <ion-item> 
+        <label stacked>Nome</label>   
+      <input id="nome"  type="text"  formControlName="nomeProf"/>
     </ion-item>
-    <ion-item *ngIf="!form.controls.nomeProf.valid && (form.controls.nomeProf.dirty || form.controls.nomeProf.touched)" color="danger">
-      <div [hidden]="!form.controls.nomeProf.errors.required">
-        O campo é obrigatório
-      </div>
-    </ion-item>
+    
  
     <ion-item>
-      <ion-label stacked>Rg</ion-label>
-      <ion-input type="text" [(ngModel)]="rgProf" formControlName="rgProf"></ion-input>
+      <label stacked>Rg</label>
+      <input id="rg" type="text"  formControlName="rgProf"/>
     </ion-item>
-    <ion-item *ngIf="!form.controls.rgProf.valid && (form.controls.rgProf.dirty || form.controls.rgProf.touched)" color="danger">
-      <div [hidden]="!form.controls.rgProf.errors.required">
-        O campo é obrigatório
-      </div>
-    </ion-item>
+    
 
     <ion-item>
-      <ion-label stacked>Data Nascimento</ion-label>
-      <ion-input type="text" displayFormat="DD/MM/YYYY" [(ngModel)]="dataNascProf" formControlName="dataNascProf"></ion-input>
+      <label stacked>Nascimento</label>
+      <input id="nascimento" type="text" displayFormat="DD/MM/YYYY"  formControlName="dataNascProf"/>
     </ion-item>
-    <ion-item *ngIf="!form.controls.dataNascProf.valid && (form.controls.dataNascProf.dirty || form.controls.dataNascProf.touched)" color="danger">
-      <div [hidden]="!form.controls.dataNascProf.errors.required">
-        O campo é obrigatório
-      </div>
-    </ion-item>
+    
 
     <ion-item>
-      <ion-label stacked>Email</ion-label>
-      <ion-input type="email" [(ngModel)]="emailProf"  formControlName="emailProf"></ion-input>
+      <label stacked>Email</label>
+      <!--<input id="email" type="email"   formControlName="emailProf"/> -->
+      <input id="email2" type="email" placeholder="Email" formControlName="emailProf"/>
     </ion-item>
-    <ion-item *ngIf="!form.controls.emailProf.valid && (form.controls.emailProf.dirty || form.controls.emailProf.touched)" color="danger">
-      <div [hidden]="!form.controls.emailProf.errors.required">
-        O campo é obrigatório
-      </div>
-    </ion-item>
+    
 
     <ion-item>
-      <ion-label stacked>Senha</ion-label>
-      <ion-input type="password" [(ngModel)]="senhaProf"  formControlName="senhaProf"></ion-input>
+      <label stacked>Senha</label>
+      <input id="password2" type="password"   formControlName="senhaProf"/>
     </ion-item>
-    <ion-item *ngIf="!form.controls.senhaProf.valid && (form.controls.senhaProf.dirty || form.controls.senhaProf.touched)" color="danger">
-      <div [hidden]="!form.controls.senhaProf.errors.required">
-        O campo é obrigatório
-      </div>
-    </ion-item>
+    
 
     <ion-item>
-      <ion-label>Disciplinas</ion-label>
-      <ion-select [(ngModel)]="disciplinas" multiple="true" cancelText="Cancelar" okText="Confirmar" formControlName="disciplinas">
-        <ion-option *ngFor="let dsc of nomeDisciplinas" [value]="dscDisc">{{dsc.dscDisc}}</ion-option>
-      </ion-select>
+      <label>Disciplinas</label>
+      <select id="disciplinas"  multiple="true" cancelText="Cancelar" okText="Confirmar" formControlName="disciplinas">
+        <option value="SIF039 - Redes de Computadores II">SIF039 - Redes de Computadores II</option>
+        <option value="SIF033 - Engenharia de Software III">SIF033 - Engenharia de Software III</option>
+        <option value="SIF040 - Projeto de Sistemas I">SIF040 - Projeto de Sistemas I</option>
+        <option value="SIF068 - Tópicos em Linguagem de Programação">SIF068 - Tópicos em Linguagem de Programação</option>
+        <option value="SIF012 - Linguagem de Programação IV">SIF012 - Linguagem de Programação IV</option>
+        <option value="SIF032 - Engenharia de Software II">SIF032 - Engenharia de Software II</option>
+        <option value="SIF035 - Interface Humano Computador">SIF035 - Interface Humano Computador</option>
+      </select>
     </ion-item>
-    <ion-item *ngIf="!form.controls.disciplinas.valid && (form.controls.disciplinas.dirty || form.controls.disciplinas.touched)" color="danger">
-      <div [hidden]="!form.controls.disciplinas.errors.required">
-        O campo é obrigatório
-      </div>
-    </ion-item>
+    
 
     <div padding>
-      <button ion-button block type="submit" [disabled]="!form.valid">Salvar</button>
+      <button id="salvar" ion-button block type="submit" [disabled]="!form.valid">Salvar</button>
     </div>
     
   </form>

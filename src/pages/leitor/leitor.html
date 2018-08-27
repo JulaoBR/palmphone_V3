@@ -9,25 +9,23 @@
   <ion-content padding>
     <ion-card>
       <form [formGroup]="form" (ngSubmit)="saveManual(); $event.preventDefault()">
-        <ion-item>
-          
-          <ion-input type="number" placeholder="Insira o RA:" formControlName="ra"></ion-input>
+        <ion-item>         
+          <input id="ra" type="number" placeholder="Insira o RA:" formControlName="ra"/>
         </ion-item> 
           
-        <button ion-button full type="submit" [disabled]="form.invalid">Salvar</button>
+        <button id="botao_salvar" ion-button full type="submit" [disabled]="form.invalid">Salvar</button>
       </form>
 
-      <button ion-button full type="submit" color="secondary" (click)="saveStorage()">Finalizar Chamada</button>
+      <button id="botao_finalizar" ion-button full type="submit" color="secondary" (click)="saveStorage()">Finalizar Chamada</button>
     </ion-card>
     
     <ion-card>
-      <button ion-button full type="submit" color="danger" (click)="cancelar()">Cancelar</button>
+      <button id="botao_cancelar" ion-button full type="submit" color="danger" (click)="cancelar()">Cancelar</button>
     </ion-card>
 
-  <ion-fab right bottom>
-    <button ion-fab color="danger" (click)="scanBarcode()">
-      <ion-icon name="md-barcode"></ion-icon>
-    </button>
-  </ion-fab>
+    <ion-card>
+      <button id="botao_camera" ion-button full color="light" (click)="scanBarcode()">Camera</button>
+    </ion-card>
+
 
 </ion-content>

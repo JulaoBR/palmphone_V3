@@ -1,21 +1,21 @@
 <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
 <ion-content padding>
   <ion-card class="btnPrincipais">
-    <button ion-button full (click)="abrirTelaPerfil()">
+    <button id="perfil" ion-button full (click)="abrirTelaPerfil()">
       Perfil
     </button>
 
-    <button ion-button  full (click)="abrirTelaColeta()">
+    <button id="coleta" ion-button  full (click)="abrirTelaColeta()">
       Iniciar coleta
     </button>
 
-    <button ion-button full button-md color="secondary" (click)="verificarStorage()">
+    <button id="sincronizar" ion-button full button-md color="secondary" (click)="verificarStorage()">
       Sincronizar
     </button>
   </ion-card>
 
   <ion-card> 
-    <button ion-button full button-md color="danger" (click)="singnOut()">
+    <button id="sair" ion-button full button-md color="danger" (click)="singnOut()">
       Sair
     </button>
   </ion-card>

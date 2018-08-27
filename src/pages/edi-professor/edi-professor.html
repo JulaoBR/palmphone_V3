@@ -11,34 +11,22 @@
 
   <form [formGroup]="form" (ngSubmit)="save(); $event.preventDefault()">
     <ion-item>
-      <ion-label stacked>Nome</ion-label>
-      <ion-input type="text"  [(ngModel)]="dados.nomeProf"  formControlName="nomeProf"></ion-input>
+      <label stacked>Nome</label>
+      <input id="nome" type="text"  [(ngModel)]="dados.nomeProf"  formControlName="nomeProf"/>
     </ion-item>
-    <ion-item *ngIf="!form.controls.nomeProf.valid && (form.controls.nomeProf.dirty || form.controls.nomeProf.touched)" color="danger">
-      <div [hidden]="!form.controls.nomeProf.errors.required">
-        O campo é obrigatório
-      </div>
-    </ion-item>
- 
-    <ion-item>
-      <ion-label stacked>Rg</ion-label>
-      <ion-input type="text" [(ngModel)]="dados.rgProf" formControlName="rgProf"></ion-input>
-    </ion-item>
-    <ion-item *ngIf="!form.controls.rgProf.valid && (form.controls.rgProf.dirty || form.controls.rgProf.touched)" color="danger">
-      <div [hidden]="!form.controls.rgProf.errors.required">
-        O campo é obrigatório
-      </div>
-    </ion-item>
+    
 
     <ion-item>
-      <ion-label stacked>Data Nascimento</ion-label>
-      <ion-input type="date" displayFormat="DD/MM/YYYY" [(ngModel)]="dados.dataNascProf" formControlName="dataNascProf"></ion-input>
+      <label stacked>Rg</label>
+      <input id="rg" type="text" [(ngModel)]="dados.rgProf" formControlName="rgProf"/>
     </ion-item>
-    <ion-item *ngIf="!form.controls.dataNascProf.valid && (form.controls.dataNascProf.dirty || form.controls.dataNascProf.touched)" color="danger">
-      <div [hidden]="!form.controls.dataNascProf.errors.required">
-        O campo é obrigatório
-      </div>
+
+
+    <ion-item>
+      <label stacked>Data Nascimento</label>
+      <input id="nascimento" type="date" displayFormat="DD/MM/YYYY" [(ngModel)]="dados.dataNascProf" formControlName="dataNascProf"/>
     </ion-item>
+
 
     <ion-item>
       <ion-icon name="image" item-start></ion-icon>
