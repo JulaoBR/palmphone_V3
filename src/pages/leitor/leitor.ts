@@ -116,7 +116,7 @@ export class LeitorPage {
     this.barcode.scan(options).then((valor) => {      
       if(valor.text != ""){ //SE DATA FOR DIFERENTE DE NULO ELE ENTRA E FAZ OS PROCEDIMENTOS
         let alert = this.alertCtrl.create({//ABRE O ALERTA PARA EXIBIR O DADO LIDO
-          title: 'Confirmação da leitura tomaa cu',
+          title: 'Confirmação da leitura',
           message: 'Deseja salvar este RA: ' + valor.text +' ?' ,  //EXIBE PARA O USUARIO O DADO
           buttons: [                                              //E PERGUNTA SE DESEJA SALVAR            
             {
