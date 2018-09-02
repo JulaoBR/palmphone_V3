@@ -55,13 +55,6 @@ export class LeitorPage {
         message: 'Deseja finalizar a chamada?' , 
         buttons: [                             
           {
-            text: 'Cancelar',
-            role: 'cancel',
-            handler: () => {
-              console.log('evento cancelado');
-            }
-          },
-          {
             text: 'Confirmar',
             handler: () => {
               //FORMATA DATA ATUAL, QUE SERA A CHAVE PRIMARIA 
@@ -89,13 +82,6 @@ export class LeitorPage {
         title: 'Confirmação da leitura',
         message: 'Deseja salvar este RA: ' + this.form.value.ra +' ?' ,   //EXIBE PARA O USUARIO O DADO
         buttons: [                                                        //E PERGUNTA SE DESEJA SALVAR
-          {
-            text: 'Cancelar',
-            role: 'cancel',
-            handler: () => {
-              console.log('evento cancelado');
-            }
-          },
           {
             text: 'Confirmar',
             handler: () => {
@@ -130,16 +116,9 @@ export class LeitorPage {
     this.barcode.scan(options).then((valor) => {      
       if(valor.text != ""){ //SE DATA FOR DIFERENTE DE NULO ELE ENTRA E FAZ OS PROCEDIMENTOS
         let alert = this.alertCtrl.create({//ABRE O ALERTA PARA EXIBIR O DADO LIDO
-          title: 'Confirmação da leitura',
+          title: 'Confirmação da leitura tomaa cu',
           message: 'Deseja salvar este RA: ' + valor.text +' ?' ,  //EXIBE PARA O USUARIO O DADO
-          buttons: [                                              //E PERGUNTA SE DESEJA SALVAR
-            {
-              text: 'Cancelar',
-              role: 'cancel',
-              handler: () => {
-                console.log('evento cancelado');
-              }
-            },
+          buttons: [                                              //E PERGUNTA SE DESEJA SALVAR            
             {
               text: 'Confirmar',
               handler: () => {
@@ -161,7 +140,7 @@ export class LeitorPage {
       }else{
         //CRIA UM ALERTA E EXIBE A MENSAGEM DE ERRO
         const alert = this.alertCtrl.create({
-          title: 'Captura nao realizada!',
+          title: 'Captura nao realizada teste ionic!',
           buttons: ['Fechar']
         });
         alert.present();
@@ -202,13 +181,6 @@ export class LeitorPage {
       message: 'Deseja cancelar a chamada e voltar a pagina anterior?' ,  //EXIBE PARA O USUARIO O DADO
       buttons: [                                              //E PERGUNTA SE DESEJA SALVAR
         {
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: () => {
-            console.log('evento cancelado');
-          }
-        },
-        {
           text: 'Confirmar',
           handler: () => {
             this.navCtrl.pop();
@@ -230,4 +202,6 @@ export class LeitorPage {
     });
     toast.present();
   }
+
+  
 }

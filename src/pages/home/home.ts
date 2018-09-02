@@ -70,13 +70,6 @@ export class HomePage {
       message: 'Deseja sair do aplicativo?' ,  //EXIBE PARA O USUARIO O DADO
       buttons: [                                              //E PERGUNTA SE DESEJA SALVAR
         {
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: () => {
-            console.log('evento cancelado');
-          }
-        },
-        {
           text: 'Confirmar',
           handler: () => {
             //CHAMA FUNCAO PARA DELETAR DADOS DO USUARIO GRAVADOS NO STORAGE
@@ -105,13 +98,6 @@ export class HomePage {
       title: 'Confirmação',
       message: 'Deseja sincronizar os dados com o servidor?' , 
       buttons: [                             
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: () => {
-            console.log('evento cancelado');
-          }
-        },
         {
           text: 'Confirmar',
           handler: () => {
